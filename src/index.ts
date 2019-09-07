@@ -45,7 +45,7 @@ export = {
   configs: {
     recommended: {
       rules: {
-        "@ibezkrovnyi/ts-expect/expect-type": "error"
+        "expect-type/expect-type": "error"
       }
     }
   }
