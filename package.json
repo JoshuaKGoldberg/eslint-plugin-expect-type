@@ -1,30 +1,34 @@
 {
-    "name": "eslint-plugin-expect-type",
-    "version": "0.0.1",
-    "description": "ESLint plugin with $ExpectType and $ExpectError type assertions",
-    "main": "dist/index.js",
-    "license": "Apache-2.0",
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/ibezkrovnyi/eslint-plugin-expect-type.git"
-    },
-    "devDependencies": {
-        "@types/node": "^12.7.2",
-        "@typescript-eslint/eslint-plugin": "^2.0.0",
-        "@typescript-eslint/experimental-utils": "^2.0.0",
-        "@typescript-eslint/parser": "^2.0.0",
-        "tsutils": "^3.17.1",
-        "typescript": "^3.5.3",
-        "prettier": "^1.18.2"
-    },
-    "engines": {
-        "node": ">=10.3.0"
-    },
-    "scripts": {
-        "build": "tsc",
-        "prepublishOnly": "tsc"
-    },
-    "files": [
-        "dist"
-    ]
+  "name": "eslint-plugin-expect-type",
+  "version": "0.0.1",
+  "description": "ESLint plugin with $ExpectType and $ExpectError type assertions",
+  "main": "dist/index.js",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibezkrovnyi/eslint-plugin-expect-type.git"
+  },
+  "dependencies": {
+    "@typescript-eslint/experimental-utils": "^2.0.0",
+    "fs-extra": "^8.1.0",
+    "typescript": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
+    "@types/node": "^12.7.2",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "prettier": "^1.18.2",
+    "tsutils": "^3.17.1"
+  },
+  "engines": {
+    "node": ">=10.3.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "tsc"
+  },
+  "files": [
+    "dist"
+  ]
 }

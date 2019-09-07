@@ -3,6 +3,8 @@ import { TSESLint } from '@typescript-eslint/experimental-utils';
 import { createRule } from '../utils/createRule';
 import { getParserServices } from '../utils/getParserServices';
 import { loc } from '../utils/loc';
+import { getTypeSnapshot, updateTypeSnapshot } from '../utils/snapshot';
+import { RuleFix } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
 
 const messages = {
   TypeScriptCompileError: 'TypeScript compile error:\n{{ message }}',
@@ -14,6 +16,8 @@ const messages = {
   Multiple$ExpectTypeAssertions:
     'This line has 2 or more $ExpectType assertions.',
   ExpectedErrorNotFound: 'Expected an error on this line, but found none.',
+  TypeSnapshotNotFound: 'Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix',
+  TypeSnapshotDoNotMatch: 'Expected type from Snapshot to be:\n  {{ expected }}\ngot:\n  {{ actual }}'
 };
 type MessageIds = keyof typeof messages;
 
@@ -27,6 +31,7 @@ export const expectType = createRule<[], MessageIds>({
       recommended: 'error',
       requiresTypeChecking: false,
     },
+    fixable: 'code',
     schema: [],
     messages,
   },
@@ -116,20 +121,63 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
     }
   }
 
+  for (const [_line, assertion] of typeAssertions) {
+    if (assertion.assertionType === 'snapshot') {
+      assertion.expected = getTypeSnapshot(fileName, assertion.snapshotName);
+    }
+  }
+
   const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(
     sourceFile,
     typeAssertions,
     checker,
   );
-  for (const { node, expected, actual } of unmetExpectations) {
-    context.report({
-      messageId: 'TypesDoNotMatch',
+  for (const { node, assertion, actual } of unmetExpectations) {
+    const templateDescriptor = {
       data: {
-        expected,
+        expected: assertion.expected,
         actual,
       },
       loc: loc(sourceFile, node),
-    });
+    };
+    if (assertion.assertionType === 'snapshot') {
+      const { snapshotName } = assertion;
+      const start = node.getStart();
+      const fix = (): RuleFix => {
+        let applied = false;
+        return {
+          range: [start, start],
+          // Trick: Function `fix` is ALWAYS run, and result is collected. However RuleFix objects are only read if `--fix` is passed
+          get text() {
+            if (!applied) {
+              // Make sure we update snapshot only on first read of this object
+              applied = true;
+              updateTypeSnapshot(fileName, snapshotName, actual);
+            }
+            return '';
+          },
+        };
+      };
+
+      if (typeof assertion.expected === 'undefined') {
+        context.report({
+          ...templateDescriptor,
+          messageId: 'TypeSnapshotNotFound',
+          fix,
+        });
+      } else {
+        context.report({
+          ...templateDescriptor,
+          messageId: 'TypeSnapshotDoNotMatch',
+          fix,
+        });
+      }
+    } else {
+      context.report({
+        ...templateDescriptor,
+        messageId: 'TypesDoNotMatch',
+      });
+    }
   }
   for (const line of unusedAssertions) {
     context.report({
@@ -172,18 +220,22 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
   }
 }
 
+type Assertion =
+  | { assertionType: 'manual'; expected: string }
+  | { assertionType: 'snapshot'; expected?: string; snapshotName: string };
+
 interface Assertions {
   /** Lines with an $ExpectError. */
   readonly errorLines: ReadonlySet<number>;
   /** Map from a line number to the expected type at that line. */
-  readonly typeAssertions: Map<number, string>;
+  readonly typeAssertions: Map<number, Assertion>;
   /** Lines with more than one assertion (these are errors). */
   readonly duplicates: ReadonlyArray<number>;
 }
 
 function parseAssertions(sourceFile: ts.SourceFile): Assertions {
   const errorLines = new Set<number>();
-  const typeAssertions = new Map<number, string>();
+  const typeAssertions = new Map<number, Assertion>();
   const duplicates: number[] = [];
 
   const { text } = sourceFile;
@@ -198,24 +250,46 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // Match on the contents of that comment so we do nothing in a commented-out assertion,
     // i.e. `// foo; // $ExpectType number`
-    const match = /^ \$Expect((Type (.*))|Error)$/.exec(commentMatch[1]);
+    const match = /^ \$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(
+      commentMatch[1],
+    ) as [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?] | null;
     if (match === null) {
       continue;
     }
     const line = getLine(commentMatch.index);
-    if (match[1] === 'Error') {
-      if (errorLines.has(line)) {
-        duplicates.push(line);
-      }
-      errorLines.add(line);
-    } else {
-      const expectedType = match[3];
-      // Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
-      if (typeAssertions.delete(line)) {
-        duplicates.push(line);
-      } else {
-        typeAssertions.set(line, expectedType);
-      }
+    switch (match[1]) {
+      case 'TypeSnapshot':
+        const snapshotName = match[3];
+        if (snapshotName) {
+          if (typeAssertions.delete(line)) {
+            duplicates.push(line);
+          } else {
+            typeAssertions.set(line, {
+              assertionType: 'snapshot',
+              snapshotName,
+            });
+          }
+        }
+        break;
+
+      case 'Error':
+        if (errorLines.has(line)) {
+          duplicates.push(line);
+        }
+        errorLines.add(line);
+        break;
+
+      case 'Type':
+        const expected = match[3];
+        if (expected) {
+          // Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
+          if (typeAssertions.delete(line)) {
+            duplicates.push(line);
+          } else {
+            typeAssertions.set(line, { assertionType: 'manual', expected });
+          }
+        }
+        break;
     }
   }
 
@@ -243,13 +317,15 @@ function isFirstOnLine(text: string, lineStart: number, pos: number): boolean {
   return true;
 }
 
+interface UnmedExpectation {
+  assertion: Assertion;
+  node: ts.Node;
+  actual: string;
+}
+
 interface ExpectTypeFailures {
   /** Lines with an $ExpectType, but a different type was there. */
-  readonly unmetExpectations: ReadonlyArray<{
-    node: ts.Node;
-    expected: string;
-    actual: string;
-  }>;
+  readonly unmetExpectations: readonly UnmedExpectation[];
   /** Lines with an $ExpectType, but no node could be found. */
   readonly unusedAssertions: Iterable<number>;
 }
@@ -310,20 +386,18 @@ function matchReadonlyArray(actual: string, expected: string) {
 
 function getExpectTypeFailures(
   sourceFile: ts.SourceFile,
-  typeAssertions: Map<number, string>,
+  typeAssertions: Assertions['typeAssertions'],
   checker: ts.TypeChecker,
 ): ExpectTypeFailures {
-  const unmetExpectations: Array<{
-    node: ts.Node;
-    expected: string;
-    actual: string;
-  }> = [];
+  const unmetExpectations: UnmedExpectation[] = [];
   // Match assertions to the first node that appears on the line they apply to.
   // `forEachChild` isn't available as a method in older TypeScript versions, so must use `ts.forEachChild` instead.
   ts.forEachChild(sourceFile, function iterate(node) {
     const line = lineOfPosition(node.getStart(sourceFile), sourceFile);
-    const expected = typeAssertions.get(line);
-    if (expected !== undefined) {
+    const assertion = typeAssertions.get(line);
+    if (assertion !== undefined) {
+      const { expected } = assertion;
+
       // https://github.com/Microsoft/TypeScript/issues/14077
       if (node.kind === ts.SyntaxKind.ExpressionStatement) {
         node = (node as ts.ExpressionStatement).expression;
@@ -339,8 +413,11 @@ function getExpectTypeFailures(
           )
         : '';
 
-      if (actual !== expected && !matchReadonlyArray(actual, expected)) {
-        unmetExpectations.push({ node, expected, actual });
+      if (
+        !expected ||
+        (actual !== expected && !matchReadonlyArray(actual, expected))
+      ) {
+        unmetExpectations.push({ assertion, node, actual });
       }
 
       typeAssertions.delete(line);
