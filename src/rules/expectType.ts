@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import { TSESLint } from '@typescript-eslint/experimental-utils';
-import { createRule } from '../util';
+import { createRule } from '../utils/createRule';
 import { getParserServices } from '../utils/getParserServices';
 import { loc } from '../utils/loc';
 
@@ -46,14 +46,14 @@ export const expectType = createRule<[], MessageIds>({
 //   node: parserServices.tsNodeToESTreeNodeMap.get(node as ts.Node & ts.ParameterDeclaration),
 // })
 
-function validate(ctx: TSESLint.RuleContext<MessageIds, []>): void {
-  const parserServices = getParserServices(ctx);
+function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
+  const parserServices = getParserServices(context);
   const { program } = parserServices;
 
-  const fileName = ctx.getFilename();
+  const fileName = context.getFilename();
   const sourceFile = program.getSourceFile(fileName)!;
   if (!sourceFile) {
-    ctx.report({
+    context.report({
       loc: {
         line: 1,
         column: 0,
@@ -85,7 +85,7 @@ function validate(ctx: TSESLint.RuleContext<MessageIds, []>): void {
   );
 
   for (const line of duplicates) {
-    ctx.report({
+    context.report({
       messageId: 'Multiple$ExpectTypeAssertions',
       loc: {
         line: line + 1,
@@ -106,7 +106,7 @@ function validate(ctx: TSESLint.RuleContext<MessageIds, []>): void {
 
   for (const line of errorLines) {
     if (!seenDiagnosticsOnLine.has(line)) {
-      ctx.report({
+      context.report({
         messageId: 'ExpectedErrorNotFound',
         loc: {
           line: line + 1,
@@ -122,7 +122,7 @@ function validate(ctx: TSESLint.RuleContext<MessageIds, []>): void {
     checker,
   );
   for (const { node, expected, actual } of unmetExpectations) {
-    ctx.report({
+    context.report({
       messageId: 'TypesDoNotMatch',
       data: {
         expected,
@@ -132,7 +132,7 @@ function validate(ctx: TSESLint.RuleContext<MessageIds, []>): void {
     });
   }
   for (const line of unusedAssertions) {
-    ctx.report({
+    context.report({
       messageId: 'OrphanAssertion',
       loc: {
         line: line + 1,
@@ -147,7 +147,7 @@ function validate(ctx: TSESLint.RuleContext<MessageIds, []>): void {
         diagnostic.messageText,
         '\n',
       )}`;
-      ctx.report({
+      context.report({
         messageId: 'TypeScriptCompileError',
         data: {
           message,
@@ -158,7 +158,7 @@ function validate(ctx: TSESLint.RuleContext<MessageIds, []>): void {
         },
       });
     } else {
-      ctx.report({
+      context.report({
         messageId: 'TypeScriptCompileError',
         data: {
           message: `${fileName}${diagnostic.messageText}`,
