@@ -1,24 +1,19 @@
+import ts from 'typescript';
+import { TSESLint } from '@typescript-eslint/experimental-utils';
 import { createRule } from '../util';
-import { RuleContext } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
-import * as ts from 'typescript';
-import { basename, dirname, join, resolve as resolvePath } from 'path';
-import { existsSync, readFileSync } from 'fs';
-import { isContext } from 'vm';
-
-const FAILURE_STRING_DUPLICATE_ASSERTION =
-  'This line has 2 $ExpectType assertions.';
-const FAILURE_STRING_ASSERTION_MISSING_NODE =
-  'Can not match a node to this assertion.';
-const FAILURE_STRING_EXPECTED_ERROR =
-  'Expected an error on this line, but found none.';
-
-const FAILURE_STRING = (expectedType: string, actualType: string) => {
-  return `Expected type to be:\n  ${expectedType}\ngot:\n  ${actualType}`;
-};
+import { getParserServices } from '../utils/getParserServices';
+import { loc } from '../utils/loc';
 
 const messages = {
-  errorFileNotFound: 'Expected to find a file "{{ fileName }}" present.',
-  failureAtNode: '{{ message }}',
+  TypeScriptCompileError: 'TypeScript compile error:\n{{ message }}',
+  FileIsNotIncludedInTsconfig:
+    'Expected to find a file "{{ fileName }}" present.',
+  TypesDoNotMatch:
+    'Expected type to be:\n  {{ expected }}\ngot:\n  {{ actual }}',
+  OrphanAssertion: 'Can not match a node to this assertion.',
+  Multiple$ExpectTypeAssertions:
+    'This line has 2 or more $ExpectType assertions.',
+  ExpectedErrorNotFound: 'Expected an error on this line, but found none.',
 };
 type MessageIds = keyof typeof messages;
 
@@ -37,80 +32,24 @@ export const expectType = createRule<[], MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const { project } = context.parserOptions;
-    if (!project) {
-      throw new Error('project isnt configured!');
-    }
-
-    const projects = Array.isArray(project) ? project : [project];
-    for (const project of projects) {
-      getFailures(context, project);
-    }
+    validate(context);
 
     return {};
   },
 });
 
-const getFailures = (
-  context: RuleContext<MessageIds, []>,
-  tsconfigPath: string,
-) => {
-  const program = createProgram(tsconfigPath);
-  walk(context, program);
-  return;
-};
+// ctx.report({
+//   messageId: 'failureAtNode',
+//   data: {
+//     message,
+//   },
+//   node: parserServices.tsNodeToESTreeNodeMap.get(node as ts.Node & ts.ParameterDeclaration),
+// })
 
-function createProgram(configFile: string): ts.Program {
-  const projectDirectory = dirname(configFile);
-  const { config } = ts.readConfigFile(configFile, ts.sys.readFile);
-  const parseConfigHost: ts.ParseConfigHost = {
-    fileExists: existsSync,
-    readDirectory: ts.sys.readDirectory,
-    readFile: file => readFileSync(file, 'utf8'),
-    useCaseSensitiveFileNames: true,
-  };
-  const parsed = ts.parseJsonConfigFileContent(
-    config,
-    parseConfigHost,
-    resolvePath(projectDirectory),
-    { noEmit: true },
-  );
-  const host = ts.createCompilerHost(parsed.options, true);
-  return ts.createProgram(parsed.fileNames, parsed.options, host);
-}
+function validate(ctx: TSESLint.RuleContext<MessageIds, []>): void {
+  const parserServices = getParserServices(ctx);
+  const { program } = parserServices;
 
-function walk(ctx: RuleContext<MessageIds, []>, program: ts.Program): void {
-  const addFailureAtNode = (node: ts.Node, message: string) => {
-    const getLOC = (node: ts.Node) => {
-      const start = sourceFile.getLineAndCharacterOfPosition(node.getStart());
-      const end = sourceFile.getLineAndCharacterOfPosition(node.getEnd());
-      return ({
-        start: {
-          line: start.line + 1,
-          column: start.character,
-        },
-        end: {
-          line: end.line + 1,
-          column: end.character,
-        }
-      })
-    };
-    ctx.report({
-      messageId: 'failureAtNode',
-      data: {
-        message,
-      },
-      loc: getLOC(node),
-    })
-    // node.getEnd
-    // console.log('failureAtNode', message);
-  };
-  const addFailure = (start: number, stop: number, message: string) => {
-    console.log('failure', start, stop, message);
-  };
-  const addFailureAt = (start: number, stop: number, message: string) => {
-    console.log('failureAt', start, stop, message);
-  };
   const fileName = ctx.getFilename();
   const sourceFile = program.getSourceFile(fileName)!;
   if (!sourceFile) {
@@ -119,12 +58,11 @@ function walk(ctx: RuleContext<MessageIds, []>, program: ts.Program): void {
         line: 1,
         column: 0,
       },
-      messageId: 'errorFileNotFound',
+      messageId: 'FileIsNotIncludedInTsconfig',
       data: {
         fileName,
       },
     });
-    // console.log(`Expected to find a file '${fileName}' present.`);
     return;
   }
 
@@ -147,7 +85,13 @@ function walk(ctx: RuleContext<MessageIds, []>, program: ts.Program): void {
   );
 
   for (const line of duplicates) {
-    addFailureAtLine(line, FAILURE_STRING_DUPLICATE_ASSERTION);
+    ctx.report({
+      messageId: 'Multiple$ExpectTypeAssertions',
+      loc: {
+        line: line + 1,
+        column: 0,
+      },
+    });
   }
 
   const seenDiagnosticsOnLine = new Set<number>();
@@ -162,7 +106,13 @@ function walk(ctx: RuleContext<MessageIds, []>, program: ts.Program): void {
 
   for (const line of errorLines) {
     if (!seenDiagnosticsOnLine.has(line)) {
-      addFailureAtLine(line, FAILURE_STRING_EXPECTED_ERROR);
+      ctx.report({
+        messageId: 'ExpectedErrorNotFound',
+        loc: {
+          line: line + 1,
+          column: 0,
+        },
+      });
     }
   }
 
@@ -172,36 +122,53 @@ function walk(ctx: RuleContext<MessageIds, []>, program: ts.Program): void {
     checker,
   );
   for (const { node, expected, actual } of unmetExpectations) {
-    addFailureAtNode(node, FAILURE_STRING(expected, actual));
+    ctx.report({
+      messageId: 'TypesDoNotMatch',
+      data: {
+        expected,
+        actual,
+      },
+      loc: loc(sourceFile, node),
+    });
   }
   for (const line of unusedAssertions) {
-    addFailureAtLine(line, FAILURE_STRING_ASSERTION_MISSING_NODE);
+    ctx.report({
+      messageId: 'OrphanAssertion',
+      loc: {
+        line: line + 1,
+        column: 0,
+      },
+    });
   }
 
   function addDiagnosticFailure(diagnostic: ts.Diagnostic): void {
-    const intro = getIntro();
     if (diagnostic.file === sourceFile) {
-      const msg = `${intro}\n${ts.flattenDiagnosticMessageText(
+      const message = `${ts.flattenDiagnosticMessageText(
         diagnostic.messageText,
         '\n',
       )}`;
-      addFailureAt(diagnostic.start!, diagnostic.length!, msg);
+      ctx.report({
+        messageId: 'TypeScriptCompileError',
+        data: {
+          message,
+        },
+        loc: {
+          line: diagnostic.start! + 1,
+          column: diagnostic.length!,
+        },
+      });
     } else {
-      addFailureAt(0, 0, `${intro}\n${fileName}${diagnostic.messageText}`);
+      ctx.report({
+        messageId: 'TypeScriptCompileError',
+        data: {
+          message: `${fileName}${diagnostic.messageText}`,
+        },
+        loc: {
+          line: 1,
+          column: 0,
+        },
+      });
     }
-  }
-
-  function getIntro(): string {
-    return `TypeScript compile error: `;
-  }
-
-  function addFailureAtLine(line: number, failure: string): void {
-    const start = sourceFile.getPositionOfLineAndCharacter(line, 0);
-    let end = start + sourceFile.text.split('\n')[line].length;
-    if (sourceFile.text[end - 1] === '\r') {
-      end--;
-    }
-    addFailure(start, end, `TypeScript: ${failure}`);
   }
 }
 
