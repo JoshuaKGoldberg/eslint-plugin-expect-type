@@ -9,15 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: npm install, build, test and publish
+      - name: Install, Build, Test
         run: |
           npm install
           npm run build
-      - name: GitHub Action for npm
+      - name: Publish
         uses: actions/npm@1.0.0
+        args: "publish --access public"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - name: npm version
 #        run: |
 #          npm version patch
