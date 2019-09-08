@@ -15,14 +15,7 @@ jobs:
           npm run build
       - name: Publish
         uses: actions/npm@1.0.0
-        args: "publish --access public"
+        with:
+          args: "publish --access public"
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      - name: npm version
-#        run: |
-#          npm version patch
-#          git commit -m "Release"
-#          git push
-#      - name: npm publish
-#        run: npm publish
