@@ -1,1 +1,1 @@
-export * from "./expectType";
+export * from './expectType';

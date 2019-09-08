@@ -1,4 +1,4 @@
-import { SourceFile, Node } from "typescript";
+import { SourceFile, Node } from 'typescript';
 
 export const loc = (sourceFile: SourceFile, node: Node) => {
   const start = sourceFile.getLineAndCharacterOfPosition(node.getStart());

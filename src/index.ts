@@ -1,14 +1,14 @@
-import { expectType } from "./rules";
+import { expectType } from './rules';
 
 export = {
   rules: {
-    "expect-type": expectType
+    rule: expectType,
   },
   configs: {
     recommended: {
       rules: {
-        "expect-type/expect-type": "error"
-      }
-    }
-  }
+        'expect-type/rule': 'error',
+      },
+    },
+  },
 };

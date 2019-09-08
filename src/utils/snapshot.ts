@@ -16,7 +16,7 @@ export const updateTypeSnapshot = (
   actualType: string,
 ) => {
   const snapshotPath = getSnapshotPath(filename);
-  ensureFileSync(snapshotPath)
+  ensureFileSync(snapshotPath);
 
   const json = readJsonSync(snapshotPath, { throws: false }) || {};
   json[snapshotName] = actualType;
