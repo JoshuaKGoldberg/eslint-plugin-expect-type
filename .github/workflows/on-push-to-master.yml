@@ -13,7 +13,8 @@ jobs:
         run: |
           npm install
           npm run build
-          npm publish
+      - name: npm version
+        run: npm version patch
       - uses: primer/publish@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
