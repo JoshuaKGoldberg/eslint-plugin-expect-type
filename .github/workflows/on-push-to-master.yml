@@ -13,13 +13,15 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: npm version
-        run: |
-          npm version patch
-          git commit -m "Release"
-          git push
-      - name: npm publish
-        run: npm publish
+      - name: GitHub Action for npm
+        uses: actions/npm@1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+#      - name: npm version
+#        run: |
+#          npm version patch
+#          git commit -m "Release"
+#          git push
+#      - name: npm publish
+#        run: npm publish
