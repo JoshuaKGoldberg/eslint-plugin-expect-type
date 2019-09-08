@@ -52,6 +52,32 @@ foo(2); // $ExpectType void
 foo("bar");
 ```
 
+# Adding $ExpectTypeSnapshot
+
+Uses snapshot saved in file as expected type for expression.
+
+Example:
+
+**foo.test.ts**
+```ts
+// $ExpectTypeSnapshot Foo
+const Foo = {
+  a: 1,
+  n: 17,
+} as const;
+```
+
+By running `eslint --fix` the following file will be created in the folder of `foo.test.ts`:
+**__type-snapshots__/foo.test.ts.snap.json**
+
+By running `eslint` snapshot type will be matched with actual type and Error will be emitted in case types don't match.
+
+## To create/update snapshots:
+
+```sh
+eslint --fix
+```
+
 # References
 
 1. https://github.com/gcanti/dtslint
