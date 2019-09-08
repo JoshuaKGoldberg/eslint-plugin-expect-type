@@ -16,13 +16,16 @@ const messages = {
   Multiple$ExpectTypeAssertions:
     'This line has 2 or more $ExpectType assertions.',
   ExpectedErrorNotFound: 'Expected an error on this line, but found none.',
-  TypeSnapshotNotFound: 'Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix',
-  TypeSnapshotDoNotMatch: 'Expected type from Snapshot to be:\n  {{ expected }}\ngot:\n  {{ actual }}'
+  TypeSnapshotNotFound:
+    'Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix',
+  TypeSnapshotDoNotMatch:
+    'Expected type from Snapshot to be:\n  {{ expected }}\ngot:\n  {{ actual }}',
+  SyntaxError: 'Syntax Error: {{ message }}',
 };
 type MessageIds = keyof typeof messages;
 
 export const expectType = createRule<[], MessageIds>({
-  name: 'expect-type',
+  name: 'rule',
   meta: {
     type: 'problem',
     docs: {
@@ -85,9 +88,12 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
     return;
   }
 
-  const { errorLines, typeAssertions, duplicates } = parseAssertions(
-    sourceFile,
-  );
+  const {
+    errorLines,
+    typeAssertions,
+    duplicates,
+    syntaxErrors,
+  } = parseAssertions(sourceFile);
 
   for (const line of duplicates) {
     context.report({
@@ -119,6 +125,22 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
         },
       });
     }
+  }
+
+  for (const { type, line } of syntaxErrors) {
+    context.report({
+      messageId: 'SyntaxError',
+      data: {
+        message:
+          type === 'MissingExpectType'
+            ? '$ExpectType requires type argument (e.g. // $ExpectType "string")'
+            : '$ExpectTypeSnapshot requires snapshot name argument (e.g. // $ExpectTypeSnapshot MainComponentAPI)',
+      },
+      loc: {
+        line: line + 1,
+        column: 0,
+      },
+    });
   }
 
   for (const [_line, assertion] of typeAssertions) {
@@ -221,8 +243,17 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
 }
 
 type Assertion =
-  | { assertionType: 'manual'; expected: string }
-  | { assertionType: 'snapshot'; expected?: string; snapshotName: string };
+  | { readonly assertionType: 'manual'; expected: string }
+  | {
+      readonly assertionType: 'snapshot';
+      expected?: string;
+      readonly snapshotName: string;
+    };
+
+interface SyntaxError {
+  readonly type: 'MissingSnapshotName' | 'MissingExpectType';
+  readonly line: number;
+}
 
 interface Assertions {
   /** Lines with an $ExpectError. */
@@ -231,12 +262,15 @@ interface Assertions {
   readonly typeAssertions: Map<number, Assertion>;
   /** Lines with more than one assertion (these are errors). */
   readonly duplicates: ReadonlyArray<number>;
+  /** Syntax Errors */
+  readonly syntaxErrors: ReadonlyArray<SyntaxError>;
 }
 
 function parseAssertions(sourceFile: ts.SourceFile): Assertions {
   const errorLines = new Set<number>();
   const typeAssertions = new Map<number, Assertion>();
   const duplicates: number[] = [];
+  const syntaxErrors: SyntaxError[] = [];
 
   const { text } = sourceFile;
   const commentRegexp = /\/\/(.*)/g;
@@ -269,6 +303,11 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
               snapshotName,
             });
           }
+        } else {
+          syntaxErrors.push({
+            type: 'MissingSnapshotName',
+            line,
+          });
         }
         break;
 
@@ -288,12 +327,17 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
           } else {
             typeAssertions.set(line, { assertionType: 'manual', expected });
           }
+        } else {
+          syntaxErrors.push({
+            type: 'MissingExpectType',
+            line,
+          });
         }
         break;
     }
   }
 
-  return { errorLines, typeAssertions, duplicates };
+  return { errorLines, typeAssertions, duplicates, syntaxErrors };
 
   function getLine(pos: number): number {
     // advance curLine to be the line preceding 'pos'

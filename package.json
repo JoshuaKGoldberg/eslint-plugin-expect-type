@@ -1,9 +1,30 @@
 {
   "name": "eslint-plugin-expect-type",
-  "version": "0.0.2",
-  "description": "ESLint plugin with $ExpectType and $ExpectError type assertions",
+  "version": "0.0.3",
+  "description": "ESLint plugin with $ExpectType, $ExpectError and $ExpectTypeSnapshot type assertions",
+  "author": {
+    "name": "Igor Bezkrovnyi"
+  },
   "main": "dist/index.js",
   "license": "Apache-2.0",
+  "keywords": [
+    "dtslint",
+    "d.ts",
+    "eslint",
+    "tslint",
+    "plugin",
+    "config",
+    "rule",
+    "typescript",
+    "ts",
+    "Expect",
+    "Assert",
+    "Type",
+    "Snapshot",
+    "$ExpectError",
+    "$ExpectType",
+    "$ExpectTypeSnapshot"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ibezkrovnyi/eslint-plugin-expect-type.git"
@@ -28,7 +49,5 @@
     "build": "tsc",
     "prepublishOnly": "tsc"
   },
-  "files": [
-    "dist"
-  ]
+  "files": ["dist"]
 }

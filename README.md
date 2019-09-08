@@ -31,6 +31,16 @@ Please add the following options to your `.eslintrc`
 }
 ```
 
+Rule severity could be configured as follows
+
+```json
+{
+  "rules": {
+    "expect-type/rule": "error"
+  }
+}
+```
+
 **Note: Make sure to use `eslint --ext .js,.ts` since by [default](https://eslint.org/docs/user-guide/command-line-interface#--ext) `eslint` will only search for .js files.**
 
 # Adding $ExpectType and $ExpectError type assertions
@@ -40,7 +50,7 @@ Please add the following options to your `.eslintrc`
 (https://github.com/Microsoft/dtslint#write-tests)
 
 ```ts
-import foo from "lib-to-test"; // foo is (n: number) => void
+import foo from 'lib-to-test'; // foo is (n: number) => void
 
 // $ExpectType void
 foo(1);
@@ -49,16 +59,17 @@ foo(1);
 foo(2); // $ExpectType void
 
 // $ExpectError
-foo("bar");
+foo('bar');
 ```
 
-# Adding $ExpectTypeSnapshot
+# Adding \$ExpectTypeSnapshot
 
 Uses snapshot saved in file as expected type for expression.
 
 Example:
 
 **foo.test.ts**
+
 ```ts
 // $ExpectTypeSnapshot Foo
 const Foo = {
@@ -68,7 +79,7 @@ const Foo = {
 ```
 
 By running `eslint --fix` the following file will be created in the folder of `foo.test.ts`:
-**__type-snapshots__/foo.test.ts.snap.json**
+****type-snapshots**/foo.test.ts.snap.json**
 
 By running `eslint` snapshot type will be matched with actual type and Error will be emitted in case types don't match.
 
