@@ -71,7 +71,7 @@ Example:
 **foo.test.ts**
 
 ```ts
-// $ExpectTypeSnapshot Foo
+// $ExpectTypeSnapshot MyFooSnapshot
 const Foo = {
   a: 1,
   n: 17,
@@ -79,7 +79,9 @@ const Foo = {
 ```
 
 By running `eslint --fix` the following file will be created in the folder of `foo.test.ts`:
-****type-snapshots**/foo.test.ts.snap.json**
+```
+__type-snapshots__/foo.test.ts.snap.json
+```
 
 By running `eslint` snapshot type will be matched with actual type and Error will be emitted in case types don't match.
 
