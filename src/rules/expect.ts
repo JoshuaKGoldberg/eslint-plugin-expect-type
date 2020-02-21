@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { JSONSchema4 } from "json-schema";
 import { TSESLint } from '@typescript-eslint/experimental-utils';
 import { createRule } from '../utils/createRule';
 import { getParserServices } from '../utils/getParserServices';
@@ -24,37 +25,63 @@ const messages = {
 };
 type MessageIds = keyof typeof messages;
 
-export const expectType = createRule<[], MessageIds>({
-  name: 'rule',
+// The options this rule can take.
+type Options = {
+  readonly expectError: boolean;
+  readonly expectType: boolean;
+  readonly expectTypeSnapshot: boolean;
+  readonly disableExpectTypeSnapshotFix: boolean;
+};
+
+// The default options for the rule.
+const defaultOptions: Options = { expectError: true, expectType: true, expectTypeSnapshot: true, disableExpectTypeSnapshotFix: false };
+
+// The schema for the rule options.
+const schema: JSONSchema4 = [
+  {
+    type: "object",
+    properties: {
+      expectError: {
+        type: "boolean"
+      },
+      expectType: {
+        type: "boolean"
+      },
+      expectTypeSnapshot: {
+        type: "boolean"
+      },
+      disableExpectTypeSnapshotFix: {
+        type: "boolean"
+      }
+    },
+    additionalProperties: false
+  }
+];
+
+export const name = 'expect';
+export const rule = createRule<[Options], MessageIds>({
+  name,
   meta: {
     type: 'problem',
     docs: {
-      description: 'Disallows the delete operator',
+      description: 'Expects type error, type snapshot or type.',
       category: 'Possible Errors',
       recommended: 'error',
-      requiresTypeChecking: false,
+      requiresTypeChecking: true,
     },
     fixable: 'code',
-    schema: [],
+    schema,
     messages,
   },
-  defaultOptions: [],
-  create(context) {
-    validate(context);
+  defaultOptions: [defaultOptions],
+  create(context, [options]) {
+    validate(context, options);
 
     return {};
   },
 });
 
-// ctx.report({
-//   messageId: 'failureAtNode',
-//   data: {
-//     message,
-//   },
-//   node: parserServices.tsNodeToESTreeNodeMap.get(node as ts.Node & ts.ParameterDeclaration),
-// })
-
-function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
+function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options: Options): void {
   const parserServices = getParserServices(context);
   const { program } = parserServices;
 
@@ -174,7 +201,9 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
             if (!applied) {
               // Make sure we update snapshot only on first read of this object
               applied = true;
-              updateTypeSnapshot(fileName, snapshotName, actual);
+              if (!context.options[0].disableExpectTypeSnapshotFix) {
+                updateTypeSnapshot(fileName, snapshotName, actual);
+              }
             }
             return '';
           },
