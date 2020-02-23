@@ -22,17 +22,17 @@ type MessageIds = keyof typeof messages;
 
 // The options this rule can take.
 type Options = {
-  readonly expectError: boolean;
-  readonly expectType: boolean;
-  readonly expectTypeSnapshot: boolean;
+  // readonly expectError: boolean;
+  // readonly expectType: boolean;
+  // readonly expectTypeSnapshot: boolean;
   readonly disableExpectTypeSnapshotFix: boolean;
 };
 
 // The default options for the rule.
 const defaultOptions: Options = {
-  expectError: true,
-  expectType: true,
-  expectTypeSnapshot: true,
+  // expectError: true,
+  // expectType: true,
+  // expectTypeSnapshot: true,
   disableExpectTypeSnapshotFix: false,
 };
 
@@ -41,15 +41,15 @@ const schema: JSONSchema4 = [
   {
     type: 'object',
     properties: {
-      expectError: {
-        type: 'boolean',
-      },
-      expectType: {
-        type: 'boolean',
-      },
-      expectTypeSnapshot: {
-        type: 'boolean',
-      },
+      // expectError: {
+      //   type: 'boolean',
+      // },
+      // expectType: {
+      //   type: 'boolean',
+      // },
+      // expectTypeSnapshot: {
+      //   type: 'boolean',
+      // },
       disableExpectTypeSnapshotFix: {
         type: 'boolean',
       },
