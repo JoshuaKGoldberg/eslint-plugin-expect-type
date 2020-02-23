@@ -3,7 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "../build",
-    // "rootDir": "../"
+    "rootDir": "../"
     // Turn off checks to make debugging nicer.
     //"noFallthroughCasesInSwitch": false,
     //"noImplicitAny": false,
@@ -12,6 +12,6 @@
     //"noUnusedLocals": false,
     //"noUnusedParameters": false,
     //"strictNullChecks": false
-  },
+  }
   // "include": ["../**/*.ts"]
 }

@@ -1,16 +1,11 @@
 /**
  * @file Tests for $ExpectType.
  */
-import dedent from "dedent";
-import { RuleTester, Rule } from "eslint";
-import { typescript } from "../helpers/configs";
-import {
-  InvalidTestCase,
-  processInvalidTestCase,
-  processValidTestCase,
-  ValidTestCase
-} from "../helpers/util";
-import { name, rule } from "../../src/rules/expect";
+import dedent from 'dedent';
+import { RuleTester, Rule } from 'eslint';
+import { typescript } from '../helpers/configs';
+import { InvalidTestCase, processInvalidTestCase, processValidTestCase, ValidTestCase } from '../helpers/util';
+import { name, rule } from '../../src/rules/expect';
 
 // Valid test cases.
 const valid: ReadonlyArray<ValidTestCase> = [
@@ -29,7 +24,7 @@ const valid: ReadonlyArray<ValidTestCase> = [
       const t = { a: 17, b: 'on' as const };
     `,
     optionsSet: [[]],
-  }
+  },
 ];
 
 // Invalid test cases.
@@ -42,11 +37,11 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
     optionsSet: [[]],
     errors: [
       {
-        messageId: "TypesDoNotMatch",
+        messageId: 'TypesDoNotMatch',
         line: 2,
-        column: 1
-      }
-    ]
+        column: 1,
+      },
+    ],
   },
   // Complex type - historically (https://github.com/microsoft/TypeScript/issues/9879), dtsline and eslint type comparison fails here
   {
@@ -57,18 +52,18 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
     optionsSet: [[]],
     errors: [
       {
-        messageId: "TypesDoNotMatch",
+        messageId: 'TypesDoNotMatch',
         line: 2,
-        column: 1
-      }
-    ]
-  }
+        column: 1,
+      },
+    ],
+  },
 ];
 
-describe("$ExpectType", () => {
+describe('$ExpectType', () => {
   const ruleTester = new RuleTester(typescript);
   ruleTester.run(name, rule as Rule.RuleModule, {
     valid: processValidTestCase(valid),
-    invalid: processInvalidTestCase(invalid)
+    invalid: processInvalidTestCase(invalid),
   });
 });

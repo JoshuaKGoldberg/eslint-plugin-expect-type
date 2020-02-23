@@ -1,16 +1,11 @@
 /**
  * @file Tests for $ExpectTypeSnapshot.
  */
-import dedent from "dedent";
-import { RuleTester, Rule } from "eslint";
-import { typescript } from "../helpers/configs";
-import {
-  InvalidTestCase,
-  processInvalidTestCase,
-  processValidTestCase,
-  ValidTestCase
-} from "../helpers/util";
-import { name, rule } from "../../src/rules/expect";
+import dedent from 'dedent';
+import { RuleTester, Rule } from 'eslint';
+import { typescript } from '../helpers/configs';
+import { InvalidTestCase, processInvalidTestCase, processValidTestCase, ValidTestCase } from '../helpers/util';
+import { name, rule } from '../../src/rules/expect';
 
 // Valid test cases.
 const valid: ReadonlyArray<ValidTestCase> = [
@@ -38,8 +33,8 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
         messageId: 'SyntaxError',
         line: 2,
         column: 1,
-      }
-    ]
+      },
+    ],
   },
   // Snapshot not found. Suggestion to run eslint --fix to create snapshot.
   {
@@ -73,10 +68,10 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
   },
 ];
 
-describe("$ExpectTypeSnapshot", () => {
+describe('$ExpectTypeSnapshot', () => {
   const ruleTester = new RuleTester(typescript);
   ruleTester.run(name, rule as Rule.RuleModule, {
     valid: processValidTestCase(valid),
-    invalid: processInvalidTestCase(invalid)
+    invalid: processInvalidTestCase(invalid),
   });
 });

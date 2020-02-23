@@ -1,16 +1,11 @@
 /**
  * @file Tests for $ExpectError.
  */
-import dedent from "dedent";
-import { RuleTester, Rule } from "eslint";
-import { typescript } from "../helpers/configs";
-import {
-  InvalidTestCase,
-  processInvalidTestCase,
-  processValidTestCase,
-  ValidTestCase
-} from "../helpers/util";
-import { name, rule } from "../../src/rules/expect";
+import dedent from 'dedent';
+import { RuleTester, Rule } from 'eslint';
+import { typescript } from '../helpers/configs';
+import { InvalidTestCase, processInvalidTestCase, processValidTestCase, ValidTestCase } from '../helpers/util';
+import { name, rule } from '../../src/rules/expect';
 
 // Valid test cases.
 const valid: ReadonlyArray<ValidTestCase> = [
@@ -33,18 +28,18 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
     optionsSet: [[]],
     errors: [
       {
-        messageId: "ExpectedErrorNotFound",
+        messageId: 'ExpectedErrorNotFound',
         line: 2,
-        column: 1
-      }
-    ]
-  }
+        column: 1,
+      },
+    ],
+  },
 ];
 
-describe("$ExpectError", () => {
+describe('$ExpectError', () => {
   const ruleTester = new RuleTester(typescript);
   ruleTester.run(name, rule as Rule.RuleModule, {
     valid: processValidTestCase(valid),
-    invalid: processInvalidTestCase(invalid)
+    invalid: processInvalidTestCase(invalid),
   });
 });

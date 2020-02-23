@@ -1,7 +1,4 @@
-import {
-  ParserServices,
-  TSESLint,
-} from '@typescript-eslint/experimental-utils';
+import { ParserServices, TSESLint } from '@typescript-eslint/experimental-utils';
 
 type RequiredParserServices = {
   [k in keyof ParserServices]: Exclude<ParserServices[k], undefined>;
@@ -10,17 +7,10 @@ type RequiredParserServices = {
 /**
  * Try to retrieve typescript parser service from context
  */
-export function getParserServices<
-  TMessageIds extends string,
-  TOptions extends unknown[]
->(
+export function getParserServices<TMessageIds extends string, TOptions extends unknown[]>(
   context: TSESLint.RuleContext<TMessageIds, TOptions>,
 ): RequiredParserServices {
-  if (
-    !context.parserServices ||
-    !context.parserServices.program ||
-    !context.parserServices.esTreeNodeToTSNodeMap
-  ) {
+  if (!context.parserServices || !context.parserServices.program || !context.parserServices.esTreeNodeToTSNodeMap) {
     /**
      * The user needs to have configured "project" in their parserOptions
      * for @typescript-eslint/parser
