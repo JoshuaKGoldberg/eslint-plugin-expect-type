@@ -1,6 +1,7 @@
 name: CI
 on:
   pull_request:
+    types: [opened]
     branches:
       - master
 jobs:
@@ -13,3 +14,4 @@ jobs:
         run: |
           npm install
           npm run build
+          npm run test

@@ -1,14 +1,15 @@
-import { expectType } from './rules';
+import { rules } from './rules';
+
+const configs = Object.keys(rules).reduce(
+  (acc, name) => ({ ...acc, [`expect-type/${name}`]: 'error' as const }),
+  {} as Record<string, 'error'>,
+);
 
 export = {
-  rules: {
-    rule: expectType,
-  },
+  rules,
   configs: {
     recommended: {
-      rules: {
-        'expect-type/rule': 'error',
-      },
+      rules: configs,
     },
   },
 };

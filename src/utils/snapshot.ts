@@ -10,11 +10,7 @@ export const getTypeSnapshot = (filename: string, snapshotName: string) => {
   return json[snapshotName] as string;
 };
 
-export const updateTypeSnapshot = (
-  filename: string,
-  snapshotName: string,
-  actualType: string,
-) => {
+export const updateTypeSnapshot = (filename: string, snapshotName: string, actualType: string) => {
   const snapshotPath = getSnapshotPath(filename);
   ensureFileSync(snapshotPath);
 
@@ -25,9 +21,5 @@ export const updateTypeSnapshot = (
 
 function getSnapshotPath(filename: string) {
   const directory = dirname(filename);
-  return resolve(
-    directory,
-    '__type-snapshots__',
-    `${basename(filename)}.snap.json`,
-  );
+  return resolve(directory, '__type-snapshots__', `${basename(filename)}.snap.json`);
 }

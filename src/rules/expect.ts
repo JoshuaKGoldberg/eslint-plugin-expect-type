@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { JSONSchema4 } from 'json-schema';
 import { TSESLint } from '@typescript-eslint/experimental-utils';
 import { createRule } from '../utils/createRule';
 import { getParserServices } from '../utils/getParserServices';
@@ -8,53 +9,79 @@ import { RuleFix } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
 
 const messages = {
   TypeScriptCompileError: 'TypeScript compile error:\n{{ message }}',
-  FileIsNotIncludedInTsconfig:
-    'Expected to find a file "{{ fileName }}" present.',
-  TypesDoNotMatch:
-    'Expected type to be:\n  {{ expected }}\ngot:\n  {{ actual }}',
+  FileIsNotIncludedInTsconfig: 'Expected to find a file "{{ fileName }}" present.',
+  TypesDoNotMatch: 'Expected type to be:\n  {{ expected }}\ngot:\n  {{ actual }}',
   OrphanAssertion: 'Can not match a node to this assertion.',
-  Multiple$ExpectTypeAssertions:
-    'This line has 2 or more $ExpectType assertions.',
+  Multiple$ExpectTypeAssertions: 'This line has 2 or more $ExpectType assertions.',
   ExpectedErrorNotFound: 'Expected an error on this line, but found none.',
-  TypeSnapshotNotFound:
-    'Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix',
-  TypeSnapshotDoNotMatch:
-    'Expected type from Snapshot to be:\n  {{ expected }}\ngot:\n  {{ actual }}',
+  TypeSnapshotNotFound: 'Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix',
+  TypeSnapshotDoNotMatch: 'Expected type from Snapshot to be:\n  {{ expected }}\ngot:\n  {{ actual }}',
   SyntaxError: 'Syntax Error: {{ message }}',
 };
 type MessageIds = keyof typeof messages;
 
-export const expectType = createRule<[], MessageIds>({
-  name: 'rule',
+// The options this rule can take.
+type Options = {
+  readonly expectError: boolean;
+  readonly expectType: boolean;
+  readonly expectTypeSnapshot: boolean;
+  readonly disableExpectTypeSnapshotFix: boolean;
+};
+
+// The default options for the rule.
+const defaultOptions: Options = {
+  expectError: true,
+  expectType: true,
+  expectTypeSnapshot: true,
+  disableExpectTypeSnapshotFix: false,
+};
+
+// The schema for the rule options.
+const schema: JSONSchema4 = [
+  {
+    type: 'object',
+    properties: {
+      expectError: {
+        type: 'boolean',
+      },
+      expectType: {
+        type: 'boolean',
+      },
+      expectTypeSnapshot: {
+        type: 'boolean',
+      },
+      disableExpectTypeSnapshotFix: {
+        type: 'boolean',
+      },
+    },
+    additionalProperties: false,
+  },
+];
+
+export const name = 'expect';
+export const rule = createRule<[Options], MessageIds>({
+  name,
   meta: {
     type: 'problem',
     docs: {
-      description: 'Disallows the delete operator',
+      description: 'Expects type error, type snapshot or type.',
       category: 'Possible Errors',
       recommended: 'error',
-      requiresTypeChecking: false,
+      requiresTypeChecking: true,
     },
     fixable: 'code',
-    schema: [],
+    schema,
     messages,
   },
-  defaultOptions: [],
-  create(context) {
-    validate(context);
+  defaultOptions: [defaultOptions],
+  create(context, [options]) {
+    validate(context, options);
 
     return {};
   },
 });
 
-// ctx.report({
-//   messageId: 'failureAtNode',
-//   data: {
-//     message,
-//   },
-//   node: parserServices.tsNodeToESTreeNodeMap.get(node as ts.Node & ts.ParameterDeclaration),
-// })
-
-function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
+function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options: Options): void {
   const parserServices = getParserServices(context);
   const { program } = parserServices;
 
@@ -77,10 +104,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
   const checker = program.getTypeChecker();
   // Don't care about emit errors.
   const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
-  if (
-    sourceFile.isDeclarationFile ||
-    !/\$Expect(Type|Error)/.test(sourceFile.text)
-  ) {
+  if (sourceFile.isDeclarationFile || !/\$Expect(Type|Error)/.test(sourceFile.text)) {
     // Normal file.
     for (const diagnostic of diagnostics) {
       addDiagnosticFailure(diagnostic);
@@ -88,12 +112,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
     return;
   }
 
-  const {
-    errorLines,
-    typeAssertions,
-    duplicates,
-    syntaxErrors,
-  } = parseAssertions(sourceFile);
+  const { errorLines, typeAssertions, duplicates, syntaxErrors } = parseAssertions(sourceFile);
 
   for (const line of duplicates) {
     context.report({
@@ -149,11 +168,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
     }
   }
 
-  const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(
-    sourceFile,
-    typeAssertions,
-    checker,
-  );
+  const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(sourceFile, typeAssertions, checker);
   for (const { node, assertion, actual } of unmetExpectations) {
     const templateDescriptor = {
       data: {
@@ -174,7 +189,9 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
             if (!applied) {
               // Make sure we update snapshot only on first read of this object
               applied = true;
-              updateTypeSnapshot(fileName, snapshotName, actual);
+              if (!context.options[0].disableExpectTypeSnapshotFix) {
+                updateTypeSnapshot(fileName, snapshotName, actual);
+              }
             }
             return '';
           },
@@ -213,10 +230,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, []>): void {
 
   function addDiagnosticFailure(diagnostic: ts.Diagnostic): void {
     if (diagnostic.file === sourceFile) {
-      const message = `${ts.flattenDiagnosticMessageText(
-        diagnostic.messageText,
-        '\n',
-      )}`;
+      const message = `${ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`;
       context.report({
         messageId: 'TypeScriptCompileError',
         data: {
@@ -284,9 +298,9 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // Match on the contents of that comment so we do nothing in a commented-out assertion,
     // i.e. `// foo; // $ExpectType number`
-    const match = /^ \$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(
-      commentMatch[1],
-    ) as [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?] | null;
+    const match = /^ \$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(commentMatch[1]) as
+      | [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?]
+      | null;
     if (match === null) {
       continue;
     }
@@ -346,9 +360,7 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // If this is the first token on the line, it applies to the next line.
     // Otherwise, it applies to the text to the left of it.
-    return isFirstOnLine(text, lineStarts[curLine], pos)
-      ? curLine + 1
-      : curLine;
+    return isFirstOnLine(text, lineStarts[curLine], pos) ? curLine + 1 : curLine;
   }
 }
 
@@ -375,8 +387,7 @@ interface ExpectTypeFailures {
 }
 
 function matchReadonlyArray(actual: string, expected: string) {
-  if (!(/\breadonly\b/.test(actual) && /\bReadonlyArray\b/.test(expected)))
-    return false;
+  if (!(/\breadonly\b/.test(actual) && /\bReadonlyArray\b/.test(expected))) return false;
   const readonlyArrayRegExp = /\bReadonlyArray</y;
   const readonlyModifierRegExp = /\breadonly /y;
 
@@ -412,10 +423,7 @@ function matchReadonlyArray(actual: string, expected: string) {
     // check for start of readonly array
     readonlyArrayRegExp.lastIndex = expectedPos;
     readonlyModifierRegExp.lastIndex = actualPos;
-    if (
-      readonlyArrayRegExp.test(expected) &&
-      readonlyModifierRegExp.test(actual)
-    ) {
+    if (readonlyArrayRegExp.test(expected) && readonlyModifierRegExp.test(actual)) {
       depth++;
       expectedPos += 14; // "ReadonlyArray<".length;
       actualPos += 9; // "readonly ".length;
@@ -450,17 +458,10 @@ function getExpectTypeFailures(
       const type = checker.getTypeAtLocation(getNodeForExpectType(node));
 
       const actual = type
-        ? checker.typeToString(
-            type,
-            /*enclosingDeclaration*/ undefined,
-            ts.TypeFormatFlags.NoTruncation,
-          )
+        ? checker.typeToString(type, /*enclosingDeclaration*/ undefined, ts.TypeFormatFlags.NoTruncation)
         : '';
 
-      if (
-        !expected ||
-        (actual !== expected && !matchReadonlyArray(actual, expected))
-      ) {
+      if (!expected || (actual !== expected && !matchReadonlyArray(actual, expected))) {
         unmetExpectations.push({ assertion, node, actual });
       }
 

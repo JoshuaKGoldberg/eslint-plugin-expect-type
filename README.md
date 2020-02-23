@@ -79,6 +79,7 @@ const Foo = {
 ```
 
 By running `eslint --fix` the following file will be created in the folder of `foo.test.ts`:
+
 ```
 __type-snapshots__/foo.test.ts.snap.json
 ```
