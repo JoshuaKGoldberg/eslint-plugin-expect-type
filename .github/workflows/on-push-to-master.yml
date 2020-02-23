@@ -15,7 +15,7 @@ jobs:
           npm run build
           npm run test
       - name: Publish
-        uses: actions/npm
+        uses: actions/npm@master
         with:
           args: "publish --access public"
         env:
