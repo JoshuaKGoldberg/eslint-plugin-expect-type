@@ -189,7 +189,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
             if (!applied) {
               // Make sure we update snapshot only on first read of this object
               applied = true;
-              if (!context.options[0].disableExpectTypeSnapshotFix) {
+              if (!options.disableExpectTypeSnapshotFix) {
                 updateTypeSnapshot(fileName, snapshotName, actual);
               }
             }
