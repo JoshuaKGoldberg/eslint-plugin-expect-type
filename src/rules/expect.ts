@@ -8,14 +8,14 @@ import { getTypeSnapshot, updateTypeSnapshot } from '../utils/snapshot';
 import { RuleFix } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
 
 const messages = {
-  TypeScriptCompileError: 'TypeScript compile error:\n{{ message }}',
+  TypeScriptCompileError: 'TypeScript compile error: {{ message }}',
   FileIsNotIncludedInTsconfig: 'Expected to find a file "{{ fileName }}" present.',
-  TypesDoNotMatch: 'Expected type to be:\n  {{ expected }}\ngot:\n  {{ actual }}',
+  TypesDoNotMatch: 'Expected type to be: {{ expected }}, got: {{ actual }}',
   OrphanAssertion: 'Can not match a node to this assertion.',
   Multiple$ExpectTypeAssertions: 'This line has 2 or more $ExpectType assertions.',
   ExpectedErrorNotFound: 'Expected an error on this line, but found none.',
   TypeSnapshotNotFound: 'Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix',
-  TypeSnapshotDoNotMatch: 'Expected type from Snapshot to be:\n  {{ expected }}\ngot:\n  {{ actual }}',
+  TypeSnapshotDoNotMatch: 'Expected type from Snapshot to be: {{ expected }}, got: {{ actual }}',
   SyntaxError: 'Syntax Error: {{ message }}',
 };
 type MessageIds = keyof typeof messages;
@@ -189,7 +189,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
             if (!applied) {
               // Make sure we update snapshot only on first read of this object
               applied = true;
-              if (!context.options[0].disableExpectTypeSnapshotFix) {
+              if (!options.disableExpectTypeSnapshotFix) {
                 updateTypeSnapshot(fileName, snapshotName, actual);
               }
             }

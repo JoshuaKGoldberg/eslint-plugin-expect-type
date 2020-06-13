@@ -36,7 +36,17 @@ Rule severity could be configured as follows
 ```json
 {
   "rules": {
-    "expect-type/rule": "error"
+    "expect-type/expect": "error"
+  }
+}
+```
+
+To skip Snapshot update when eslint is run with `--fix` could be configured as follows:
+
+```json
+{
+  "rules": {
+    "expect-type/expect": ["error", { "disableExpectTypeSnapshotFix": true }]
   }
 }
 ```
