@@ -25,6 +25,16 @@ const valid: ReadonlyArray<ValidTestCase> = [
     `,
     optionsSet: [[]],
   },
+  // Ignored TypeScript compiler complaints
+  {
+    code: dedent`
+      function hasUnusedParam(unusedParam: number, implicitAnyParam) {
+        const unusedLocal = 0;
+        return implicitAnyParam;
+      }
+    `,
+    optionsSet: [[]],
+  }
 ];
 
 // Invalid test cases.

@@ -228,7 +228,18 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     });
   }
 
+  function diagnosticShouldBeIgnored(diagnostic: ts.Diagnostic) {
+    const messageText = typeof diagnostic.messageText === "string"
+      ? diagnostic.messageText
+      : diagnostic.messageText.messageText
+    return /'.+' is declared but (never used|its value is never read)./.test(messageText);
+  }
+
   function addDiagnosticFailure(diagnostic: ts.Diagnostic): void {
+    if (diagnosticShouldBeIgnored(diagnostic)) {
+      return;
+    }
+
     if (diagnostic.file === sourceFile) {
       const message = `${ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`;
       context.report({
