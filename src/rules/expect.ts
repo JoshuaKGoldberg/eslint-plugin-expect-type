@@ -298,7 +298,7 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // Match on the contents of that comment so we do nothing in a commented-out assertion,
     // i.e. `// foo; // $ExpectType number`
-    const match = /^ \$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(commentMatch[1]) as
+    const match = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(commentMatch[1]) as
       | [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?]
       | null;
     if (match === null) {
