@@ -34,7 +34,7 @@ const valid: ReadonlyArray<ValidTestCase> = [
       }
     `,
     optionsSet: [[]],
-  }
+  },
 ];
 
 // Invalid test cases.

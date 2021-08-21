@@ -229,9 +229,8 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
   }
 
   function diagnosticShouldBeIgnored(diagnostic: ts.Diagnostic) {
-    const messageText = typeof diagnostic.messageText === "string"
-      ? diagnostic.messageText
-      : diagnostic.messageText.messageText
+    const messageText =
+      typeof diagnostic.messageText === 'string' ? diagnostic.messageText : diagnostic.messageText.messageText;
     return /'.+' is declared but (never used|its value is never read)./.test(messageText);
   }
 
