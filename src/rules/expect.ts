@@ -184,7 +184,9 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
         let applied = false;
         return {
           range: [start, start],
-          // Trick: Function `fix` is ALWAYS run, and result is collected. However RuleFix objects are only read if `--fix` is passed
+          // Bug: previously, ESLint would only read RuleFix objects if `--fix` is passed. Now it seems to no matter what.
+          // TODO: See if we can only update snapshots if `--fix` is passed?
+          // See: https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/14
           get text() {
             if (!applied) {
               // Make sure we update snapshot only on first read of this object
@@ -228,7 +230,17 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     });
   }
 
+  function diagnosticShouldBeIgnored(diagnostic: ts.Diagnostic) {
+    const messageText =
+      typeof diagnostic.messageText === 'string' ? diagnostic.messageText : diagnostic.messageText.messageText;
+    return /'.+' is declared but (never used|its value is never read)./.test(messageText);
+  }
+
   function addDiagnosticFailure(diagnostic: ts.Diagnostic): void {
+    if (diagnosticShouldBeIgnored(diagnostic)) {
+      return;
+    }
+
     if (diagnostic.file === sourceFile) {
       const message = `${ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`;
       context.report({
@@ -298,7 +310,7 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // Match on the contents of that comment so we do nothing in a commented-out assertion,
     // i.e. `// foo; // $ExpectType number`
-    const match = /^ \$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(commentMatch[1]) as
+    const match = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(commentMatch[1]) as
       | [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?]
       | null;
     if (match === null) {

@@ -36,6 +36,20 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       },
     ],
   },
+  {
+    code: dedent`
+      //$ExpectTypeSnapshot
+      const Button = class {};
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'SyntaxError',
+        line: 2,
+        column: 1,
+      },
+    ],
+  },
   // Snapshot not found. Suggestion to run eslint --fix to create snapshot.
   {
     code: dedent`

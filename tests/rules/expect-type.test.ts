@@ -25,6 +25,16 @@ const valid: ReadonlyArray<ValidTestCase> = [
     `,
     optionsSet: [[]],
   },
+  // Ignored TypeScript compiler complaints
+  {
+    code: dedent`
+      function hasUnusedParam(unusedParam: number, implicitAnyParam) {
+        const unusedLocal = 0;
+        return implicitAnyParam;
+      }
+    `,
+    optionsSet: [[]],
+  },
 ];
 
 // Invalid test cases.
@@ -43,7 +53,21 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       },
     ],
   },
-  // Complex type - historically (https://github.com/microsoft/TypeScript/issues/9879), dtsline and eslint type comparison fails here
+  {
+    code: dedent`
+      //$ExpectType number
+      const t = 'a';
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 2,
+        column: 1,
+      },
+    ],
+  },
+  // Complex type - historically (https://github.com/microsoft/TypeScript/issues/9879), dtslint and eslint type comparison fails here
   {
     code: dedent`
       // $ExpectType { a: number; b: "on"; }
