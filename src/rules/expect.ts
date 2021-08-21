@@ -184,7 +184,9 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
         let applied = false;
         return {
           range: [start, start],
-          // Trick: Function `fix` is ALWAYS run, and result is collected. However RuleFix objects are only read if `--fix` is passed
+          // Bug: previously, ESLint would only read RuleFix objects if `--fix` is passed. Now it seems to no matter what.
+          // TODO: See if we can only update snapshots if `--fix` is passed?
+          // See: https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/14
           get text() {
             if (!applied) {
               // Make sure we update snapshot only on first read of this object
