@@ -1,0 +1,14 @@
+{
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+  "plugins": ["@typescript-eslint", "@typescript-eslint/eslint-plugin", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
+  }
+}

@@ -1,6 +1,3 @@
-/**
- * @file Tests for $ExpectTypeSnapshot.
- */
 import dedent from 'dedent';
 import { RuleTester, Rule } from 'eslint';
 import { typescript } from '../helpers/configs';
@@ -84,7 +81,7 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
 
 describe('$ExpectTypeSnapshot', () => {
   const ruleTester = new RuleTester(typescript);
-  ruleTester.run(name, rule as Rule.RuleModule, {
+  ruleTester.run(name, rule as unknown as Rule.RuleModule, {
     valid: processValidTestCase(valid),
     invalid: processInvalidTestCase(invalid),
   });

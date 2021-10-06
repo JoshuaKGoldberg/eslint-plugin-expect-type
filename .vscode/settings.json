@@ -1,4 +1,5 @@
 {
+  "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
   "god.tsconfig": "./tsconfig.json",
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }

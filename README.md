@@ -22,12 +22,13 @@ Please add the following options to your `.eslintrc`
 
 ```json
 {
+  "extends": ["plugin:eslint-plugin-expect-type/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "plugins": ["eslint-plugin-expect-type"],
-  "extends": ["plugin:eslint-plugin-expect-type/recommended"]
+  "root": true
 }
 ```
 

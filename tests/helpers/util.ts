@@ -20,8 +20,8 @@ export type InvalidTestCase = Omit<ESLintRuleTester.InvalidTestCase, 'options'> 
 export function processInvalidTestCase(
   testCases: Readonly<InvalidTestCase[]>,
 ): Array<ESLintRuleTester.InvalidTestCase> {
-  return testCases.flatMap(testCase =>
-    testCase.optionsSet.map(options => {
+  return testCases.flatMap((testCase) =>
+    testCase.optionsSet.map((options) => {
       const { optionsSet, ...eslintTestCase } = testCase;
       return {
         filename,
@@ -69,7 +69,7 @@ export function createDummyRule(
   return {
     meta,
     create,
-  } as Rule.RuleModule;
+  } as unknown as Rule.RuleModule;
 }
 
 export type RuleTesterTests = {

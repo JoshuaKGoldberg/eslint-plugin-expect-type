@@ -38,7 +38,7 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
 
 describe('$ExpectError', () => {
   const ruleTester = new RuleTester(typescript);
-  ruleTester.run(name, rule as Rule.RuleModule, {
+  ruleTester.run(name, rule as unknown as Rule.RuleModule, {
     valid: processValidTestCase(valid),
     invalid: processInvalidTestCase(invalid),
   });
