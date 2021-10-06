@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-expect-type",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "ESLint plugin with $ExpectType, $ExpectError and $ExpectTypeSnapshot type assertions",
   "author": {
     "name": "Igor Bezkrovnyi"
