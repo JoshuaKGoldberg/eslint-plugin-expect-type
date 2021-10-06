@@ -162,7 +162,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     });
   }
 
-  for (const [_line, assertion] of typeAssertions) {
+  for (const [, assertion] of typeAssertions) {
     if (assertion.assertionType === 'snapshot') {
       assertion.expected = getTypeSnapshot(fileName, assertion.snapshotName);
     }
