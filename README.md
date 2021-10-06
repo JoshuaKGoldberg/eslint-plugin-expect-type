@@ -16,7 +16,7 @@ Please also make sure the following packages are also installed:
 npm i -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
-### Usage
+## Usage
 
 Please add the following options to your `.eslintrc`
 
