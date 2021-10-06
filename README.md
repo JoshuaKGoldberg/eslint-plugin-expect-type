@@ -53,7 +53,7 @@ To skip Snapshot update when eslint is run with `--fix` could be configured as f
 
 **Note: Make sure to use `eslint --ext .js,.ts` since by [default](https://eslint.org/docs/user-guide/command-line-interface#--ext) `eslint` will only search for .js files.**
 
-# Adding $ExpectType and $ExpectError type assertions
+## Adding $ExpectType and $ExpectError type assertions
 
 > A test file should be a piece of sample code that tests using the library. Tests are type-checked, but not run. To assert that an expression is of a given type, use $ExpectType. To assert that an expression causes a compile error, use $ExpectError. (Assertions will be checked by the expect lint rule.)
 
@@ -72,7 +72,7 @@ foo(2); // $ExpectType void
 foo('bar');
 ```
 
-# Adding \$ExpectTypeSnapshot
+## Adding \$ExpectTypeSnapshot
 
 Uses snapshot saved in file as expected type for expression.
 
@@ -90,20 +90,24 @@ const Foo = {
 
 By running `eslint --fix` the following file will be created in the folder of `foo.test.ts`:
 
-```
+```plaintext
 __type-snapshots__/foo.test.ts.snap.json
 ```
 
 By running `eslint` snapshot type will be matched with actual type and Error will be emitted in case types don't match.
 
-## To create/update snapshots:
+### To create/update snapshots
 
 ```sh
 eslint --fix
 ```
 
-# References
+## References
 
 1. https://github.com/gcanti/dtslint
 2. https://github.com/Microsoft/dtslint
 3. https://github.com/SamVerschueren/tsd
+
+## Appreciation
+
+Many thanks to @ibezkrovnyi for creating the initial version and core infrastructure of this package! 💖
