@@ -16,7 +16,7 @@ export const updateTypeSnapshot = (filename: string, snapshotName: string, actua
 
   const json = readJsonSync(snapshotPath, { throws: false }) || {};
   json[snapshotName] = actualType;
-  writeJsonSync(snapshotPath, json);
+  writeJsonSync(snapshotPath, json, { spaces: 2 });
 };
 
 function getSnapshotPath(filename: string) {
