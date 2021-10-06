@@ -4,14 +4,5 @@
     "module": "commonjs",
     "outDir": "../build",
     "rootDir": "../"
-    // Turn off checks to make debugging nicer.
-    //"noFallthroughCasesInSwitch": false,
-    //"noImplicitAny": false,
-    //"noImplicitReturns": false,
-    //"noImplicitThis": false,
-    //"noUnusedLocals": false,
-    //"noUnusedParameters": false,
-    //"strictNullChecks": false
   }
-  // "include": ["../**/*.ts"]
 }

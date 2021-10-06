@@ -1,8 +1,8 @@
 import { rules } from './rules';
 
-const configs = Object.keys(rules).reduce(
+const configs = Object.keys(rules).reduce<Record<string, 'error'>>(
   (acc, name) => ({ ...acc, [`expect-type/${name}`]: 'error' as const }),
-  {} as Record<string, 'error'>,
+  {},
 );
 
 export = {
