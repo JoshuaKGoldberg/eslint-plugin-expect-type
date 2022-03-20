@@ -1,11 +1,11 @@
 import ts from 'typescript';
 import { JSONSchema4 } from 'json-schema';
-import { TSESLint } from '@typescript-eslint/experimental-utils';
+import { TSESLint } from '@typescript-eslint/utils';
 import { createRule } from '../utils/createRule';
 import { getParserServices } from '../utils/getParserServices';
 import { loc } from '../utils/loc';
 import { getTypeSnapshot, updateTypeSnapshot } from '../utils/snapshot';
-import { RuleFix } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
+import { RuleFix } from '@typescript-eslint/utils/dist/ts-eslint';
 
 const messages = {
   TypeScriptCompileError: 'TypeScript compile error: {{ message }}',
