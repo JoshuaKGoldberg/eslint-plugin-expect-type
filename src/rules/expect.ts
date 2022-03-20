@@ -1,11 +1,10 @@
 import ts from 'typescript';
 import { JSONSchema4 } from 'json-schema';
-import { TSESLint } from '@typescript-eslint/experimental-utils';
+import { TSESLint } from '@typescript-eslint/utils';
 import { createRule } from '../utils/createRule';
 import { getParserServices } from '../utils/getParserServices';
 import { loc } from '../utils/loc';
 import { getTypeSnapshot, updateTypeSnapshot } from '../utils/snapshot';
-import { RuleFix } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
 
 const messages = {
   TypeScriptCompileError: 'TypeScript compile error: {{ message }}',
@@ -65,7 +64,6 @@ export const rule = createRule<[Options], MessageIds>({
     type: 'problem',
     docs: {
       description: 'Expects type error, type snapshot or type.',
-      category: 'Possible Errors',
       recommended: 'error',
       requiresTypeChecking: true,
     },
@@ -180,7 +178,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     if (assertion.assertionType === 'snapshot') {
       const { snapshotName } = assertion;
       const start = node.getStart();
-      const fix = (): RuleFix => {
+      const fix = (): TSESLint.RuleFix => {
         let applied = false;
         return {
           range: [start, start],

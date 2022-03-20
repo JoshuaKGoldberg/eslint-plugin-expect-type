@@ -1,4 +1,4 @@
-import { TSESLint } from '@typescript-eslint/experimental-utils';
+import { TSESLint } from '@typescript-eslint/utils';
 import { Rule, RuleTester as ESLintRuleTester } from 'eslint';
 import { filename } from './configs';
 
@@ -55,7 +55,6 @@ export function createDummyRule(
     type: 'suggestion',
     docs: {
       description: 'Disallow mutable variables.',
-      category: 'Best Practices',
       recommended: 'error',
       url: '',
     },
