@@ -102,7 +102,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
   const checker = program.getTypeChecker();
   // Don't care about emit errors.
   const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
-  if (sourceFile.isDeclarationFile || !/\$Expect(Type|Error|^\?)/.test(sourceFile.text)) {
+  if (sourceFile.isDeclarationFile || !/(?:\$Expect(Type|Error|^\?))|\^\?/.test(sourceFile.text)) {
     // Normal file.
     for (const diagnostic of diagnostics) {
       addDiagnosticFailure(diagnostic);
@@ -267,11 +267,12 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
 }
 
 type Assertion =
-  | { readonly assertionType: 'manual'; expected: string }
+  | { readonly assertionType: 'manual'; expected: string; column?: number }
   | {
       readonly assertionType: 'snapshot';
       expected?: string;
       readonly snapshotName: string;
+      column?: number;
     };
 
 interface SyntaxError {
@@ -308,16 +309,20 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // Match on the contents of that comment so we do nothing in a commented-out assertion,
     // i.e. `// foo; // $ExpectType number`
-    const match = /^ ?(?:\$(Expect(?:TypeSnapshot|Type|Error))|(^\?))(?: (.*))?$/.exec(commentMatch[1]) as
-      | [never, 'ExpectTypeSnapshot' | 'ExpectType' | 'ExpectError', '^?' | null, string?]
+    const match = /^( *)(?:(\$Expect(?:TypeSnapshot|Type|Error))|(\^\?))(?: (.*))?$/.exec(commentMatch[1]) as
+      | [never, string, '$ExpectTypeSnapshot' | '$ExpectType' | '$ExpectError' | undefined, '^?' | undefined, string?]
       | null;
     if (match === null) {
       continue;
     }
-    const line = getLine(commentMatch.index);
-    switch (match[1]) {
-      case 'ExpectTypeSnapshot':
-        const snapshotName = match[3];
+    const commentCol = commentMatch.index;
+    const line = getLine(commentCol);
+    const whitespace = match[1];
+    const directive = match[2] ?? match[3];
+    const payload = match[4];
+    switch (directive) {
+      case '$ExpectTypeSnapshot':
+        const snapshotName = payload;
         if (snapshotName) {
           if (typeAssertions.delete(line)) {
             duplicates.push(line);
@@ -335,15 +340,15 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
         }
         break;
 
-      case 'ExpectError':
+      case '$ExpectError':
         if (errorLines.has(line)) {
           duplicates.push(line);
         }
         errorLines.add(line);
         break;
 
-      case 'ExpectType':
-        const expected = match[3];
+      case '$ExpectType': {
+        const expected = payload;
         if (expected) {
           // Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
           if (typeAssertions.delete(line)) {
@@ -358,9 +363,26 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
           });
         }
         break;
+      }
+
+      case '^?': {
+        // TODO: match error checking from ExpectType
+        const expected = payload;
+        if (expected) {
+          // // ^?
+          // 01234 <-- so add three
+          console.log(commentCol);
+          console.log(line);
+          console.log(lineStarts);
+          const column = commentCol - lineStarts[line - 1] + whitespace.length + 3 - 1;
+          typeAssertions.set(line - 2, { assertionType: 'manual', expected, column });
+        }
+        break;
+      }
     }
   }
 
+  console.log(typeAssertions);
   return { errorLines, typeAssertions, duplicates, syntaxErrors };
 
   function getLine(pos: number): number {
@@ -458,14 +480,25 @@ function getExpectTypeFailures(
     const line = lineOfPosition(node.getStart(sourceFile), sourceFile);
     const assertion = typeAssertions.get(line);
     if (assertion !== undefined) {
-      const { expected } = assertion;
+      const { expected, column } = assertion;
 
-      // https://github.com/Microsoft/TypeScript/issues/14077
-      if (node.kind === ts.SyntaxKind.ExpressionStatement) {
-        node = (node as ts.ExpressionStatement).expression;
+      if (column !== undefined) {
+        if (node.getStart() <= column && node.getEnd() >= column && node.getChildCount() === 0) {
+          // we have our node
+        } else {
+          // matching span, but we can go deeper
+          ts.forEachChild(node, iterate);
+          return;
+        }
+      } else {
+        // https://github.com/Microsoft/TypeScript/issues/14077
+        if (node.kind === ts.SyntaxKind.ExpressionStatement) {
+          node = (node as ts.ExpressionStatement).expression;
+        }
+        node = getNodeForExpectType(node);
       }
 
-      const type = checker.getTypeAtLocation(getNodeForExpectType(node));
+      const type = checker.getTypeAtLocation(node);
 
       const actual = type
         ? checker.typeToString(type, /*enclosingDeclaration*/ undefined, ts.TypeFormatFlags.NoTruncation)

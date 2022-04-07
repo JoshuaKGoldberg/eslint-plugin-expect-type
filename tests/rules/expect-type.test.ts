@@ -6,11 +6,11 @@ import { name, rule } from '../../src/rules/expect';
 
 // Valid test cases.
 const valid: ReadonlyArray<ValidTestCase> = [
-  // Primitive type
+  // Twoslash
   {
     code: dedent`
-      // $ExpectType number
-      const t = 6 as number;
+      const t = { a: 17, b: 'on' as const };
+      //    ^? { a: number; b: "on"; }
     `,
     optionsSet: [[]],
   },
@@ -19,6 +19,14 @@ const valid: ReadonlyArray<ValidTestCase> = [
     code: dedent`
       // $ExpectType { a: number; b: "on"; }
       const t = { a: 17, b: 'on' as const };
+    `,
+    optionsSet: [[]],
+  },
+  // Primitive type
+  {
+    code: dedent`
+      // $ExpectType number
+      const t = 6 as number;
     `,
     optionsSet: [[]],
   },
@@ -50,6 +58,7 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       },
     ],
   },
+  /*
   {
     code: dedent`
       //$ExpectType number
@@ -79,6 +88,7 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       },
     ],
   },
+  */
 ];
 
 describe('$ExpectType', () => {
