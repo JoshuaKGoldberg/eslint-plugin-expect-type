@@ -102,7 +102,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
   const checker = program.getTypeChecker();
   // Don't care about emit errors.
   const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
-  if (sourceFile.isDeclarationFile || !/\$Expect(Type|Error)/.test(sourceFile.text)) {
+  if (sourceFile.isDeclarationFile || !/\$Expect(Type|Error|^\?)/.test(sourceFile.text)) {
     // Normal file.
     for (const diagnostic of diagnostics) {
       addDiagnosticFailure(diagnostic);
@@ -308,15 +308,15 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // Match on the contents of that comment so we do nothing in a commented-out assertion,
     // i.e. `// foo; // $ExpectType number`
-    const match = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(commentMatch[1]) as
-      | [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?]
+    const match = /^ ?(?:\$(Expect(?:TypeSnapshot|Type|Error))|(^\?))(?: (.*))?$/.exec(commentMatch[1]) as
+      | [never, 'ExpectTypeSnapshot' | 'ExpectType' | 'ExpectError', '^?' | null, string?]
       | null;
     if (match === null) {
       continue;
     }
     const line = getLine(commentMatch.index);
     switch (match[1]) {
-      case 'TypeSnapshot':
+      case 'ExpectTypeSnapshot':
         const snapshotName = match[3];
         if (snapshotName) {
           if (typeAssertions.delete(line)) {
@@ -335,14 +335,14 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
         }
         break;
 
-      case 'Error':
+      case 'ExpectError':
         if (errorLines.has(line)) {
           duplicates.push(line);
         }
         errorLines.add(line);
         break;
 
-      case 'Type':
+      case 'ExpectType':
         const expected = match[3];
         if (expected) {
           // Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
