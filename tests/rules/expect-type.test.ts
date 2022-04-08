@@ -30,6 +30,15 @@ const valid: ReadonlyArray<ValidTestCase> = [
     `,
     optionsSet: [[]],
   },
+  // Twoslash type from #4
+  {
+    code: dedent`
+      const square = (x: number) => x * x;
+      const four = square(2);
+      //    ^? number
+    `,
+    optionsSet: [[]],
+  },
   // Ignored TypeScript compiler complaints
   {
     code: dedent`
