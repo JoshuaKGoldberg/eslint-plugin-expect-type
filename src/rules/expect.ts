@@ -482,6 +482,7 @@ function getExpectTypeFailures(
     if (assertion !== undefined) {
       const { expected, column } = assertion;
 
+      let nodeToCheck = node;
       if (column !== undefined) {
         if (node.getStart() <= column && node.getEnd() >= column && node.getChildCount() === 0) {
           // we have our node
@@ -495,10 +496,10 @@ function getExpectTypeFailures(
         if (node.kind === ts.SyntaxKind.ExpressionStatement) {
           node = (node as ts.ExpressionStatement).expression;
         }
-        node = getNodeForExpectType(node);
+        nodeToCheck = getNodeForExpectType(node);
       }
 
-      const type = checker.getTypeAtLocation(node);
+      const type = checker.getTypeAtLocation(nodeToCheck);
 
       const actual = type
         ? checker.typeToString(type, /*enclosingDeclaration*/ undefined, ts.TypeFormatFlags.NoTruncation)
