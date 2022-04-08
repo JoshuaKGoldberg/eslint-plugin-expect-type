@@ -371,9 +371,6 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
         if (expected) {
           // // ^?
           // 01234 <-- so add three
-          console.log(commentCol);
-          console.log(line);
-          console.log(lineStarts);
           const column = commentCol - lineStarts[line - 1] + whitespace.length + 3 - 1;
           typeAssertions.set(line - 2, { assertionType: 'manual', expected, column });
         }
@@ -382,7 +379,6 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
   }
 
-  console.log(typeAssertions);
   return { errorLines, typeAssertions, duplicates, syntaxErrors };
 
   function getLine(pos: number): number {
