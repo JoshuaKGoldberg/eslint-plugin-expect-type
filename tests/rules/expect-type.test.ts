@@ -58,7 +58,6 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       },
     ],
   },
-  /*
   {
     code: dedent`
       //$ExpectType number
@@ -88,7 +87,6 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       },
     ],
   },
-  */
 ];
 
 describe('$ExpectType', () => {
