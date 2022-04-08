@@ -379,7 +379,6 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
   }
 
-  console.log(typeAssertions);
   return { errorLines, typeAssertions, duplicates, syntaxErrors };
 
   function getLine(pos: number): number {
@@ -481,32 +480,22 @@ function getExpectTypeFailures(
 
       let nodeToCheck = node;
       if (column !== undefined) {
-        let outcome: 'match' | 'deeper' | 'bail' = 'deeper';
+        let isMatch = false;
         const startCol = sourceFile.getLineAndCharacterOfPosition(node.getStart()).character;
         const endCol = sourceFile.getLineAndCharacterOfPosition(node.getEnd()).character;
-        console.log(column, startCol, endCol, node.getText());
         if (startCol <= column && endCol >= column) {
           if (node.getChildCount() === 0) {
-            console.log('match', node.getText());
-            outcome = 'match';
+            isMatch = true;
           } else {
-            outcome = 'deeper';
             // matching span, but we can go deeper
-            console.log('go deeper', node.getText());
           }
         } else if (startCol > column || endCol < column) {
-          console.log('bail', node.getText());
-          outcome = 'bail';
-        } else {
-          console.log('fall through to recursion', node.getText());
+          return; // no possible match
         }
 
-        if (outcome === 'deeper') {
+        if (!isMatch) {
           ts.forEachChild(node, iterate);
           return;
-        } else if (outcome === 'bail') {
-          console.log('no match for', node.getText());
-          return; // no match, keep looking elsewhere
         }
       } else {
         // https://github.com/Microsoft/TypeScript/issues/14077
