@@ -10,10 +10,9 @@ const valid: ReadonlyArray<ValidTestCase> = [
   {
     code: dedent`
       const t = { a: 17, b: 'on' as const };
-      //    ^? { a: number; b: "on"; }
+      //    ^? const t: { a: number; b: "on"; }
     `,
     optionsSet: [[]],
-    only: true,
   },
   // Complex type
   {
@@ -36,7 +35,7 @@ const valid: ReadonlyArray<ValidTestCase> = [
     code: dedent`
       const square = (x: number) => x * x;
       const four = square(2);
-      //    ^? number
+      //    ^? const four: number
     `,
     optionsSet: [[]],
   },

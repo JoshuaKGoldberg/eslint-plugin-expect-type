@@ -549,17 +549,16 @@ function getExpectTypeFailures(
       if (column !== undefined) {
         const qi = ls.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
         if (qi) {
-          console.log(node.getText());
-          console.log(qi);
           if (qi.displayParts) {
-            const before = actual;
             actual = qi.displayParts.map((dp) => dp.text).join('');
-            console.log(before, actual);
           }
         }
       }
 
-      if (!expected || (actual !== expected && !matchReadonlyArray(actual, expected))) {
+      if (
+        !expected ||
+        (actual !== expected && !matchReadonlyArray(actual, expected) && !matchModuloWhitespace(actual, expected))
+      ) {
         unmetExpectations.push({ assertion, node, actual });
       }
 
@@ -569,6 +568,14 @@ function getExpectTypeFailures(
     ts.forEachChild(node, iterate);
   });
   return { unmetExpectations, unusedAssertions: typeAssertions.keys() };
+}
+
+function matchModuloWhitespace(actual: string, expected: string): boolean {
+  // TODO: it's much easier to normalize actual based on the displayParts
+  const normActual = actual.replace(/[\n ]+/g, ' ');
+  // console.log(actual, normActual);
+  const normExpected = expected.replace(/[\n ]+/g, ' ');
+  return normActual === normExpected;
 }
 
 function getNodeForExpectType(node: ts.Node): ts.Node {
