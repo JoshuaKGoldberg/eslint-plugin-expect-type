@@ -221,7 +221,6 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
       context.report({
         ...templateDescriptor,
         messageId: 'TypesDoNotMatch',
-        /*
         ...(assertion.assertionType === 'twoslash'
           ? {
               fix: (): TSESLint.RuleFix => {
@@ -232,7 +231,6 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
               },
             }
           : {}),
-        */
       });
     }
   }
