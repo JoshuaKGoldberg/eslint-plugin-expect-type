@@ -542,21 +542,24 @@ function getExpectTypeFailures(
     ts.forEachChild(node, iterate);
   });
 
+  const twoSlashFailureLines: number[] = [];
   if (twoSlashAssertions.length) {
     const ls = ts.createLanguageService(getLanguageServiceHost(sourceFile.fileName, sourceFile.text));
     for (const assertion of twoSlashAssertions) {
       const { position, expected } = assertion;
       const node = getNodeAtPosition(sourceFile, position);
       if (!node) {
-        // TODO(danvk): flag an error in this case
-        console.warn('Unable to attach node for', position);
+        twoSlashFailureLines.push(sourceFile.getLineAndCharacterOfPosition(position).line);
         continue;
       }
 
       const qi = ls.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
       if (!qi || !qi.displayParts) {
-        // TODO(danvk): flag an error in this case
-        console.warn('Unable to get quickinfo for', node.getText());
+        unmetExpectations.push({
+          assertion: { assertionType: 'manual', expected },
+          node,
+          actual: '(Unable to get quickinfo)',
+        });
         continue;
       }
       const actual = qi.displayParts.map((dp) => dp.text).join('');
@@ -566,7 +569,7 @@ function getExpectTypeFailures(
     }
   }
 
-  return { unmetExpectations, unusedAssertions: typeAssertions.keys() };
+  return { unmetExpectations, unusedAssertions: [...twoSlashFailureLines, ...typeAssertions.keys()] };
 }
 
 function getNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node | null {
