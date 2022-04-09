@@ -605,9 +605,9 @@ function getNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node
 
 function matchModuloWhitespace(actual: string, expected: string): boolean {
   // TODO: it's much easier to normalize actual based on the displayParts
-  const normActual = actual.replace(/[\n ]+/g, ' ');
+  const normActual = actual.replace(/[\n ]+/g, ' ').trim();
   // console.log(actual, normActual);
-  const normExpected = expected.replace(/[\n ]+/g, ' ');
+  const normExpected = expected.replace(/[\n ]+/g, ' ').trim();
   return normActual === normExpected;
 }
 
