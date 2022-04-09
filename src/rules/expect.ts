@@ -100,6 +100,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
   }
 
   const checker = program.getTypeChecker();
+  const languageService = ts.createLanguageService(getLanguageServiceHost(program));
   // Don't care about emit errors.
   const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
   if (sourceFile.isDeclarationFile || !/(?:\$Expect(Type|Error|^\?))|\^\?/.test(sourceFile.text)) {
@@ -170,6 +171,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     sourceFile,
     { typeAssertions, twoSlashAssertions },
     checker,
+    languageService,
   );
   for (const { node, assertion, actual } of unmetExpectations) {
     const templateDescriptor = {
@@ -219,6 +221,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
       context.report({
         ...templateDescriptor,
         messageId: 'TypesDoNotMatch',
+        /*
         ...(assertion.assertionType === 'twoslash'
           ? {
               fix: (): TSESLint.RuleFix => {
@@ -229,6 +232,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
               },
             }
           : {}),
+        */
       });
     }
   }
@@ -506,16 +510,13 @@ function matchReadonlyArray(actual: string, expected: string) {
   return true;
 }
 
-function getLanguageServiceHost(fileName: string, source: string): ts.LanguageServiceHost {
+function getLanguageServiceHost(program: ts.Program): ts.LanguageServiceHost {
   return {
-    getCompilationSettings: () => ({
-      noResolve: true,
-      target: ts.ScriptTarget.ES5,
-    }),
-    getCurrentDirectory: () => '',
+    getCompilationSettings: () => program.getCompilerOptions(),
+    getCurrentDirectory: () => program.getCurrentDirectory(),
     getDefaultLibFileName: () => 'lib.d.ts',
-    getScriptFileNames: () => [fileName],
-    getScriptSnapshot: (name) => ts.ScriptSnapshot.fromString(name === fileName ? source : ''),
+    getScriptFileNames: () => program.getSourceFiles().map((sourceFile) => sourceFile.fileName),
+    getScriptSnapshot: (name) => ts.ScriptSnapshot.fromString(program.getSourceFile(name)?.text ?? ''),
     getScriptVersion: () => '1',
   };
 }
@@ -524,6 +525,7 @@ function getExpectTypeFailures(
   sourceFile: ts.SourceFile,
   assertions: Pick<Assertions, 'typeAssertions' | 'twoSlashAssertions'>,
   checker: ts.TypeChecker,
+  languageService: ts.LanguageService,
 ): ExpectTypeFailures {
   const { typeAssertions, twoSlashAssertions } = assertions;
 
@@ -560,7 +562,6 @@ function getExpectTypeFailures(
 
   const twoSlashFailureLines: number[] = [];
   if (twoSlashAssertions.length) {
-    const ls = ts.createLanguageService(getLanguageServiceHost(sourceFile.fileName, sourceFile.text));
     for (const assertion of twoSlashAssertions) {
       const { position, expected } = assertion;
       const node = getNodeAtPosition(sourceFile, position);
@@ -569,7 +570,7 @@ function getExpectTypeFailures(
         continue;
       }
 
-      const qi = ls.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
+      const qi = languageService.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
       if (!qi || !qi.displayParts) {
         unmetExpectations.push({
           assertion: { assertionType: 'twoslash', ...assertion },
