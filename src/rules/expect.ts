@@ -6,35 +6,6 @@ import { getParserServices } from '../utils/getParserServices';
 import { loc } from '../utils/loc';
 import { getTypeSnapshot, updateTypeSnapshot } from '../utils/snapshot';
 
-function getLanguageServiceHost(fileName: string, source: string): ts.LanguageServiceHost {
-  return {
-    getCompilationSettings() {
-      return {
-        noResolve: true,
-        target: ts.ScriptTarget.ES5,
-      };
-    },
-    getCurrentDirectory() {
-      return '';
-    },
-    getDefaultLibFileName: function () {
-      return 'lib.d.ts';
-    },
-    getScriptFileNames: function () {
-      return [fileName];
-    },
-    getScriptSnapshot: function (name) {
-      return ts.ScriptSnapshot.fromString(name === fileName ? source : '');
-    },
-    getScriptVersion: function () {
-      return '1';
-    },
-    log(s) {
-      console.log('LSSH log', s);
-    },
-  };
-}
-
 const messages = {
   TypeScriptCompileError: 'TypeScript compile error: {{ message }}',
   FileIsNotIncludedInTsconfig: 'Expected to find a file "{{ fileName }}" present.',
@@ -520,6 +491,20 @@ function matchReadonlyArray(actual: string, expected: string) {
   }
 
   return true;
+}
+
+function getLanguageServiceHost(fileName: string, source: string): ts.LanguageServiceHost {
+  return {
+    getCompilationSettings: () => ({
+      noResolve: true,
+      target: ts.ScriptTarget.ES5,
+    }),
+    getCurrentDirectory: () => '',
+    getDefaultLibFileName: () => 'lib.d.ts',
+    getScriptFileNames: () => [fileName],
+    getScriptSnapshot: (name) => ts.ScriptSnapshot.fromString(name === fileName ? source : ''),
+    getScriptVersion: () => '1',
+  };
 }
 
 function getExpectTypeFailures(
