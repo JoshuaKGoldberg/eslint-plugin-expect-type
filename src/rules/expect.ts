@@ -219,6 +219,16 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
       context.report({
         ...templateDescriptor,
         messageId: 'TypesDoNotMatch',
+        ...(assertion.assertionType === 'twoslash'
+          ? {
+              fix: (): TSESLint.RuleFix => {
+                return {
+                  range: assertion.expectedRange,
+                  text: actual,
+                };
+              },
+            }
+          : {}),
       });
     }
   }
@@ -270,18 +280,21 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
   }
 }
 
+interface TwoSlashAssertion {
+  position: number;
+  expected: string;
+  expectedRange: [number, number];
+  expectedPrefix: string;
+}
+
 type Assertion =
+  | ({ readonly assertionType: 'twoslash' } & TwoSlashAssertion)
   | { readonly assertionType: 'manual'; expected: string }
   | {
       readonly assertionType: 'snapshot';
       expected?: string;
       readonly snapshotName: string;
     };
-
-interface TwoSlashAssertion {
-  position: number;
-  expected: string;
-}
 
 interface SyntaxError {
   readonly type: 'MissingSnapshotName' | 'MissingExpectType';
@@ -384,24 +397,24 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
           // 01234 <-- so add three... but also subtract 1?
           const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 2;
 
+          const expectedRange: [number, number] = [commentCol + whitespace.length, lineStarts[line] - 1];
           // Peak ahead to the next lines to see if the expected type continues
-          const twoSlashPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length);
+          const expectedPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length);
           for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
-            const lineText = text.slice(
-              lineStarts[nextLine],
-              nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] : undefined,
-            );
-            if (lineText.startsWith(twoSlashPrefix)) {
+            const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length - 1;
+            const lineText = text.slice(lineStarts[nextLine], thisLineEnd);
+            if (lineText.startsWith(expectedPrefix)) {
               if (nextLine === line) {
                 expected += '\n';
               }
-              expected += lineText.slice(twoSlashPrefix.length);
+              expected += lineText.slice(expectedPrefix.length);
+              expectedRange[1] = thisLineEnd;
             } else {
               break;
             }
           }
 
-          twoSlashAssertions.push({ position, expected });
+          twoSlashAssertions.push({ position, expected, expectedRange, expectedPrefix });
         }
         break;
       }
@@ -430,7 +443,7 @@ function isFirstOnLine(text: string, lineStart: number, pos: number): boolean {
   return true;
 }
 
-interface UnmedExpectation {
+interface UnmetExpectation {
   assertion: Assertion;
   node: ts.Node;
   actual: string;
@@ -438,7 +451,7 @@ interface UnmedExpectation {
 
 interface ExpectTypeFailures {
   /** Lines with an $ExpectType, but a different type was there. */
-  readonly unmetExpectations: readonly UnmedExpectation[];
+  readonly unmetExpectations: readonly UnmetExpectation[];
   /** Lines with an $ExpectType, but no node could be found. */
   readonly unusedAssertions: Iterable<number>;
 }
@@ -514,7 +527,7 @@ function getExpectTypeFailures(
 ): ExpectTypeFailures {
   const { typeAssertions, twoSlashAssertions } = assertions;
 
-  const unmetExpectations: UnmedExpectation[] = [];
+  const unmetExpectations: UnmetExpectation[] = [];
   // Match assertions to the first node that appears on the line they apply to.
   // `forEachChild` isn't available as a method in older TypeScript versions, so must use `ts.forEachChild` instead.
   ts.forEachChild(sourceFile, function iterate(node) {
@@ -559,7 +572,7 @@ function getExpectTypeFailures(
       const qi = ls.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
       if (!qi || !qi.displayParts) {
         unmetExpectations.push({
-          assertion: { assertionType: 'manual', expected },
+          assertion: { assertionType: 'twoslash', ...assertion },
           node,
           actual: '(Unable to get quickinfo)',
         });
@@ -567,7 +580,7 @@ function getExpectTypeFailures(
       }
       const actual = qi.displayParts.map((dp) => dp.text).join('');
       if (!matchModuloWhitespace(actual, expected)) {
-        unmetExpectations.push({ assertion: { assertionType: 'manual', expected }, node, actual });
+        unmetExpectations.push({ assertion: { assertionType: 'twoslash', ...assertion }, node, actual });
       }
     }
   }
