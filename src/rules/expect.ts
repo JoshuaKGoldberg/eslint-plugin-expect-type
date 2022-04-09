@@ -407,11 +407,29 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 
       case '^?': {
         // TODO: match error checking from ExpectType
-        const expected = payload;
+        let expected = payload;
         if (expected) {
           // // ^?
           // 01234 <-- so add three... but also subtract 1?
-          const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 3 - 1;
+          const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 2;
+
+          // Peak ahead to the next lines to see if the expected type continues
+          const twoSlashPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length);
+          for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
+            const lineText = text.slice(
+              lineStarts[nextLine],
+              nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] : undefined,
+            );
+            if (lineText.startsWith(twoSlashPrefix)) {
+              if (nextLine === line) {
+                expected += '\n';
+              }
+              expected += lineText.slice(twoSlashPrefix.length);
+            } else {
+              break;
+            }
+          }
+
           twoSlashAssertions.push({ position, expected });
         }
         break;

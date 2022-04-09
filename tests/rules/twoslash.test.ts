@@ -23,6 +23,17 @@ const valid: ReadonlyArray<ValidTestCase> = [
     `,
     optionsSet: [[]],
   },
+  // Multiline twoslash
+  {
+    code: dedent`
+      const t = { a: 17, b: 'on' as const };
+      //    ^? const t: {
+      //         a: number;
+      //         b: "on";
+      //       }
+    `,
+    optionsSet: [[]],
+  },
 ];
 
 // Invalid test cases.
@@ -38,6 +49,24 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       {
         messageId: 'TypesDoNotMatch',
         line: 2,
+        column: 7,
+      },
+    ],
+  },
+  // While whitespace is ignored, field order does matter.
+  {
+    code: dedent`
+      const t = { a: 17, b: 'on' as const };
+      //    ^? const t: {
+      //         b: "on";
+      //         a: number;
+      //       }
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 1,
         column: 7,
       },
     ],
