@@ -6,14 +6,6 @@ import { name, rule } from '../../src/rules/expect';
 
 // Valid test cases.
 const valid: ReadonlyArray<ValidTestCase> = [
-  // Twoslash
-  {
-    code: dedent`
-      const t = { a: 17, b: 'on' as const };
-      //    ^? const t: { a: number; b: "on"; }
-    `,
-    optionsSet: [[]],
-  },
   // Complex type
   {
     code: dedent`
@@ -27,15 +19,6 @@ const valid: ReadonlyArray<ValidTestCase> = [
     code: dedent`
       // $ExpectType number
       const t = 6 as number;
-    `,
-    optionsSet: [[]],
-  },
-  // Twoslash type from #4
-  {
-    code: dedent`
-      const square = (x: number) => x * x;
-      const four = square(2);
-      //    ^? const four: number
     `,
     optionsSet: [[]],
   },
