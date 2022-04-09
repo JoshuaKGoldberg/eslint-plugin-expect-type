@@ -405,8 +405,8 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
           // Peak ahead to the next lines to see if the expected type continues
           const expectedPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length);
           for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
-            const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length - 1;
-            const lineText = text.slice(lineStarts[nextLine], thisLineEnd);
+            const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length;
+            const lineText = text.slice(lineStarts[nextLine], thisLineEnd + 1);
             if (lineText.startsWith(expectedPrefix)) {
               if (nextLine === line) {
                 expected += '\n';
