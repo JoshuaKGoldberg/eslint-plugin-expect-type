@@ -13,6 +13,7 @@ const valid: ReadonlyArray<ValidTestCase> = [
       //    ^? { a: number; b: "on"; }
     `,
     optionsSet: [[]],
+    only: true,
   },
   // Complex type
   {

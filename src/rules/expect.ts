@@ -6,6 +6,35 @@ import { getParserServices } from '../utils/getParserServices';
 import { loc } from '../utils/loc';
 import { getTypeSnapshot, updateTypeSnapshot } from '../utils/snapshot';
 
+function getLanguageServiceHost(fileName: string, source: string): ts.LanguageServiceHost {
+  return {
+    getCompilationSettings() {
+      return {
+        noResolve: true,
+        target: ts.ScriptTarget.ES5,
+      };
+    },
+    getCurrentDirectory() {
+      return '';
+    },
+    getDefaultLibFileName: function () {
+      return 'lib.d.ts';
+    },
+    getScriptFileNames: function () {
+      return [fileName];
+    },
+    getScriptSnapshot: function (name) {
+      return ts.ScriptSnapshot.fromString(name === fileName ? source : '');
+    },
+    getScriptVersion: function () {
+      return '1';
+    },
+    log(s) {
+      console.log('LSSH log', s);
+    },
+  };
+}
+
 const messages = {
   TypeScriptCompileError: 'TypeScript compile error: {{ message }}',
   FileIsNotIncludedInTsconfig: 'Expected to find a file "{{ fileName }}" present.',
@@ -469,6 +498,8 @@ function getExpectTypeFailures(
   typeAssertions: Assertions['typeAssertions'],
   checker: ts.TypeChecker,
 ): ExpectTypeFailures {
+  const ls = ts.createLanguageService(getLanguageServiceHost(sourceFile.fileName, sourceFile.text));
+
   const unmetExpectations: UnmedExpectation[] = [];
   // Match assertions to the first node that appears on the line they apply to.
   // `forEachChild` isn't available as a method in older TypeScript versions, so must use `ts.forEachChild` instead.
@@ -486,6 +517,7 @@ function getExpectTypeFailures(
         if (startCol <= column && endCol >= column) {
           if (node.getChildCount() === 0) {
             isMatch = true;
+            // node.kind = 79 (Identifier)
           } else {
             // matching span, but we can go deeper
           }
@@ -506,10 +538,26 @@ function getExpectTypeFailures(
       }
 
       const type = checker.getTypeAtLocation(nodeToCheck);
+      // const sym = checker.getSymbolAtLocation(node);
+      // checker.typeToString(type, node.parent.parent, 1024 | 16384)
+      // .MultilineObjectLiterals | TypeFormatFlags.UseAliasDefinedOutsideCurrentScope
 
-      const actual = type
+      let actual = type
         ? checker.typeToString(type, /*enclosingDeclaration*/ undefined, ts.TypeFormatFlags.NoTruncation)
         : '';
+
+      if (column !== undefined) {
+        const qi = ls.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
+        if (qi) {
+          console.log(node.getText());
+          console.log(qi);
+          if (qi.displayParts) {
+            const before = actual;
+            actual = qi.displayParts.map((dp) => dp.text).join('');
+            console.log(before, actual);
+          }
+        }
+      }
 
       if (!expected || (actual !== expected && !matchReadonlyArray(actual, expected))) {
         unmetExpectations.push({ assertion, node, actual });
