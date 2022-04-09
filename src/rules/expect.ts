@@ -226,7 +226,10 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
               fix: (): TSESLint.RuleFix => {
                 return {
                   range: assertion.expectedRange,
-                  text: actual,
+                  text: actual
+                    .split('\n')
+                    .map((line, i) => (i > 0 ? assertion.expectedPrefix + line : line))
+                    .join('\n'),
                 };
               },
             }
@@ -401,7 +404,7 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 
           const expectedRange: [number, number] = [commentCol + whitespace.length + 5, lineStarts[line] - 1];
           // Peak ahead to the next lines to see if the expected type continues
-          const expectedPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length);
+          const expectedPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length) + '   ';
           for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
             const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length;
             const lineText = text.slice(lineStarts[nextLine], thisLineEnd + 1);

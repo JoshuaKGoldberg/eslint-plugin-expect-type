@@ -52,6 +52,11 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
         column: 7,
       },
     ],
+    output: dedent`
+      const square = (x: number) => x * x;
+      const four = square(2);
+      //    ^? const four: number
+    `,
   },
   // While whitespace is ignored, field order does matter.
   {
@@ -70,6 +75,13 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
         column: 7,
       },
     ],
+    output: dedent`
+      const t = { a: 17, b: 'on' as const };
+      //    ^? const t: {
+      //           a: number;
+      //           b: "on";
+      //       }
+    `,
   },
 ];
 
