@@ -139,7 +139,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     return;
   }
 
-  const { errorLines, typeAssertions, duplicates, syntaxErrors } = parseAssertions(sourceFile);
+  const { errorLines, typeAssertions, twoSlashAssertions, duplicates, syntaxErrors } = parseAssertions(sourceFile);
 
   for (const line of duplicates) {
     context.report({
@@ -195,7 +195,11 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     }
   }
 
-  const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(sourceFile, typeAssertions, checker);
+  const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(
+    sourceFile,
+    { typeAssertions, twoSlashAssertions },
+    checker,
+  );
   for (const { node, assertion, actual } of unmetExpectations) {
     const templateDescriptor = {
       data: {
@@ -296,13 +300,17 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
 }
 
 type Assertion =
-  | { readonly assertionType: 'manual'; expected: string; column?: number }
+  | { readonly assertionType: 'manual'; expected: string }
   | {
       readonly assertionType: 'snapshot';
       expected?: string;
       readonly snapshotName: string;
-      column?: number;
     };
+
+interface TwoSlashAssertion {
+  position: number;
+  expected: string;
+}
 
 interface SyntaxError {
   readonly type: 'MissingSnapshotName' | 'MissingExpectType';
@@ -316,6 +324,8 @@ interface Assertions {
   readonly typeAssertions: Map<number, Assertion>;
   /** Lines with more than one assertion (these are errors). */
   readonly duplicates: ReadonlyArray<number>;
+  /** Twoslash-style type assertions in the file */
+  readonly twoSlashAssertions: readonly TwoSlashAssertion[];
   /** Syntax Errors */
   readonly syntaxErrors: ReadonlyArray<SyntaxError>;
 }
@@ -325,6 +335,7 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
   const typeAssertions = new Map<number, Assertion>();
   const duplicates: number[] = [];
   const syntaxErrors: SyntaxError[] = [];
+  const twoSlashAssertions: TwoSlashAssertion[] = [];
 
   const { text } = sourceFile;
   const commentRegexp = /\/\/(.*)/g;
@@ -399,16 +410,16 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
         const expected = payload;
         if (expected) {
           // // ^?
-          // 01234 <-- so add three
-          const column = commentCol - lineStarts[line - 1] + whitespace.length + 3 - 1;
-          typeAssertions.set(line - 2, { assertionType: 'manual', expected, column });
+          // 01234 <-- so add three... but also subtract 1?
+          const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 3 - 1;
+          twoSlashAssertions.push({ position, expected });
         }
         break;
       }
     }
   }
 
-  return { errorLines, typeAssertions, duplicates, syntaxErrors };
+  return { errorLines, typeAssertions, duplicates, twoSlashAssertions, syntaxErrors };
 
   function getLine(pos: number): number {
     // advance curLine to be the line preceding 'pos'
@@ -495,10 +506,10 @@ function matchReadonlyArray(actual: string, expected: string) {
 
 function getExpectTypeFailures(
   sourceFile: ts.SourceFile,
-  typeAssertions: Assertions['typeAssertions'],
+  assertions: Pick<Assertions, 'typeAssertions' | 'twoSlashAssertions'>,
   checker: ts.TypeChecker,
 ): ExpectTypeFailures {
-  const ls = ts.createLanguageService(getLanguageServiceHost(sourceFile.fileName, sourceFile.text));
+  const { typeAssertions, twoSlashAssertions } = assertions;
 
   const unmetExpectations: UnmedExpectation[] = [];
   // Match assertions to the first node that appears on the line they apply to.
@@ -507,58 +518,21 @@ function getExpectTypeFailures(
     const line = lineOfPosition(node.getStart(sourceFile), sourceFile);
     const assertion = typeAssertions.get(line);
     if (assertion !== undefined) {
-      const { expected, column } = assertion;
+      const { expected } = assertion;
 
       let nodeToCheck = node;
-      if (column !== undefined) {
-        let isMatch = false;
-        const startCol = sourceFile.getLineAndCharacterOfPosition(node.getStart()).character;
-        const endCol = sourceFile.getLineAndCharacterOfPosition(node.getEnd()).character;
-        if (startCol <= column && endCol >= column) {
-          if (node.getChildCount() === 0) {
-            isMatch = true;
-            // node.kind = 79 (Identifier)
-          } else {
-            // matching span, but we can go deeper
-          }
-        } else if (startCol > column || endCol < column) {
-          return; // no possible match
-        }
 
-        if (!isMatch) {
-          ts.forEachChild(node, iterate);
-          return;
-        }
-      } else {
-        // https://github.com/Microsoft/TypeScript/issues/14077
-        if (node.kind === ts.SyntaxKind.ExpressionStatement) {
-          node = (node as ts.ExpressionStatement).expression;
-        }
-        nodeToCheck = getNodeForExpectType(node);
+      // https://github.com/Microsoft/TypeScript/issues/14077
+      if (node.kind === ts.SyntaxKind.ExpressionStatement) {
+        node = (node as ts.ExpressionStatement).expression;
       }
-
+      nodeToCheck = getNodeForExpectType(node);
       const type = checker.getTypeAtLocation(nodeToCheck);
-      // const sym = checker.getSymbolAtLocation(node);
-      // checker.typeToString(type, node.parent.parent, 1024 | 16384)
-      // .MultilineObjectLiterals | TypeFormatFlags.UseAliasDefinedOutsideCurrentScope
-
-      let actual = type
+      const actual = type
         ? checker.typeToString(type, /*enclosingDeclaration*/ undefined, ts.TypeFormatFlags.NoTruncation)
         : '';
 
-      if (column !== undefined) {
-        const qi = ls.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
-        if (qi) {
-          if (qi.displayParts) {
-            actual = qi.displayParts.map((dp) => dp.text).join('');
-          }
-        }
-      }
-
-      if (
-        !expected ||
-        (actual !== expected && !matchReadonlyArray(actual, expected) && !matchModuloWhitespace(actual, expected))
-      ) {
+      if (!expected || (actual !== expected && !matchReadonlyArray(actual, expected))) {
         unmetExpectations.push({ assertion, node, actual });
       }
 
@@ -567,7 +541,45 @@ function getExpectTypeFailures(
 
     ts.forEachChild(node, iterate);
   });
+
+  if (twoSlashAssertions.length) {
+    const ls = ts.createLanguageService(getLanguageServiceHost(sourceFile.fileName, sourceFile.text));
+    for (const assertion of twoSlashAssertions) {
+      const { position, expected } = assertion;
+      const node = getNodeAtPosition(sourceFile, position);
+      if (!node) {
+        // TODO(danvk): flag an error in this case
+        console.warn('Unable to attach node for', position);
+        continue;
+      }
+
+      const qi = ls.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
+      if (!qi || !qi.displayParts) {
+        // TODO(danvk): flag an error in this case
+        console.warn('Unable to get quickinfo for', node.getText());
+        continue;
+      }
+      const actual = qi.displayParts.map((dp) => dp.text).join('');
+      if (!matchModuloWhitespace(actual, expected)) {
+        unmetExpectations.push({ assertion: { assertionType: 'manual', expected }, node, actual });
+      }
+    }
+  }
+
   return { unmetExpectations, unusedAssertions: typeAssertions.keys() };
+}
+
+function getNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node | null {
+  let candidate: ts.Node | null = null;
+  ts.forEachChild(sourceFile, function iterate(node) {
+    const start = node.getStart();
+    const end = node.getEnd();
+    if (position >= start && position <= end) {
+      candidate = node;
+      ts.forEachChild(node, iterate);
+    }
+  });
+  return candidate;
 }
 
 function matchModuloWhitespace(actual: string, expected: string): boolean {
