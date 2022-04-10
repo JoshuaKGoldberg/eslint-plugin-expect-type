@@ -398,6 +398,12 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
         // TODO: match error checking from ExpectType
         let expected = payload;
         if (expected) {
+          if (line === 1) {
+            // This will become an attachment error later.
+            twoSlashAssertions.push({ position: -1, expected, expectedRange: [-1, -1], expectedPrefix: '' });
+            break;
+          }
+
           // // ^?
           // 01234 <-- so add three... but also subtract 1?
           const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 2;
@@ -568,6 +574,11 @@ function getExpectTypeFailures(
   if (twoSlashAssertions.length) {
     for (const assertion of twoSlashAssertions) {
       const { position, expected } = assertion;
+      if (position === -1) {
+        // special case for a twoslash assertion on line 1.
+        twoSlashFailureLines.push(0);
+        continue;
+      }
       const node = getNodeAtPosition(sourceFile, position);
       if (!node) {
         twoSlashFailureLines.push(sourceFile.getLineAndCharacterOfPosition(position).line);

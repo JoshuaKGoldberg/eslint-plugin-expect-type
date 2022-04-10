@@ -121,6 +121,36 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       },
     ],
   },
+  {
+    code: dedent`
+      const four = 4;  // intentional blank below!
+
+      // ^? const four: number
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'OrphanAssertion',
+        line: 3,
+        column: 1,
+      },
+    ],
+  },
+  // Can't have an assertion on the first line of a file.
+  {
+    code: dedent`
+      // ^? const four: number
+      const four = 4;
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'OrphanAssertion',
+        line: 1,
+        column: 1,
+      },
+    ],
+  },
 ];
 
 describe('TwoSlash', () => {
