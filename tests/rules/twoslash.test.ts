@@ -106,6 +106,21 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       //       }
     `,
   },
+  {
+    code: dedent`
+      const square = (x: number) => x * x;
+      const four = square(2);
+      // ^? const four: string
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'OrphanAssertion',
+        line: 2,
+        column: 1,  // would column 3 be better?
+      },
+    ],
+  },
 ];
 
 describe('TwoSlash', () => {

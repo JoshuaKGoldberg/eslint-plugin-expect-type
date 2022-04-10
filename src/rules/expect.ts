@@ -576,11 +576,7 @@ function getExpectTypeFailures(
 
       const qi = languageService.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
       if (!qi || !qi.displayParts) {
-        unmetExpectations.push({
-          assertion: { assertionType: 'twoslash', ...assertion },
-          node,
-          actual: '(Unable to get quickinfo)',
-        });
+        twoSlashFailureLines.push(sourceFile.getLineAndCharacterOfPosition(position).line);
         continue;
       }
       const actual = qi.displayParts.map((dp) => dp.text).join('');
