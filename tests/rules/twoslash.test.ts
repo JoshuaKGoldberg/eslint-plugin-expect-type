@@ -34,6 +34,18 @@ const valid: ReadonlyArray<ValidTestCase> = [
     `,
     optionsSet: [[]],
   },
+  // Multiline twoslash with another comment after it.
+  {
+    code: dedent`
+      const t = { a: 17, b: 'on' as const };
+      //    ^? const t: {
+      //         a: number;
+      //         b: "on";
+      //       }
+      // This is an unrelated, non-twoslash comment.
+    `,
+    optionsSet: [[]],
+  },
 ];
 
 // Invalid test cases.
@@ -104,6 +116,50 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       //           a: number;
       //           b: "on";
       //       }
+    `,
+  },
+  // A single line assertion can become a multiline after fixing.
+  {
+    code: dedent`
+      const t = { a: 17, b: 'on' as const };
+      //    ^? const t: boolean
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 1,
+        column: 7,
+      },
+    ],
+    output: dedent`
+      const t = { a: 17, b: 'on' as const };
+      //    ^? const t: {
+      //           a: number;
+      //           b: "on";
+      //       }
+    `,
+  },
+  // A multiline assertion can become a single line after fixing.
+  {
+    code: dedent`
+      let four = 4;
+      //    ^? let four: {
+      //           a: number;
+      //           b: "on";
+      //       }
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 1,
+        column: 5,
+      },
+    ],
+    output: dedent`
+      let four = 4;
+      //    ^? let four: number
     `,
   },
   {
