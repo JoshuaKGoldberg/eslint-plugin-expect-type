@@ -402,7 +402,10 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
           // 01234 <-- so add three... but also subtract 1?
           const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 2;
 
-          const expectedRange: [number, number] = [commentCol + whitespace.length + 5, lineStarts[line] - 1];
+          const expectedRange: [number, number] = [
+            commentCol + whitespace.length + 5,
+            line < lineStarts.length ? lineStarts[line] - 1 : text.length,
+          ];
           // Peak ahead to the next lines to see if the expected type continues
           const expectedPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length) + '   ';
           for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {

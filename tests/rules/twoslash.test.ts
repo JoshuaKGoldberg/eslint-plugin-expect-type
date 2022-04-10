@@ -58,6 +58,29 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       //    ^? const four: number
     `,
   },
+  // Fixer for comment that doesn't continue the twoslash comment
+  {
+    code: dedent`
+      const square = (x: number) => x * x;
+      const four = square(2);
+      //    ^? const four: string
+      // not the last line.
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 2,
+        column: 7,
+      },
+    ],
+    output: dedent`
+      const square = (x: number) => x * x;
+      const four = square(2);
+      //    ^? const four: number
+      // not the last line.
+    `,
+  },
   // While whitespace is ignored, field order does matter.
   {
     code: dedent`
