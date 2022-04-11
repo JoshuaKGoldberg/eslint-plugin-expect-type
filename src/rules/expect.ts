@@ -224,12 +224,15 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
         ...(assertion.assertionType === 'twoslash'
           ? {
               fix: (): TSESLint.RuleFix => {
+                const { expectedRange, expectedPrefix } = assertion;
                 return {
-                  range: assertion.expectedRange,
-                  text: actual
-                    .split('\n')
-                    .map((line, i) => (i > 0 ? assertion.expectedPrefix + line : line))
-                    .join('\n'),
+                  range: expectedRange,
+                  text:
+                    (expectedRange[0] === expectedRange[1] ? ' ' : '') +
+                    actual
+                      .split('\n')
+                      .map((line, i) => (i > 0 ? expectedPrefix + line : line))
+                      .join('\n'),
                 };
               },
             }
@@ -396,40 +399,42 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 
       case '^?': {
         // TODO: match error checking from ExpectType
-        let expected = payload;
-        if (expected) {
-          if (line === 1) {
-            // This will become an attachment error later.
-            twoSlashAssertions.push({ position: -1, expected, expectedRange: [-1, -1], expectedPrefix: '' });
+        let expected = payload ?? '';
+        if (line === 1) {
+          // This will become an attachment error later.
+          twoSlashAssertions.push({ position: -1, expected, expectedRange: [-1, -1], expectedPrefix: '' });
+          break;
+        }
+
+        // // ^?
+        // 01234 <-- so add three... but also subtract 1?
+        const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 2;
+
+        const expectedRange: [number, number] = [
+          commentCol + whitespace.length + 5,
+          line < lineStarts.length ? lineStarts[line] - 1 : text.length,
+        ];
+        // Peak ahead to the next lines to see if the expected type continues
+        const expectedPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length) + '   ';
+        for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
+          const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length;
+          const lineText = text.slice(lineStarts[nextLine], thisLineEnd + 1);
+          if (lineText.startsWith(expectedPrefix)) {
+            if (nextLine === line) {
+              expected += '\n';
+            }
+            expected += lineText.slice(expectedPrefix.length);
+            expectedRange[1] = thisLineEnd;
+          } else {
             break;
           }
-
-          // // ^?
-          // 01234 <-- so add three... but also subtract 1?
-          const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 2;
-
-          const expectedRange: [number, number] = [
-            commentCol + whitespace.length + 5,
-            line < lineStarts.length ? lineStarts[line] - 1 : text.length,
-          ];
-          // Peak ahead to the next lines to see if the expected type continues
-          const expectedPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length) + '   ';
-          for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
-            const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length;
-            const lineText = text.slice(lineStarts[nextLine], thisLineEnd + 1);
-            if (lineText.startsWith(expectedPrefix)) {
-              if (nextLine === line) {
-                expected += '\n';
-              }
-              expected += lineText.slice(expectedPrefix.length);
-              expectedRange[1] = thisLineEnd;
-            } else {
-              break;
-            }
-          }
-
-          twoSlashAssertions.push({ position, expected, expectedRange, expectedPrefix });
         }
+
+        if (expectedRange[0] > expectedRange[1]) {
+          // this happens if the line ends with "^?"
+          expectedRange[0] = expectedRange[1];
+        }
+        twoSlashAssertions.push({ position, expected, expectedRange, expectedPrefix });
         break;
       }
     }

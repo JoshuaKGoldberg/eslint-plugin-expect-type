@@ -70,6 +70,27 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       //    ^? const four: number
     `,
   },
+  // Offers a fix for an empty assertion (the usual starting point)
+  {
+    code: dedent`
+      const four = 4;
+      //    ^?
+      // next line
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 1,
+        column: 7,
+      }
+    ],
+    output: dedent`
+      const four = 4;
+      //    ^? const four: 4
+      // next line
+    `,
+  },
   // Fixer for comment that doesn't continue the twoslash comment
   {
     code: dedent`
