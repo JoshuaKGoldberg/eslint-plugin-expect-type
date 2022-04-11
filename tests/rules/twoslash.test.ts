@@ -83,7 +83,7 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
         messageId: 'TypesDoNotMatch',
         line: 1,
         column: 7,
-      }
+      },
     ],
     output: dedent`
       const four = 4;
@@ -93,7 +93,8 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
   },
   // Same as previous, but with a space already present after the ^?
   {
-    code: dedent`
+    code:
+      dedent`
       const four = 4;
       //    ^?` + ' ',
     optionsSet: [[]],
@@ -102,7 +103,7 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
         messageId: 'TypesDoNotMatch',
         line: 1,
         column: 7,
-      }
+      },
     ],
     output: dedent`
       const four = 4;
@@ -233,7 +234,7 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       {
         messageId: 'OrphanAssertion',
         line: 2,
-        column: 1,  // would column 3 be better?
+        column: 1, // would column 3 be better?
       },
     ],
   },
