@@ -91,6 +91,24 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       // next line
     `,
   },
+  // Same as previous, but with a space already present after the ^?
+  {
+    code: dedent`
+      const four = 4;
+      //    ^?` + ' ',
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 1,
+        column: 7,
+      }
+    ],
+    output: dedent`
+      const four = 4;
+      //    ^? const four: 4
+    `,
+  },
   // Fixer for comment that doesn't continue the twoslash comment
   {
     code: dedent`

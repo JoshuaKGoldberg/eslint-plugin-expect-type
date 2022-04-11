@@ -224,11 +224,11 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
         ...(assertion.assertionType === 'twoslash'
           ? {
               fix: (): TSESLint.RuleFix => {
-                const { expectedRange, expectedPrefix } = assertion;
+                const { expectedRange, expectedPrefix, insertSpace } = assertion;
                 return {
                   range: expectedRange,
                   text:
-                    (expectedRange[0] === expectedRange[1] ? ' ' : '') +
+                    (insertSpace ? ' ' : '') +
                     actual
                       .split('\n')
                       .map((line, i) => (i > 0 ? expectedPrefix + line : line))
@@ -293,6 +293,7 @@ interface TwoSlashAssertion {
   expected: string;
   expectedRange: [number, number];
   expectedPrefix: string;
+  insertSpace: boolean;
 }
 
 type Assertion =
@@ -402,7 +403,13 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
         let expected = payload ?? '';
         if (line === 1) {
           // This will become an attachment error later.
-          twoSlashAssertions.push({ position: -1, expected, expectedRange: [-1, -1], expectedPrefix: '' });
+          twoSlashAssertions.push({
+            position: -1,
+            expected,
+            expectedRange: [-1, -1],
+            expectedPrefix: '',
+            insertSpace: false,
+          });
           break;
         }
 
@@ -430,11 +437,13 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
           }
         }
 
+        let insertSpace = false;
         if (expectedRange[0] > expectedRange[1]) {
-          // this happens if the line ends with "^?"
+          // this happens if the line ends with "^?" and nothing else
           expectedRange[0] = expectedRange[1];
+          insertSpace = true;
         }
-        twoSlashAssertions.push({ position, expected, expectedRange, expectedPrefix });
+        twoSlashAssertions.push({ position, expected, expectedRange, expectedPrefix, insertSpace });
         break;
       }
     }
@@ -620,8 +629,8 @@ function getNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node
 
 function matchModuloWhitespace(actual: string, expected: string): boolean {
   // TODO: it's much easier to normalize actual based on the displayParts
+  //       This isn't 100% correct if a type has a space in it, e.g. type T = "string literal"
   const normActual = actual.replace(/[\n ]+/g, ' ').trim();
-  // console.log(actual, normActual);
   const normExpected = expected.replace(/[\n ]+/g, ' ').trim();
   return normActual === normExpected;
 }
