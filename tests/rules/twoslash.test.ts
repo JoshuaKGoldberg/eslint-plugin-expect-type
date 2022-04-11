@@ -97,6 +97,27 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       const square = (x: number) => x * x;
       const four = square(2);
       //    ^? const four: string
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 2,
+        column: 7,
+      },
+    ],
+    output: dedent`
+      const square = (x: number) => x * x;
+      const four = square(2);
+      //    ^? const four: number
+    `,
+  },
+  // Same as above but not the last line of the file
+  {
+    code: dedent`
+      const square = (x: number) => x * x;
+      const four = square(2);
+      //    ^? const four: string
       // not the last line.
     `,
     optionsSet: [[]],
