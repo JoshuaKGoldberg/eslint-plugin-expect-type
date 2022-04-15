@@ -353,8 +353,8 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     if (match === null) {
       continue;
     }
-    const commentCol = commentMatch.index;
-    const line = getLine(commentCol);
+    const commentIndex = commentMatch.index;
+    const line = getLine(commentIndex);
     const whitespace = match[1];
     const directive = match[2] ?? match[3];
     const payload = match[4];
@@ -417,16 +417,16 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
           break;
         }
 
-        // // ^?
-        // 01234 <-- so add three... but also subtract 1?
-        const position = commentCol - lineStarts[line - 1] + lineStarts[line - 2] + whitespace.length + 2;
+        // The position of interest is wherever the "^" (caret) is, but on the previous line.
+        const caretIndex = commentIndex + whitespace.length + 2; // 2 = length of "//"
+        const position = caretIndex - (lineStarts[line - 1] - lineStarts[line - 2]);
 
         const expectedRange: [number, number] = [
-          commentCol + whitespace.length + 5,
+          commentIndex + whitespace.length + 5,
           line < lineStarts.length ? lineStarts[line] - 1 : text.length,
         ];
         // Peak ahead to the next lines to see if the expected type continues
-        const expectedPrefix = text.slice(lineStarts[line - 1], commentCol + 2 + whitespace.length) + '   ';
+        const expectedPrefix = text.slice(lineStarts[line - 1], commentIndex + 2 + whitespace.length) + '   ';
         for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
           const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length;
           const lineText = text.slice(lineStarts[nextLine], thisLineEnd + 1);
@@ -604,7 +604,7 @@ function getExpectTypeFailures(
       }
 
       const qi = languageService.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
-      if (!qi || !qi.displayParts) {
+      if (!qi?.displayParts) {
         twoSlashFailureLines.push(sourceFile.getLineAndCharacterOfPosition(position).line);
         continue;
       }
@@ -618,8 +618,8 @@ function getExpectTypeFailures(
   return { unmetExpectations, unusedAssertions: [...twoSlashFailureLines, ...typeAssertions.keys()] };
 }
 
-function getNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node | null {
-  let candidate: ts.Node | null = null;
+function getNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node | undefined {
+  let candidate: ts.Node | undefined = undefined;
   ts.forEachChild(sourceFile, function iterate(node) {
     const start = node.getStart();
     const end = node.getEnd();

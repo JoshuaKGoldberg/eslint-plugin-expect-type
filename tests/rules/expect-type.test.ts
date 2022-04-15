@@ -6,19 +6,19 @@ import { name, rule } from '../../src/rules/expect';
 
 // Valid test cases.
 const valid: ReadonlyArray<ValidTestCase> = [
-  // Complex type
-  {
-    code: dedent`
-      // $ExpectType { a: number; b: "on"; }
-      const t = { a: 17, b: 'on' as const };
-    `,
-    optionsSet: [[]],
-  },
   // Primitive type
   {
     code: dedent`
       // $ExpectType number
       const t = 6 as number;
+    `,
+    optionsSet: [[]],
+  },
+  // Complex type
+  {
+    code: dedent`
+      // $ExpectType { a: number; b: "on"; }
+      const t = { a: 17, b: 'on' as const };
     `,
     optionsSet: [[]],
   },

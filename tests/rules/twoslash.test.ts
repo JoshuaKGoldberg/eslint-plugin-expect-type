@@ -253,7 +253,7 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       {
         messageId: 'OrphanAssertion',
         line: 2,
-        column: 1, // would column 3 be better?
+        column: 1,
       },
     ],
   },
