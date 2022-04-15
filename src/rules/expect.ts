@@ -152,7 +152,9 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
         message:
           type === 'MissingExpectType'
             ? '$ExpectType requires type argument (e.g. // $ExpectType "string")'
-            : '$ExpectTypeSnapshot requires snapshot name argument (e.g. // $ExpectTypeSnapshot MainComponentAPI)',
+            : type === 'MissingSnapshotName'
+            ? '$ExpectTypeSnapshot requires snapshot name argument (e.g. // $ExpectTypeSnapshot MainComponentAPI)'
+            : 'Invalid twoslash assertion; make sure there is a space after the "^?".',
       },
       loc: {
         line: line + 1,
@@ -311,7 +313,7 @@ type Assertion =
     };
 
 interface SyntaxError {
-  readonly type: 'MissingSnapshotName' | 'MissingExpectType';
+  readonly type: 'MissingSnapshotName' | 'MissingExpectType' | 'InvalidTwoslash';
   readonly line: number;
 }
 
@@ -405,7 +407,11 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
       // Maybe it's a twoslash assertion
       const assertion = parseTwoslashAssertion(comment, commentIndex, line, text, lineStarts);
       if (assertion) {
-        twoSlashAssertions.push(assertion);
+        if ('type' in assertion) {
+          syntaxErrors.push(assertion);
+        } else {
+          twoSlashAssertions.push(assertion);
+        }
       }
     }
   }
@@ -429,14 +435,21 @@ function parseTwoslashAssertion(
   commentLine: number,
   sourceText: string,
   lineStarts: readonly number[],
-): TwoSlashAssertion | null {
-  const matchTwoslash = /^( *)\^\?(?: (.*))?$/.exec(comment) as [never, string, string?] | null;
+): TwoSlashAssertion | SyntaxError | null {
+  const matchTwoslash = /^( *)\^\?(.*)$/.exec(comment) as [never, string, string] | null;
   if (!matchTwoslash) {
     return null;
   }
   const whitespace = matchTwoslash[1];
-  const payload = matchTwoslash[2];
-  let expected = payload ?? '';
+  const rawPayload = matchTwoslash[2];
+  if (rawPayload.length && rawPayload[0] !== ' ') {
+    // This is an error: there must be a space after the ^?
+    return {
+      type: 'InvalidTwoslash',
+      line: commentLine - 1,
+    };
+  }
+  let expected = rawPayload.slice(1); // strip leading space, or leave it as "".
   if (commentLine === 1) {
     // This will become an attachment error later.
     return {

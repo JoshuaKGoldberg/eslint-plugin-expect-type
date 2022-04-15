@@ -46,6 +46,14 @@ const valid: ReadonlyArray<ValidTestCase> = [
     `,
     optionsSet: [[]],
   },
+  // Test for a type alias
+  {
+    code: dedent`
+      type MyType = 123;
+      //   ^? type MyType = 123
+    `,
+    optionsSet: [[]],
+  },
 ];
 
 // Invalid test cases.
@@ -109,6 +117,21 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       const four = 4;
       //    ^? const four: 4
     `,
+  },
+  // no space after "^?"
+  {
+    code: dedent`
+      type MyType = 123;
+      //   ^?type MyType = 123
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'SyntaxError',
+        line: 2,
+        column: 1,
+      },
+    ],
   },
   // Two twoslash assertions on a single line. Only the first one is used.
   {
