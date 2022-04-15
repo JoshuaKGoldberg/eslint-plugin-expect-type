@@ -351,10 +351,6 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     const matchExpect = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(comment) as
       | [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?]
       | null;
-    const matchTwoslash = /^( *)\^\?(?: (.*))?$/.exec(comment) as [never, string, string?] | null;
-    if (matchExpect === null && matchTwoslash === null) {
-      continue;
-    }
     const commentIndex = commentMatch.index;
     const line = getLine(commentIndex);
     if (matchExpect) {
@@ -405,53 +401,12 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
           break;
         }
       }
-    } else if (matchTwoslash) {
-      const whitespace = matchTwoslash[1];
-      const payload = matchTwoslash[2];
-      let expected = payload ?? '';
-      if (line === 1) {
-        // This will become an attachment error later.
-        twoSlashAssertions.push({
-          position: -1,
-          expected,
-          expectedRange: [-1, -1],
-          expectedPrefix: '',
-          insertSpace: false,
-        });
-        break;
+    } else {
+      // Maybe it's a twoslash assertion
+      const assertion = parseTwoslashAssertion(comment, commentIndex, line, text, lineStarts);
+      if (assertion) {
+        twoSlashAssertions.push(assertion);
       }
-
-      // The position of interest is wherever the "^" (caret) is, but on the previous line.
-      const caretIndex = commentIndex + whitespace.length + 2; // 2 = length of "//"
-      const position = caretIndex - (lineStarts[line - 1] - lineStarts[line - 2]);
-
-      const expectedRange: [number, number] = [
-        commentIndex + whitespace.length + 5,
-        line < lineStarts.length ? lineStarts[line] - 1 : text.length,
-      ];
-      // Peak ahead to the next lines to see if the expected type continues
-      const expectedPrefix = text.slice(lineStarts[line - 1], commentIndex + 2 + whitespace.length) + '   ';
-      for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
-        const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length;
-        const lineText = text.slice(lineStarts[nextLine], thisLineEnd + 1);
-        if (lineText.startsWith(expectedPrefix)) {
-          if (nextLine === line) {
-            expected += '\n';
-          }
-          expected += lineText.slice(expectedPrefix.length);
-          expectedRange[1] = thisLineEnd;
-        } else {
-          break;
-        }
-      }
-
-      let insertSpace = false;
-      if (expectedRange[0] > expectedRange[1]) {
-        // this happens if the line ends with "^?" and nothing else
-        expectedRange[0] = expectedRange[1];
-        insertSpace = true;
-      }
-      twoSlashAssertions.push({ position, expected, expectedRange, expectedPrefix, insertSpace });
     }
   }
 
@@ -466,6 +421,64 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     // Otherwise, it applies to the text to the left of it.
     return isFirstOnLine(text, lineStarts[curLine], pos) ? curLine + 1 : curLine;
   }
+}
+
+function parseTwoslashAssertion(
+  comment: string,
+  commentIndex: number,
+  commentLine: number,
+  sourceText: string,
+  lineStarts: readonly number[],
+): TwoSlashAssertion | null {
+  const matchTwoslash = /^( *)\^\?(?: (.*))?$/.exec(comment) as [never, string, string?] | null;
+  if (!matchTwoslash) {
+    return null;
+  }
+  const whitespace = matchTwoslash[1];
+  const payload = matchTwoslash[2];
+  let expected = payload ?? '';
+  if (commentLine === 1) {
+    // This will become an attachment error later.
+    return {
+      position: -1,
+      expected,
+      expectedRange: [-1, -1],
+      expectedPrefix: '',
+      insertSpace: false,
+    };
+  }
+
+  // The position of interest is wherever the "^" (caret) is, but on the previous line.
+  const caretIndex = commentIndex + whitespace.length + 2; // 2 = length of "//"
+  const position = caretIndex - (lineStarts[commentLine - 1] - lineStarts[commentLine - 2]);
+
+  const expectedRange: [number, number] = [
+    commentIndex + whitespace.length + 5,
+    commentLine < lineStarts.length ? lineStarts[commentLine] - 1 : sourceText.length,
+  ];
+  // Peak ahead to the next lines to see if the expected type continues
+  const expectedPrefix = sourceText.slice(lineStarts[commentLine - 1], commentIndex + 2 + whitespace.length) + '   ';
+  for (let nextLine = commentLine; nextLine < lineStarts.length; nextLine++) {
+    const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : sourceText.length;
+    const lineText = sourceText.slice(lineStarts[nextLine], thisLineEnd + 1);
+    if (lineText.startsWith(expectedPrefix)) {
+      if (nextLine === commentLine) {
+        expected += '\n';
+      }
+      expected += lineText.slice(expectedPrefix.length);
+      expectedRange[1] = thisLineEnd;
+    } else {
+      break;
+    }
+  }
+
+  let insertSpace = false;
+  if (expectedRange[0] > expectedRange[1]) {
+    // this happens if the line ends with "^?" and nothing else
+    expectedRange[0] = expectedRange[1];
+    insertSpace = true;
+  }
+  return { position, expected, expectedRange, expectedPrefix, insertSpace };
 }
 
 function isFirstOnLine(text: string, lineStart: number, pos: number): boolean {
