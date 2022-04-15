@@ -100,7 +100,6 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
   }
 
   const checker = program.getTypeChecker();
-  const languageService = ts.createLanguageService(getLanguageServiceHost(program));
   // Don't care about emit errors.
   const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
   if (sourceFile.isDeclarationFile || !/(?:\$Expect(Type|Error|^\?))|\^\?/.test(sourceFile.text)) {
@@ -111,6 +110,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     return;
   }
 
+  const languageService = ts.createLanguageService(getLanguageServiceHost(program));
   const { errorLines, typeAssertions, twoSlashAssertions, duplicates, syntaxErrors } = parseAssertions(sourceFile);
 
   for (const line of duplicates) {
@@ -289,10 +289,15 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
 }
 
 interface TwoSlashAssertion {
+  /** Position in the source file that the twoslash assertion points at */
   position: number;
+  /** The expected type in the twoslash comment */
   expected: string;
+  /** Range of positions corresponding to the "expected" string (for fixer) */
   expectedRange: [number, number];
+  /** Text before the "^?" (used to produce continuation lines for fixer) */
   expectedPrefix: string;
+  /** Does a space need to be added after "^?" when fixing? (If "^?" ends the line.) */
   insertSpace: boolean;
 }
 
@@ -399,7 +404,6 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
       }
 
       case '^?': {
-        // TODO: match error checking from ExpectType
         let expected = payload ?? '';
         if (line === 1) {
           // This will become an attachment error later.

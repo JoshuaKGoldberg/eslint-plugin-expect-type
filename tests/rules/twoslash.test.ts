@@ -110,6 +110,25 @@ const invalid: ReadonlyArray<InvalidTestCase> = [
       //    ^? const four: 4
     `,
   },
+  // Two twoslash assertions on a single line. Only the first one is used.
+  {
+    code: dedent`
+      let x = 4, y = "four";
+      //  ^?     ^? let y: string
+    `,
+    optionsSet: [[]],
+    errors: [
+      {
+        messageId: 'TypesDoNotMatch',
+        line: 1,
+        column: 5,
+      },
+    ],
+    output: dedent`
+      let x = 4, y = "four";
+      //  ^? let x: number
+    `,
+  },
   // Fixer for comment that doesn't continue the twoslash comment
   {
     code: dedent`
