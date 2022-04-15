@@ -347,109 +347,111 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // Match on the contents of that comment so we do nothing in a commented-out assertion,
     // i.e. `// foo; // $ExpectType number`
-    const match = /^( *)(?:(\$Expect(?:TypeSnapshot|Type|Error))|(\^\?))(?: (.*))?$/.exec(commentMatch[1]) as
-      | [never, string, '$ExpectTypeSnapshot' | '$ExpectType' | '$ExpectError' | undefined, '^?' | undefined, string?]
+    const comment = commentMatch[1];
+    const matchExpect = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(comment) as
+      | [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?]
       | null;
-    if (match === null) {
+    const matchTwoslash = /^( *)\^\?(?: (.*))?$/.exec(comment) as [never, string, string?] | null;
+    if (matchExpect === null && matchTwoslash === null) {
       continue;
     }
     const commentIndex = commentMatch.index;
     const line = getLine(commentIndex);
-    const whitespace = match[1];
-    const directive = match[2] ?? match[3];
-    const payload = match[4];
-    switch (directive) {
-      case '$ExpectTypeSnapshot':
-        const snapshotName = payload;
-        if (snapshotName) {
-          if (typeAssertions.delete(line)) {
-            duplicates.push(line);
+    if (matchExpect) {
+      const directive = matchExpect[1];
+      const payload = matchExpect[3];
+      switch (directive) {
+        case 'TypeSnapshot':
+          const snapshotName = payload;
+          if (snapshotName) {
+            if (typeAssertions.delete(line)) {
+              duplicates.push(line);
+            } else {
+              typeAssertions.set(line, {
+                assertionType: 'snapshot',
+                snapshotName,
+              });
+            }
           } else {
-            typeAssertions.set(line, {
-              assertionType: 'snapshot',
-              snapshotName,
+            syntaxErrors.push({
+              type: 'MissingSnapshotName',
+              line,
             });
           }
-        } else {
-          syntaxErrors.push({
-            type: 'MissingSnapshotName',
-            line,
-          });
-        }
-        break;
+          break;
 
-      case '$ExpectError':
-        if (errorLines.has(line)) {
-          duplicates.push(line);
-        }
-        errorLines.add(line);
-        break;
-
-      case '$ExpectType': {
-        const expected = payload;
-        if (expected) {
-          // Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
-          if (typeAssertions.delete(line)) {
+        case 'Error':
+          if (errorLines.has(line)) {
             duplicates.push(line);
-          } else {
-            typeAssertions.set(line, { assertionType: 'manual', expected });
           }
-        } else {
-          syntaxErrors.push({
-            type: 'MissingExpectType',
-            line,
-          });
-        }
-        break;
-      }
+          errorLines.add(line);
+          break;
 
-      case '^?': {
-        let expected = payload ?? '';
-        if (line === 1) {
-          // This will become an attachment error later.
-          twoSlashAssertions.push({
-            position: -1,
-            expected,
-            expectedRange: [-1, -1],
-            expectedPrefix: '',
-            insertSpace: false,
-          });
+        case 'Type': {
+          const expected = payload;
+          if (expected) {
+            // Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
+            if (typeAssertions.delete(line)) {
+              duplicates.push(line);
+            } else {
+              typeAssertions.set(line, { assertionType: 'manual', expected });
+            }
+          } else {
+            syntaxErrors.push({
+              type: 'MissingExpectType',
+              line,
+            });
+          }
           break;
         }
-
-        // The position of interest is wherever the "^" (caret) is, but on the previous line.
-        const caretIndex = commentIndex + whitespace.length + 2; // 2 = length of "//"
-        const position = caretIndex - (lineStarts[line - 1] - lineStarts[line - 2]);
-
-        const expectedRange: [number, number] = [
-          commentIndex + whitespace.length + 5,
-          line < lineStarts.length ? lineStarts[line] - 1 : text.length,
-        ];
-        // Peak ahead to the next lines to see if the expected type continues
-        const expectedPrefix = text.slice(lineStarts[line - 1], commentIndex + 2 + whitespace.length) + '   ';
-        for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
-          const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length;
-          const lineText = text.slice(lineStarts[nextLine], thisLineEnd + 1);
-          if (lineText.startsWith(expectedPrefix)) {
-            if (nextLine === line) {
-              expected += '\n';
-            }
-            expected += lineText.slice(expectedPrefix.length);
-            expectedRange[1] = thisLineEnd;
-          } else {
-            break;
-          }
-        }
-
-        let insertSpace = false;
-        if (expectedRange[0] > expectedRange[1]) {
-          // this happens if the line ends with "^?" and nothing else
-          expectedRange[0] = expectedRange[1];
-          insertSpace = true;
-        }
-        twoSlashAssertions.push({ position, expected, expectedRange, expectedPrefix, insertSpace });
+      }
+    } else if (matchTwoslash) {
+      const whitespace = matchTwoslash[1];
+      const payload = matchTwoslash[2];
+      let expected = payload ?? '';
+      if (line === 1) {
+        // This will become an attachment error later.
+        twoSlashAssertions.push({
+          position: -1,
+          expected,
+          expectedRange: [-1, -1],
+          expectedPrefix: '',
+          insertSpace: false,
+        });
         break;
       }
+
+      // The position of interest is wherever the "^" (caret) is, but on the previous line.
+      const caretIndex = commentIndex + whitespace.length + 2; // 2 = length of "//"
+      const position = caretIndex - (lineStarts[line - 1] - lineStarts[line - 2]);
+
+      const expectedRange: [number, number] = [
+        commentIndex + whitespace.length + 5,
+        line < lineStarts.length ? lineStarts[line] - 1 : text.length,
+      ];
+      // Peak ahead to the next lines to see if the expected type continues
+      const expectedPrefix = text.slice(lineStarts[line - 1], commentIndex + 2 + whitespace.length) + '   ';
+      for (let nextLine = line; nextLine < lineStarts.length; nextLine++) {
+        const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : text.length;
+        const lineText = text.slice(lineStarts[nextLine], thisLineEnd + 1);
+        if (lineText.startsWith(expectedPrefix)) {
+          if (nextLine === line) {
+            expected += '\n';
+          }
+          expected += lineText.slice(expectedPrefix.length);
+          expectedRange[1] = thisLineEnd;
+        } else {
+          break;
+        }
+      }
+
+      let insertSpace = false;
+      if (expectedRange[0] > expectedRange[1]) {
+        // this happens if the line ends with "^?" and nothing else
+        expectedRange[0] = expectedRange[1];
+        insertSpace = true;
+      }
+      twoSlashAssertions.push({ position, expected, expectedRange, expectedPrefix, insertSpace });
     }
   }
 
