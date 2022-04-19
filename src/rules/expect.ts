@@ -17,10 +17,10 @@ const messages = {
   TypeSnapshotDoNotMatch: 'Expected type from Snapshot to be: {{ expected }}, got: {{ actual }}',
   SyntaxError: 'Syntax Error: {{ message }}',
 };
-type MessageIds = keyof typeof messages;
+export type MessageIds = keyof typeof messages;
 
 // The options this rule can take.
-type Options = {
+export type Options = {
   // readonly expectError: boolean;
   // readonly expectType: boolean;
   // readonly expectTypeSnapshot: boolean;
