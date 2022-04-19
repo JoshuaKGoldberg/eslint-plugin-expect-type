@@ -102,7 +102,7 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
   const checker = program.getTypeChecker();
   // Don't care about emit errors.
   const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
-  if (sourceFile.isDeclarationFile || !/\$Expect(Type|Error)/.test(sourceFile.text)) {
+  if (sourceFile.isDeclarationFile || !/(?:\$Expect(Type|Error|^\?))|\^\?/.test(sourceFile.text)) {
     // Normal file.
     for (const diagnostic of diagnostics) {
       addDiagnosticFailure(diagnostic);
@@ -110,7 +110,8 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     return;
   }
 
-  const { errorLines, typeAssertions, duplicates, syntaxErrors } = parseAssertions(sourceFile);
+  const languageService = ts.createLanguageService(getLanguageServiceHost(program));
+  const { errorLines, typeAssertions, twoSlashAssertions, duplicates, syntaxErrors } = parseAssertions(sourceFile);
 
   for (const line of duplicates) {
     context.report({
@@ -151,7 +152,9 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
         message:
           type === 'MissingExpectType'
             ? '$ExpectType requires type argument (e.g. // $ExpectType "string")'
-            : '$ExpectTypeSnapshot requires snapshot name argument (e.g. // $ExpectTypeSnapshot MainComponentAPI)',
+            : type === 'MissingSnapshotName'
+            ? '$ExpectTypeSnapshot requires snapshot name argument (e.g. // $ExpectTypeSnapshot MainComponentAPI)'
+            : 'Invalid twoslash assertion; make sure there is a space after the "^?".',
       },
       loc: {
         line: line + 1,
@@ -166,7 +169,12 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     }
   }
 
-  const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(sourceFile, typeAssertions, checker);
+  const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(
+    sourceFile,
+    { typeAssertions, twoSlashAssertions },
+    checker,
+    languageService,
+  );
   for (const { node, assertion, actual } of unmetExpectations) {
     const templateDescriptor = {
       data: {
@@ -215,6 +223,22 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
       context.report({
         ...templateDescriptor,
         messageId: 'TypesDoNotMatch',
+        ...(assertion.assertionType === 'twoslash'
+          ? {
+              fix: (): TSESLint.RuleFix => {
+                const { expectedRange, expectedPrefix, insertSpace } = assertion;
+                return {
+                  range: expectedRange,
+                  text:
+                    (insertSpace ? ' ' : '') +
+                    actual
+                      .split('\n')
+                      .map((line, i) => (i > 0 ? expectedPrefix + line : line))
+                      .join('\n'),
+                };
+              },
+            }
+          : {}),
       });
     }
   }
@@ -266,7 +290,21 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
   }
 }
 
+interface TwoSlashAssertion {
+  /** Position in the source file that the twoslash assertion points at */
+  position: number;
+  /** The expected type in the twoslash comment */
+  expected: string;
+  /** Range of positions corresponding to the "expected" string (for fixer) */
+  expectedRange: [number, number];
+  /** Text before the "^?" (used to produce continuation lines for fixer) */
+  expectedPrefix: string;
+  /** Does a space need to be added after "^?" when fixing? (If "^?" ends the line.) */
+  insertSpace: boolean;
+}
+
 type Assertion =
+  | ({ readonly assertionType: 'twoslash' } & TwoSlashAssertion)
   | { readonly assertionType: 'manual'; expected: string }
   | {
       readonly assertionType: 'snapshot';
@@ -275,7 +313,7 @@ type Assertion =
     };
 
 interface SyntaxError {
-  readonly type: 'MissingSnapshotName' | 'MissingExpectType';
+  readonly type: 'MissingSnapshotName' | 'MissingExpectType' | 'InvalidTwoslash';
   readonly line: number;
 }
 
@@ -286,6 +324,8 @@ interface Assertions {
   readonly typeAssertions: Map<number, Assertion>;
   /** Lines with more than one assertion (these are errors). */
   readonly duplicates: ReadonlyArray<number>;
+  /** Twoslash-style type assertions in the file */
+  readonly twoSlashAssertions: readonly TwoSlashAssertion[];
   /** Syntax Errors */
   readonly syntaxErrors: ReadonlyArray<SyntaxError>;
 }
@@ -295,6 +335,7 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
   const typeAssertions = new Map<number, Assertion>();
   const duplicates: number[] = [];
   const syntaxErrors: SyntaxError[] = [];
+  const twoSlashAssertions: TwoSlashAssertion[] = [];
 
   const { text } = sourceFile;
   const commentRegexp = /\/\/(.*)/g;
@@ -308,60 +349,74 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
     }
     // Match on the contents of that comment so we do nothing in a commented-out assertion,
     // i.e. `// foo; // $ExpectType number`
-    const match = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(commentMatch[1]) as
+    const comment = commentMatch[1];
+    const matchExpect = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(comment) as
       | [never, 'TypeSnapshot' | 'Type' | 'Error', never, string?]
       | null;
-    if (match === null) {
-      continue;
-    }
-    const line = getLine(commentMatch.index);
-    switch (match[1]) {
-      case 'TypeSnapshot':
-        const snapshotName = match[3];
-        if (snapshotName) {
-          if (typeAssertions.delete(line)) {
-            duplicates.push(line);
+    const commentIndex = commentMatch.index;
+    const line = getLine(commentIndex);
+    if (matchExpect) {
+      const directive = matchExpect[1];
+      const payload = matchExpect[3];
+      switch (directive) {
+        case 'TypeSnapshot':
+          const snapshotName = payload;
+          if (snapshotName) {
+            if (typeAssertions.delete(line)) {
+              duplicates.push(line);
+            } else {
+              typeAssertions.set(line, {
+                assertionType: 'snapshot',
+                snapshotName,
+              });
+            }
           } else {
-            typeAssertions.set(line, {
-              assertionType: 'snapshot',
-              snapshotName,
+            syntaxErrors.push({
+              type: 'MissingSnapshotName',
+              line,
             });
           }
-        } else {
-          syntaxErrors.push({
-            type: 'MissingSnapshotName',
-            line,
-          });
-        }
-        break;
+          break;
 
-      case 'Error':
-        if (errorLines.has(line)) {
-          duplicates.push(line);
-        }
-        errorLines.add(line);
-        break;
-
-      case 'Type':
-        const expected = match[3];
-        if (expected) {
-          // Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
-          if (typeAssertions.delete(line)) {
+        case 'Error':
+          if (errorLines.has(line)) {
             duplicates.push(line);
-          } else {
-            typeAssertions.set(line, { assertionType: 'manual', expected });
           }
-        } else {
-          syntaxErrors.push({
-            type: 'MissingExpectType',
-            line,
-          });
+          errorLines.add(line);
+          break;
+
+        case 'Type': {
+          const expected = payload;
+          if (expected) {
+            // Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
+            if (typeAssertions.delete(line)) {
+              duplicates.push(line);
+            } else {
+              typeAssertions.set(line, { assertionType: 'manual', expected });
+            }
+          } else {
+            syntaxErrors.push({
+              type: 'MissingExpectType',
+              line,
+            });
+          }
+          break;
         }
-        break;
+      }
+    } else {
+      // Maybe it's a twoslash assertion
+      const assertion = parseTwoslashAssertion(comment, commentIndex, line, text, lineStarts);
+      if (assertion) {
+        if ('type' in assertion) {
+          syntaxErrors.push(assertion);
+        } else {
+          twoSlashAssertions.push(assertion);
+        }
+      }
     }
   }
 
-  return { errorLines, typeAssertions, duplicates, syntaxErrors };
+  return { errorLines, typeAssertions, duplicates, twoSlashAssertions, syntaxErrors };
 
   function getLine(pos: number): number {
     // advance curLine to be the line preceding 'pos'
@@ -374,6 +429,71 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
   }
 }
 
+function parseTwoslashAssertion(
+  comment: string,
+  commentIndex: number,
+  commentLine: number,
+  sourceText: string,
+  lineStarts: readonly number[],
+): TwoSlashAssertion | SyntaxError | null {
+  const matchTwoslash = /^( *)\^\?(.*)$/.exec(comment) as [never, string, string] | null;
+  if (!matchTwoslash) {
+    return null;
+  }
+  const whitespace = matchTwoslash[1];
+  const rawPayload = matchTwoslash[2];
+  if (rawPayload.length && rawPayload[0] !== ' ') {
+    // This is an error: there must be a space after the ^?
+    return {
+      type: 'InvalidTwoslash',
+      line: commentLine - 1,
+    };
+  }
+  let expected = rawPayload.slice(1); // strip leading space, or leave it as "".
+  if (commentLine === 1) {
+    // This will become an attachment error later.
+    return {
+      position: -1,
+      expected,
+      expectedRange: [-1, -1],
+      expectedPrefix: '',
+      insertSpace: false,
+    };
+  }
+
+  // The position of interest is wherever the "^" (caret) is, but on the previous line.
+  const caretIndex = commentIndex + whitespace.length + 2; // 2 = length of "//"
+  const position = caretIndex - (lineStarts[commentLine - 1] - lineStarts[commentLine - 2]);
+
+  const expectedRange: [number, number] = [
+    commentIndex + whitespace.length + 5,
+    commentLine < lineStarts.length ? lineStarts[commentLine] - 1 : sourceText.length,
+  ];
+  // Peak ahead to the next lines to see if the expected type continues
+  const expectedPrefix = sourceText.slice(lineStarts[commentLine - 1], commentIndex + 2 + whitespace.length) + '   ';
+  for (let nextLine = commentLine; nextLine < lineStarts.length; nextLine++) {
+    const thisLineEnd = nextLine + 1 < lineStarts.length ? lineStarts[nextLine + 1] - 1 : sourceText.length;
+    const lineText = sourceText.slice(lineStarts[nextLine], thisLineEnd + 1);
+    if (lineText.startsWith(expectedPrefix)) {
+      if (nextLine === commentLine) {
+        expected += '\n';
+      }
+      expected += lineText.slice(expectedPrefix.length);
+      expectedRange[1] = thisLineEnd;
+    } else {
+      break;
+    }
+  }
+
+  let insertSpace = false;
+  if (expectedRange[0] > expectedRange[1]) {
+    // this happens if the line ends with "^?" and nothing else
+    expectedRange[0] = expectedRange[1];
+    insertSpace = true;
+  }
+  return { position, expected, expectedRange, expectedPrefix, insertSpace };
+}
+
 function isFirstOnLine(text: string, lineStart: number, pos: number): boolean {
   for (let i = lineStart; i < pos; i++) {
     if (text[i] !== ' ') {
@@ -383,7 +503,7 @@ function isFirstOnLine(text: string, lineStart: number, pos: number): boolean {
   return true;
 }
 
-interface UnmedExpectation {
+interface UnmetExpectation {
   assertion: Assertion;
   node: ts.Node;
   actual: string;
@@ -391,7 +511,7 @@ interface UnmedExpectation {
 
 interface ExpectTypeFailures {
   /** Lines with an $ExpectType, but a different type was there. */
-  readonly unmetExpectations: readonly UnmedExpectation[];
+  readonly unmetExpectations: readonly UnmetExpectation[];
   /** Lines with an $ExpectType, but no node could be found. */
   readonly unusedAssertions: Iterable<number>;
 }
@@ -446,12 +566,26 @@ function matchReadonlyArray(actual: string, expected: string) {
   return true;
 }
 
+function getLanguageServiceHost(program: ts.Program): ts.LanguageServiceHost {
+  return {
+    getCompilationSettings: () => program.getCompilerOptions(),
+    getCurrentDirectory: () => program.getCurrentDirectory(),
+    getDefaultLibFileName: () => 'lib.d.ts',
+    getScriptFileNames: () => program.getSourceFiles().map((sourceFile) => sourceFile.fileName),
+    getScriptSnapshot: (name) => ts.ScriptSnapshot.fromString(program.getSourceFile(name)?.text ?? ''),
+    getScriptVersion: () => '1',
+  };
+}
+
 function getExpectTypeFailures(
   sourceFile: ts.SourceFile,
-  typeAssertions: Assertions['typeAssertions'],
+  assertions: Pick<Assertions, 'typeAssertions' | 'twoSlashAssertions'>,
   checker: ts.TypeChecker,
+  languageService: ts.LanguageService,
 ): ExpectTypeFailures {
-  const unmetExpectations: UnmedExpectation[] = [];
+  const { typeAssertions, twoSlashAssertions } = assertions;
+
+  const unmetExpectations: UnmetExpectation[] = [];
   // Match assertions to the first node that appears on the line they apply to.
   // `forEachChild` isn't available as a method in older TypeScript versions, so must use `ts.forEachChild` instead.
   ts.forEachChild(sourceFile, function iterate(node) {
@@ -460,13 +594,14 @@ function getExpectTypeFailures(
     if (assertion !== undefined) {
       const { expected } = assertion;
 
+      let nodeToCheck = node;
+
       // https://github.com/Microsoft/TypeScript/issues/14077
       if (node.kind === ts.SyntaxKind.ExpressionStatement) {
         node = (node as ts.ExpressionStatement).expression;
       }
-
-      const type = checker.getTypeAtLocation(getNodeForExpectType(node));
-
+      nodeToCheck = getNodeForExpectType(node);
+      const type = checker.getTypeAtLocation(nodeToCheck);
       const actual = type
         ? checker.typeToString(type, /*enclosingDeclaration*/ undefined, ts.TypeFormatFlags.NoTruncation)
         : '';
@@ -480,7 +615,56 @@ function getExpectTypeFailures(
 
     ts.forEachChild(node, iterate);
   });
-  return { unmetExpectations, unusedAssertions: typeAssertions.keys() };
+
+  const twoSlashFailureLines: number[] = [];
+  if (twoSlashAssertions.length) {
+    for (const assertion of twoSlashAssertions) {
+      const { position, expected } = assertion;
+      if (position === -1) {
+        // special case for a twoslash assertion on line 1.
+        twoSlashFailureLines.push(0);
+        continue;
+      }
+      const node = getNodeAtPosition(sourceFile, position);
+      if (!node) {
+        twoSlashFailureLines.push(sourceFile.getLineAndCharacterOfPosition(position).line);
+        continue;
+      }
+
+      const qi = languageService.getQuickInfoAtPosition(sourceFile.fileName, node.getStart());
+      if (!qi?.displayParts) {
+        twoSlashFailureLines.push(sourceFile.getLineAndCharacterOfPosition(position).line);
+        continue;
+      }
+      const actual = qi.displayParts.map((dp) => dp.text).join('');
+      if (!matchModuloWhitespace(actual, expected)) {
+        unmetExpectations.push({ assertion: { assertionType: 'twoslash', ...assertion }, node, actual });
+      }
+    }
+  }
+
+  return { unmetExpectations, unusedAssertions: [...twoSlashFailureLines, ...typeAssertions.keys()] };
+}
+
+function getNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node | undefined {
+  let candidate: ts.Node | undefined = undefined;
+  ts.forEachChild(sourceFile, function iterate(node) {
+    const start = node.getStart();
+    const end = node.getEnd();
+    if (position >= start && position <= end) {
+      candidate = node;
+      ts.forEachChild(node, iterate);
+    }
+  });
+  return candidate;
+}
+
+function matchModuloWhitespace(actual: string, expected: string): boolean {
+  // TODO: it's much easier to normalize actual based on the displayParts
+  //       This isn't 100% correct if a type has a space in it, e.g. type T = "string literal"
+  const normActual = actual.replace(/[\n ]+/g, ' ').trim();
+  const normExpected = expected.replace(/[\n ]+/g, ' ').trim();
+  return normActual === normExpected;
 }
 
 function getNodeForExpectType(node: ts.Node): ts.Node {
