@@ -1,5 +1,5 @@
 import dedent from 'dedent';
-import { runRuleTests } from '../helpers/configs';
+import { filename, runRuleTests } from '../helpers/configs';
 
 runRuleTests({
   valid: [
@@ -9,6 +9,7 @@ runRuleTests({
       // $ExpectTypeSnapshot SnapshotMatches
       const c = { a: 15, b: "b" as const, c: "c" };
     `,
+      filename,
       options: [{ disableExpectTypeSnapshotFix: true }],
     },
   ],
@@ -27,6 +28,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
     {
       code: dedent`
@@ -41,6 +43,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
     // Snapshot not found. Suggestion to run eslint --fix to create snapshot.
     {
@@ -56,6 +59,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
     // Snapshot has different type.
     {
@@ -71,6 +75,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
   ],
 });

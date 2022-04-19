@@ -1,6 +1,6 @@
 import dedent from 'dedent';
 
-import { runRuleTests } from '../helpers/configs';
+import { filename, runRuleTests } from '../helpers/configs';
 
 runRuleTests({
   valid: [
@@ -10,6 +10,7 @@ runRuleTests({
         const t = { a: 17, b: 'on' as const };
         //    ^? const t: { a: number; b: "on"; }
       `,
+      filename,
       options: [],
     },
     // Twoslash type from #4
@@ -19,6 +20,7 @@ runRuleTests({
         const four = square(2);
         //    ^? const four: number
       `,
+      filename,
       options: [],
     },
     // Multiline twoslash
@@ -30,6 +32,7 @@ runRuleTests({
         //         b: "on";
         //       }
       `,
+      filename,
       options: [],
     },
     // Multiline twoslash with another comment after it.
@@ -42,6 +45,7 @@ runRuleTests({
         //       }
         // This is an unrelated, non-twoslash comment.
       `,
+      filename,
       options: [],
     },
     // Test for a type alias
@@ -50,6 +54,7 @@ runRuleTests({
         type MyType = 123;
         //   ^? type MyType = 123
       `,
+      filename,
       options: [],
     },
   ],
@@ -68,6 +73,7 @@ runRuleTests({
           column: 7,
         },
       ],
+      filename,
       output: dedent`
         const square = (x: number) => x * x;
         const four = square(2);
@@ -89,6 +95,7 @@ runRuleTests({
           column: 7,
         },
       ],
+      filename,
       output: dedent`
         const four = 4;
         //    ^? const four: 4
@@ -109,6 +116,7 @@ runRuleTests({
           column: 7,
         },
       ],
+      filename,
       output: dedent`
         const four = 4;
         //    ^? const four: 4
@@ -128,6 +136,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
     // Two twoslash assertions on a single line. Only the first one is used.
     {
@@ -143,6 +152,7 @@ runRuleTests({
           column: 5,
         },
       ],
+      filename,
       output: dedent`
         let x = 4, y = "four";
         //  ^? let x: number
@@ -163,6 +173,7 @@ runRuleTests({
           column: 7,
         },
       ],
+      filename,
       output: dedent`
         const square = (x: number) => x * x;
         const four = square(2);
@@ -185,6 +196,7 @@ runRuleTests({
           column: 7,
         },
       ],
+      filename,
       output: dedent`
         const square = (x: number) => x * x;
         const four = square(2);
@@ -209,6 +221,7 @@ runRuleTests({
           column: 7,
         },
       ],
+      filename,
       output: dedent`
         const t = { a: 17, b: 'on' as const };
         //    ^? const t: {
@@ -231,6 +244,7 @@ runRuleTests({
           column: 7,
         },
       ],
+      filename,
       output: dedent`
         const t = { a: 17, b: 'on' as const };
         //    ^? const t: {
@@ -256,6 +270,7 @@ runRuleTests({
           column: 5,
         },
       ],
+      filename,
       output: dedent`
         let four = 4;
         //    ^? let four: number
@@ -275,6 +290,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
     {
       code: dedent`
@@ -290,6 +306,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
     // Can't have an assertion on the first line of a file.
     {
@@ -305,6 +322,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
   ],
 });

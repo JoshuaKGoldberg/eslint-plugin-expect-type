@@ -2,7 +2,7 @@
  * @file Tests for $ExpectError.
  */
 import dedent from 'dedent';
-import { runRuleTests } from '../helpers/configs';
+import { filename, runRuleTests } from '../helpers/configs';
 
 runRuleTests({
   valid: [
@@ -11,6 +11,7 @@ runRuleTests({
       // $ExpectError
       const t: number = 'a';
     `,
+      filename,
       options: [],
     },
   ],
@@ -28,6 +29,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
   ],
 });

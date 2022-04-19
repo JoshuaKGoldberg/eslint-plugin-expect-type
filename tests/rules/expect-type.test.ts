@@ -1,5 +1,5 @@
 import dedent from 'dedent';
-import { runRuleTests } from '../helpers/configs';
+import { filename, runRuleTests } from '../helpers/configs';
 
 // Valid test cases.
 runRuleTests({
@@ -10,6 +10,7 @@ runRuleTests({
       // $ExpectType number
       const t = 6 as number;
     `,
+      filename,
       options: [],
     },
     // Complex type
@@ -18,6 +19,7 @@ runRuleTests({
       // $ExpectType { a: number; b: "on"; }
       const t = { a: 17, b: 'on' as const };
     `,
+      filename,
       options: [],
     },
     // Ignored TypeScript compiler complaints
@@ -28,6 +30,7 @@ runRuleTests({
         return implicitAnyParam;
       }
     `,
+      filename,
       options: [],
     },
   ],
@@ -45,6 +48,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
     {
       code: dedent`
@@ -59,6 +63,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
     // Complex type - historically (https://github.com/microsoft/TypeScript/issues/9879), dtslint and eslint type comparison fails here
     {
@@ -74,6 +79,7 @@ runRuleTests({
           column: 1,
         },
       ],
+      filename,
     },
   ],
 });
