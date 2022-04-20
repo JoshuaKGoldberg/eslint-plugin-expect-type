@@ -5,6 +5,7 @@ import { createRule } from '../utils/createRule';
 import { getParserServices } from '../utils/getParserServices';
 import { loc } from '../utils/loc';
 import { getTypeSnapshot, updateTypeSnapshot } from '../utils/snapshot';
+import { isDiagnosticWithStart } from '../utils/diagnostics';
 
 const messages = {
   FileIsNotIncludedInTsconfig: 'Expected to find a file "{{ fileName }}" present.',
@@ -117,7 +118,9 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     });
   }
 
-  const seenDiagnosticsOnLine = new Set(diagnostics.map((diagnostic) => lineOfPosition(diagnostic.start!, sourceFile)));
+  const seenDiagnosticsOnLine = new Set(
+    diagnostics.filter(isDiagnosticWithStart).map((diagnostic) => lineOfPosition(diagnostic.start, sourceFile)),
+  );
 
   for (const line of errorLines) {
     if (!seenDiagnosticsOnLine.has(line)) {
