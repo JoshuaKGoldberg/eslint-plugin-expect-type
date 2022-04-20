@@ -3,14 +3,17 @@ import * as path from 'path';
 
 import { MessageIds, name, Options, rule } from '../../src/rules/expect';
 
-export const filename = path.join(__dirname, '..', 'sandbox', 'file.ts');
+const sandboxDirectory = path.join(__dirname, '../sandbox');
+
+export const filename = path.join(sandboxDirectory, 'file.ts');
+export const filenameDts = path.join(sandboxDirectory, 'types.d.ts');
 
 export const runRuleTests = (tests: TSESLint.RunTests<MessageIds, [Options?]>) => {
   const ruleTester = new ESLintUtils.RuleTester({
     parser: '@typescript-eslint/parser',
     parserOptions: {
       sourceType: 'module',
-      project: path.join(path.dirname(filename), 'tsconfig.json'),
+      project: path.join(sandboxDirectory, 'tsconfig.json'),
     },
   });
 
