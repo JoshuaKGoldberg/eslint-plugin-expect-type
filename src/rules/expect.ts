@@ -17,21 +17,15 @@ const messages = {
   TypeSnapshotDoNotMatch: 'Expected type from Snapshot to be: {{ expected }}, got: {{ actual }}',
   SyntaxError: 'Syntax Error: {{ message }}',
 };
-type MessageIds = keyof typeof messages;
+export type MessageIds = keyof typeof messages;
 
 // The options this rule can take.
-type Options = {
-  // readonly expectError: boolean;
-  // readonly expectType: boolean;
-  // readonly expectTypeSnapshot: boolean;
+export type Options = {
   readonly disableExpectTypeSnapshotFix: boolean;
 };
 
 // The default options for the rule.
 const defaultOptions: Options = {
-  // expectError: true,
-  // expectType: true,
-  // expectTypeSnapshot: true,
   disableExpectTypeSnapshotFix: false,
 };
 
@@ -40,15 +34,6 @@ const schema: JSONSchema4 = [
   {
     type: 'object',
     properties: {
-      // expectError: {
-      //   type: 'boolean',
-      // },
-      // expectType: {
-      //   type: 'boolean',
-      // },
-      // expectTypeSnapshot: {
-      //   type: 'boolean',
-      // },
       disableExpectTypeSnapshotFix: {
         type: 'boolean',
       },
