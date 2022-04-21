@@ -1,5 +1,5 @@
 import dedent from 'dedent';
-import { filename, filenameDts, runRuleTests } from '../helpers/configs';
+import { filename, runRuleTests } from '../helpers/configs';
 
 // Valid test cases.
 runRuleTests({
@@ -49,21 +49,6 @@ runRuleTests({
         },
       ],
       filename,
-    },
-    {
-      code: dedent`
-      // $ExpectType number
-      const t = 'a';
-    `,
-      options: [],
-      errors: [
-        {
-          messageId: 'TypesDoNotMatch',
-          line: 2,
-          column: 1,
-        },
-      ],
-      filename: filenameDts,
     },
     {
       code: dedent`
