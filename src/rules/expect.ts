@@ -5,9 +5,9 @@ import { createRule } from '../utils/createRule';
 import { getParserServices } from '../utils/getParserServices';
 import { loc } from '../utils/loc';
 import { getTypeSnapshot, updateTypeSnapshot } from '../utils/snapshot';
+import { isDiagnosticWithStart } from '../utils/diagnostics';
 
 const messages = {
-  TypeScriptCompileError: 'TypeScript compile error: {{ message }}',
   FileIsNotIncludedInTsconfig: 'Expected to find a file "{{ fileName }}" present.',
   TypesDoNotMatch: 'Expected type to be: {{ expected }}, got: {{ actual }}',
   OrphanAssertion: 'Can not match a node to this assertion.',
@@ -84,17 +84,12 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     return;
   }
 
-  const checker = program.getTypeChecker();
-  // Don't care about emit errors.
-  const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
-  if (sourceFile.isDeclarationFile || !/(?:\$Expect(Type|Error|^\?))|\^\?/.test(sourceFile.text)) {
-    // Normal file.
-    for (const diagnostic of diagnostics) {
-      addDiagnosticFailure(diagnostic);
-    }
+  if (!/(?:\$Expect(Type|Error|^\?))|\^\?/.test(sourceFile.text)) {
     return;
   }
 
+  const checker = program.getTypeChecker();
+  const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
   const languageService = ts.createLanguageService(getLanguageServiceHost(program));
   const { errorLines, typeAssertions, twoSlashAssertions, duplicates, syntaxErrors } = parseAssertions(sourceFile);
 
@@ -108,15 +103,9 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
     });
   }
 
-  const seenDiagnosticsOnLine = new Set<number>();
-
-  for (const diagnostic of diagnostics) {
-    const line = lineOfPosition(diagnostic.start!, sourceFile);
-    seenDiagnosticsOnLine.add(line);
-    if (!errorLines.has(line)) {
-      addDiagnosticFailure(diagnostic);
-    }
-  }
+  const seenDiagnosticsOnLine = new Set(
+    diagnostics.filter(isDiagnosticWithStart).map((diagnostic) => lineOfPosition(diagnostic.start, sourceFile)),
+  );
 
   for (const line of errorLines) {
     if (!seenDiagnosticsOnLine.has(line)) {
@@ -235,43 +224,6 @@ function validate(context: TSESLint.RuleContext<MessageIds, [Options]>, options:
         column: 0,
       },
     });
-  }
-
-  function diagnosticShouldBeIgnored(diagnostic: ts.Diagnostic) {
-    const messageText =
-      typeof diagnostic.messageText === 'string' ? diagnostic.messageText : diagnostic.messageText.messageText;
-    return /'.+' is declared but (never used|its value is never read)./.test(messageText);
-  }
-
-  function addDiagnosticFailure(diagnostic: ts.Diagnostic): void {
-    if (diagnosticShouldBeIgnored(diagnostic)) {
-      return;
-    }
-
-    if (diagnostic.file === sourceFile) {
-      const message = `${ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`;
-      context.report({
-        messageId: 'TypeScriptCompileError',
-        data: {
-          message,
-        },
-        loc: {
-          line: diagnostic.start! + 1,
-          column: diagnostic.length!,
-        },
-      });
-    } else {
-      context.report({
-        messageId: 'TypeScriptCompileError',
-        data: {
-          message: `${fileName}${diagnostic.messageText}`,
-        },
-        loc: {
-          line: 1,
-          column: 0,
-        },
-      });
-    }
   }
 }
 
