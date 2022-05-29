@@ -103,6 +103,30 @@ By running `eslint` snapshot type will be matched with actual type and Error wil
 eslint --fix
 ```
 
+## Twoslash syntax (^?)
+
+This plugin also supports twoslash annotations, which is a comment line that starts with two slashes (`// `) and the `^?` identifier to annotate the symbol you're interested in:
+
+```
+const square = (x: number) => x * x;
+const four = square(2);
+//    ^? const four: number
+```
+
+Multiline type annotations are also supported:
+
+```
+const vector = {
+  x: 3,
+  y: 4,
+};
+vector
+// ^? const vector: {
+//        x: number;
+//        y: number;
+//    }
+```
+
 ## References
 
 1. https://github.com/gcanti/dtslint
