@@ -107,7 +107,7 @@ eslint --fix
 
 This plugin also supports twoslash annotations, which is a comment line that starts with two slashes (`// `) and the `^?` identifier to annotate the symbol you're interested in:
 
-```
+```ts
 const square = (x: number) => x * x;
 const four = square(2);
 //    ^? const four: number
@@ -115,7 +115,7 @@ const four = square(2);
 
 Multiline type annotations are also supported:
 
-```
+```ts
 const vector = {
   x: 3,
   y: 4,
