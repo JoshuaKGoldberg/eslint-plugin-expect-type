@@ -120,7 +120,7 @@ const vector = {
   x: 3,
   y: 4,
 };
-vector
+vector;
 // ^? const vector: {
 //        x: number;
 //        y: number;
