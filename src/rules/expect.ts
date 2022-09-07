@@ -511,6 +511,8 @@ function getLanguageServiceHost(program: ts.Program): ts.LanguageServiceHost {
     getScriptFileNames: () => program.getSourceFiles().map((sourceFile) => sourceFile.fileName),
     getScriptSnapshot: (name) => ts.ScriptSnapshot.fromString(program.getSourceFile(name)?.text ?? ''),
     getScriptVersion: () => '1',
+    fileExists: (path) => !!program.getSourceFile(path),
+    readFile: (path) => program.getSourceFile(path)?.text ?? '',
   };
 }
 
