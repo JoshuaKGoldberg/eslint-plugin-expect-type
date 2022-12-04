@@ -1,11 +1,11 @@
-import { ESLintUtils, TSESLint } from '@typescript-eslint/utils';
+import { ESLintUtils } from '@typescript-eslint/utils';
 import * as path from 'path';
 
 import { MessageIds, name, Options, rule } from '../../src/rules/expect';
 
 export const filename = path.join(__dirname, '..', 'sandbox', 'file.ts');
 
-export const runRuleTests = (tests: TSESLint.RunTests<MessageIds, [Options?]>) => {
+export const runRuleTests = (tests: ESLintUtils.RunTests<MessageIds, [Options?]>) => {
   const ruleTester = new ESLintUtils.RuleTester({
     parser: '@typescript-eslint/parser',
     parserOptions: {
