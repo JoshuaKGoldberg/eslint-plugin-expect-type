@@ -1,14 +1,25 @@
 {
-  "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+  "env": {
+    "node": true
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "overrides": [
+    {
+      "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+      "files": ["**/*.{ts,tsx}"],
+      "parserOptions": {
+        "project": ["./tsconfig.json", "./tests/tsconfig.json"]
+      },
+      "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off"
+      }
+    }
+  ],
   "plugins": ["@typescript-eslint", "@typescript-eslint/eslint-plugin", "prettier"],
   "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
+  "root": true,
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "no-case-declarations": "off",
+    "no-constant-condition": "off"
   }
 }
