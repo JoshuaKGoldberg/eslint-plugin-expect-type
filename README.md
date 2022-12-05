@@ -1,6 +1,17 @@
 # eslint-plugin-expect-type
 
-ESLint plugin with $ExpectType and $ExpectError type assertions
+> ESLint plugin with `^?` Twoslash, `$ExpectError`, and `$ExpectType` type assertions. ✨
+
+```ts
+9001;
+// ^? number
+
+// $ExpectError
+const value: string = 9001;
+
+// $ExpectType number
+9001;
+```
 
 ## Installation
 
@@ -10,129 +21,44 @@ Make sure you have TypeScript and @typescript-eslint/parser installed, then inst
 npm i -D eslint-plugin-expect-type
 ```
 
-Please also make sure the following packages are also installed:
-
-```sh
-npm i -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
-```
+> See [typescript-eslint's Getting Started docs](https://typescript-eslint.io/docs) for how to run ESLint on TypeScript files.
 
 ## Usage
 
-Please add the following options to your `.eslintrc`
+Add the following options to your [ESLint configuration file](https://eslint.org/docs/latest/user-guide/configuring/configuration-files):
 
 ```json
 {
-  "extends": ["plugin:eslint-plugin-expect-type/recommended"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "plugins": ["eslint-plugin-expect-type"],
-  "root": true
+  "extends": ["plugin:expect-type/recommended"],
+  "plugins": ["eslint-plugin-expect-type"]
 }
 ```
 
-Rule severity could be configured as follows
+Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTypeSnapshot` comments in code assert on types.
 
-```json
-{
-  "rules": {
-    "expect-type/expect": "error"
-  }
-}
-```
+<!-- prettier-ignore-start -->
+<!-- begin auto-generated rules list -->
 
-To skip Snapshot update when eslint is run with `--fix` could be configured as follows:
+💼 Configurations enabled in.\
+✅ Set in the `recommended` configuration.\
+🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
+💭 Requires type information.
 
-```json
-{
-  "rules": {
-    "expect-type/expect": ["error", { "disableExpectTypeSnapshotFix": true }]
-  }
-}
-```
+| Name                           | Description                                | 💼 | 🔧 | 💭 |
+| :----------------------------- | :----------------------------------------- | :- | :- | :- |
+| [expect](docs/rules/expect.md) | Expects type error, type snapshot or type. | ✅  | 🔧 | 💭 |
 
-**Note: Make sure to use `eslint --ext .js,.ts` since by [default](https://eslint.org/docs/user-guide/command-line-interface#--ext) `eslint` will only search for .js files.**
-
-## Adding $ExpectType and $ExpectError type assertions
-
-> A test file should be a piece of sample code that tests using the library. Tests are type-checked, but not run. To assert that an expression is of a given type, use $ExpectType. To assert that an expression causes a compile error, use $ExpectError. (Assertions will be checked by the expect lint rule.)
-
-(https://github.com/Microsoft/dtslint#write-tests)
-
-```ts
-import foo from 'lib-to-test'; // foo is (n: number) => void
-
-// $ExpectType void
-foo(1);
-
-// Can also write the assertion on the same line.
-foo(2); // $ExpectType void
-
-// $ExpectError
-foo('bar');
-```
-
-## Adding \$ExpectTypeSnapshot
-
-Uses snapshot saved in file as expected type for expression.
-
-Example:
-
-**foo.test.ts**
-
-```ts
-// $ExpectTypeSnapshot MyFooSnapshot
-const Foo = {
-  a: 1,
-  n: 17,
-} as const;
-```
-
-By running `eslint --fix` the following file will be created in the folder of `foo.test.ts`:
-
-```plaintext
-__type-snapshots__/foo.test.ts.snap.json
-```
-
-By running `eslint` snapshot type will be matched with actual type and Error will be emitted in case types don't match.
-
-### To create/update snapshots
-
-```sh
-eslint --fix
-```
-
-## Twoslash syntax (^?)
-
-This plugin also supports twoslash annotations, which is a comment line that starts with two slashes (`// `) and the `^?` identifier to annotate the symbol you're interested in:
-
-```ts
-const square = (x: number) => x * x;
-const four = square(2);
-//    ^? const four: number
-```
-
-Multiline type annotations are also supported:
-
-```ts
-const vector = {
-  x: 3,
-  y: 4,
-};
-vector;
-// ^? const vector: {
-//        x: number;
-//        y: number;
-//    }
-```
+<!-- end auto-generated rules list -->
+<!-- prettier-ignore-end -->
 
 ## References
 
-1. https://github.com/gcanti/dtslint
-2. https://github.com/Microsoft/dtslint
-3. https://github.com/SamVerschueren/tsd
+You might consider using other popular type assertion libraries in the TypeScript ecosystem:
+
+- **[expect-type](https://github.com/mmkal/expect-type)**: Provides functions that return assorted generic type assertion methods, such as `expectTypeOf('abc').toMatchTypeOf<string>()`.
+- **[ts-expect](https://github.com/mmkal/expect-type)**: Provides generic type assertion function, used like `expectType<string>('abc')()`.
+- **[tsd](https://github.com/SamVerschueren/tsd)**: Allows writing tests specifically for `.d.ts` definition files.
 
 ## Appreciation
 
-Many thanks to @ibezkrovnyi for creating the initial version and core infrastructure of this package! 💖
+Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the initial version and core infrastructure of this package! 💖
