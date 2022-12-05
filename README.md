@@ -36,7 +36,7 @@ Add the following options to your [ESLint configuration file](https://eslint.org
 
 Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTypeSnapshot` comments in code assert on types.
 
-<!-- prettier-ignore -->
+<!-- prettier-ignore-start -->
 <!-- begin auto-generated rules list -->
 
 💼 Configurations enabled in.\
@@ -49,7 +49,7 @@ Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTyp
 | [expect](docs/rules/expect.md) | Expects type error, type snapshot or type. | ✅  | 🔧 | 💭 |
 
 <!-- end auto-generated rules list -->
-<!-- /prettier-ignore -->
+<!-- prettier-ignore-end -->
 
 ## References
 
