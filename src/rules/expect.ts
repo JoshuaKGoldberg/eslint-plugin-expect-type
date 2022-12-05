@@ -48,7 +48,7 @@ export const rule = createRule<[Options], MessageIds>({
   meta: {
     type: 'problem',
     docs: {
-      description: 'Expects type error, type snapshot or type.',
+      description: 'Expects type error, type snapshot, or type.',
       recommended: 'error',
       requiresTypeChecking: true,
     },

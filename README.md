@@ -1,6 +1,17 @@
 # eslint-plugin-expect-type
 
-> ESLint plugin with `^?`, `$ExpectError`, and `$ExpectType` type assertions. ✨
+> ESLint plugin with `^?` Twoslash, `$ExpectError`, and `$ExpectType` type assertions. ✨
+
+```ts
+9001;
+// ^? number
+
+// $ExpectError
+const value: string = 9001;
+
+// $ExpectType number
+9001;
+```
 
 ## Installation
 
@@ -23,6 +34,8 @@ Add the following options to your [ESLint configuration file](https://eslint.org
 }
 ```
 
+Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTypeSnapshot` comments in code assert on types.
+
 <!-- prettier-ignore -->
 <!-- begin auto-generated rules list -->
 
@@ -31,9 +44,9 @@ Add the following options to your [ESLint configuration file](https://eslint.org
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
 💭 Requires type information.
 
-| Name                           | Description                                | 💼  | 🔧  | 💭  |
-| :----------------------------- | :----------------------------------------- | :-- | :-- | :-- |
-| [expect](docs/rules/expect.md) | Expects type error, type snapshot or type. | ✅  | 🔧  | 💭  |
+| Name                           | Description                                | 💼 | 🔧 | 💭 |
+| :----------------------------- | :----------------------------------------- | :- | :- | :- |
+| [expect](docs/rules/expect.md) | Expects type error, type snapshot or type. | ✅  | 🔧 | 💭 |
 
 <!-- end auto-generated rules list -->
 <!-- /prettier-ignore -->

@@ -17,18 +17,16 @@ The following kinds of comments are supported:
 <!-- Markdownlint doesn't seem to understand the heading IDs... -->
 <!-- markdownlint-disable link-fragments -->
 
-- [`^?`](#twoslash)
+- [`^?` (Twoslash Syntax)](#twoslash-syntax)
+- [`$ExpectError`](#expecterror)
 - [`$ExpectType`](#expecttype)
 - [`$ExpectTypeSnapshot`](#expecttypesnapshot)
-- [`$ExpectError`](#expecterror)
 
 <!-- markdownlint-enable link-fragments -->
 
 ### Twoslash Syntax (`^?`)
 
-[Twoslash](https://www.typescriptlang.org/dev/twoslash) is the term for special comment directives in TypeScript code for tools such as this one.
-This plugin supports "twoslash assertions", which are comments containing `^?` and a type below a value in code to check that the value is that type.
-
+Twoslash annotations are comment lines that start with two slashes (// ) and the ^? identifier to annotate a type below a value in code.
 For example:
 
 ```ts
@@ -68,7 +66,14 @@ vector;
 
 ### `$ExpectError`
 
-Asserts that a particular line of code.
+Place this above a line of code to assert that it causes a TypeScript type error.
+
+For example:
+
+```ts
+// $ExpectError
+const value: number = 'abc';
+```
 
 > ⚠️ `$ExpectError` does not suppress TypeScript type errors.
 > Only TypeScript comment directives such as `// @ts-expect-error` may do that.

@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-expect-type",
   "version": "0.2.1",
-  "description": "ESLint plugin with ^?, $ExpectError, and $ExpectType type assertions",
+  "description": "ESLint plugin with ^? Twoslash, $ExpectError, and $ExpectType type assertions",
   "author": {
     "name": "Josh Goldberg"
   },
