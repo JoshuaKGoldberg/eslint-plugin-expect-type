@@ -531,7 +531,7 @@ function getExpectTypeFailures(
     const line = lineOfPosition(node.getStart(sourceFile), sourceFile);
     const assertion = typeAssertions.get(line);
     if (assertion !== undefined) {
-      const { expected } = assertion;
+      const expected = assertion.expected?.trim();
 
       let nodeToCheck = node;
 
@@ -542,7 +542,7 @@ function getExpectTypeFailures(
       nodeToCheck = getNodeForExpectType(node);
       const type = checker.getTypeAtLocation(nodeToCheck);
       const actual = type
-        ? checker.typeToString(type, /*enclosingDeclaration*/ undefined, ts.TypeFormatFlags.NoTruncation)
+        ? checker.typeToString(type, /*enclosingDeclaration*/ undefined, ts.TypeFormatFlags.NoTruncation).trim()
         : '';
 
       if (!expected || (actual !== expected && !matchReadonlyArray(actual, expected))) {
