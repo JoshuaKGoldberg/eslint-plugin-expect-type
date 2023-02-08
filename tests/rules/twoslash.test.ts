@@ -57,6 +57,16 @@ runRuleTests({
       filename,
       options: [],
     },
+    // Make sure we handle path mappings in package.json
+    {
+      code: dedent`
+        import { FooString } from "./package";
+        type Bar = FooString | number;
+        //   ^? type Bar = string | number
+      `,
+      filename,
+      options: [],
+    },
   ],
   invalid: [
     {
