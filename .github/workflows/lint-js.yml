@@ -1,0 +1,15 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/prepare
+      - run: npm run lint:js
+
+name: Lint (JS)
+
+on:
+  pull_request: ~
+  push:
+    branches:
+      - main
