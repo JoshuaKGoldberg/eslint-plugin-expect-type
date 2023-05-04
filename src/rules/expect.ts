@@ -507,12 +507,16 @@ function getLanguageServiceHost(program: ts.Program): ts.LanguageServiceHost {
   return {
     getCompilationSettings: () => program.getCompilerOptions(),
     getCurrentDirectory: () => program.getCurrentDirectory(),
-    getDefaultLibFileName: () => 'lib.d.ts',
+    getDefaultLibFileName: (options) => ts.getDefaultLibFilePath(options),
     getScriptFileNames: () => program.getSourceFiles().map((sourceFile) => sourceFile.fileName),
     getScriptSnapshot: (name) => ts.ScriptSnapshot.fromString(program.getSourceFile(name)?.text ?? ''),
     getScriptVersion: () => '1',
-    fileExists: (path) => !!program.getSourceFile(path),
-    readFile: (path) => program.getSourceFile(path)?.text ?? '',
+    // NB: We can't check `program` for files, it won't contain valid files like package.json
+    fileExists: ts.sys.fileExists,
+    readFile: ts.sys.readFile,
+    readDirectory: ts.sys.readDirectory,
+    directoryExists: ts.sys.directoryExists,
+    getDirectories: ts.sys.getDirectories,
   };
 }
 
@@ -601,8 +605,8 @@ function getNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node
 function matchModuloWhitespace(actual: string, expected: string): boolean {
   // TODO: it's much easier to normalize actual based on the displayParts
   //       This isn't 100% correct if a type has a space in it, e.g. type T = "string literal"
-  const normActual = actual.replace(/[\n ]+/g, ' ').trim();
-  const normExpected = expected.replace(/[\n ]+/g, ' ').trim();
+  const normActual = actual.replace(/[\n\r ]+/g, ' ').trim();
+  const normExpected = expected.replace(/[\n\r ]+/g, ' ').trim();
   return normActual === normExpected;
 }
 
