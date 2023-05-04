@@ -611,16 +611,10 @@ function matchModuloWhitespace(actual: string, expected: string): boolean {
 }
 
 function getNodeForExpectType(node: ts.Node): ts.Node {
-  if (node.kind === ts.SyntaxKind.VariableStatement) {
-    // ts2.0 doesn't have `isVariableStatement`
-    const {
-      declarationList: { declarations },
-    } = node as ts.VariableStatement;
-    if (declarations.length === 1) {
-      const { initializer } = declarations[0];
-      if (initializer) {
-        return initializer;
-      }
+  if (ts.isVariableStatement(node)) {
+    const { initializer } = node.declarationList.declarations[0];
+    if (initializer) {
+      return initializer;
     }
   }
   return node;

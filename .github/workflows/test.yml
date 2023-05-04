@@ -1,19 +1,17 @@
 jobs:
-  ci:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/prepare
-      - name: Install Dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
-      - run: npm run ${{ matrix.command }}
+      - run: npm i typescript@${{ matrix.typescript }}
+      - run: npm run test --coverage
     strategy:
       fail-fast: false
       matrix:
-        command: ['build', 'format:check', 'lint']
+        typescript: ['4.2', '4.6', '5.0', 'latest']
 
-name: CI
+name: Test
 
 on:
   pull_request: ~

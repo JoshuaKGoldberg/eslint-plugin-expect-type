@@ -15,7 +15,7 @@ const value: string = 9001;
 
 ## Installation
 
-Make sure you have TypeScript and @typescript-eslint/parser installed, then install the plugin:
+Make sure you have TypeScript >=4.2 and @typescript-eslint/parser installed, then install the plugin:
 
 ```sh
 npm i -D eslint-plugin-expect-type
