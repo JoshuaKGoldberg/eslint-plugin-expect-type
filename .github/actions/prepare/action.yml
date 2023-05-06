@@ -6,8 +6,8 @@ runs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        cache: 'npm'
-        node-version: '18'
+        cache: npm
+        node-version: 18
     - run: npm install --frozen-lockfile
       shell: bash
   using: composite
