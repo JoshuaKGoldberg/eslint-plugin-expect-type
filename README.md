@@ -15,7 +15,7 @@ const value: string = 9001;
 
 ## Installation
 
-Make sure you have TypeScript and @typescript-eslint/parser installed, then install the plugin:
+Make sure you have TypeScript >=4.2 and @typescript-eslint/parser installed, then install the plugin:
 
 ```sh
 npm i -D eslint-plugin-expect-type
@@ -44,9 +44,9 @@ Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTyp
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
 💭 Requires type information.
 
-| Name                           | Description                                | 💼 | 🔧 | 💭 |
-| :----------------------------- | :----------------------------------------- | :- | :- | :- |
-| [expect](docs/rules/expect.md) | Expects type error, type snapshot or type. | ✅  | 🔧 | 💭 |
+| Name                           | Description                                 | 💼 | 🔧 | 💭 |
+| :----------------------------- | :------------------------------------------ | :- | :- | :- |
+| [expect](docs/rules/expect.md) | Expects type error, type snapshot, or type. | ✅  | 🔧 | 💭 |
 
 <!-- end auto-generated rules list -->
 <!-- prettier-ignore-end -->

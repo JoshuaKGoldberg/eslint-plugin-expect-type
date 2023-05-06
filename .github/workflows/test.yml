@@ -1,0 +1,20 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/prepare
+      - run: npm i typescript@${{ matrix.typescript }}
+      - run: npm run test --coverage
+    strategy:
+      fail-fast: false
+      matrix:
+        typescript: ['4.2', '4.6', '5.0', 'latest']
+
+name: Test
+
+on:
+  pull_request: ~
+  push:
+    branches:
+      - main
