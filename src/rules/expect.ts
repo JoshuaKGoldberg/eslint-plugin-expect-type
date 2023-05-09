@@ -274,7 +274,7 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
   const syntaxErrors: SyntaxError[] = [];
   const twoSlashAssertions: TwoSlashAssertion[] = [];
 
-  const { text } = sourceFile;
+  const text = sourceFile.text.replace(/\t/gu, '   ');
   const commentRegexp = /\/\/(.*)/g;
   const lineStarts = sourceFile.getLineStarts();
   let curLine = 0;
