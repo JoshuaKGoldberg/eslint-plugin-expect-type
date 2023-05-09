@@ -433,7 +433,7 @@ function parseTwoslashAssertion(
 
 function isFirstOnLine(text: string, lineStart: number, pos: number): boolean {
   for (let i = lineStart; i < pos; i++) {
-    if (text[i] !== ' ') {
+    if (/\S/.test(text[i])) {
       return false;
     }
   }
