@@ -67,6 +67,14 @@ runRuleTests({
       filename,
       options: [],
     },
+    // Tab indentation: #64
+    {
+      code: `
+	const bar = {"test": 123}
+	//    ^? const bar: { test: number; }
+      `,
+      filename,
+    },
   ],
   invalid: [
     {
