@@ -3,8 +3,8 @@
 > ESLint plugin with `^?` Twoslash, `$ExpectError`, and `$ExpectType` type assertions. ✨
 
 ```ts
-9001;
-// ^? number
+let val = 9001;
+//  ^? let val: number
 
 // $ExpectError
 const value: string = 9001;
@@ -56,7 +56,7 @@ Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTyp
 You might consider using other popular type assertion libraries in the TypeScript ecosystem:
 
 - **[expect-type](https://github.com/mmkal/expect-type)**: Provides functions that return assorted generic type assertion methods, such as `expectTypeOf('abc').toMatchTypeOf<string>()`.
-- **[ts-expect](https://github.com/mmkal/expect-type)**: Provides generic type assertion function, used like `expectType<string>('abc')()`.
+- **[ts-expect](https://github.com/TypeStrong/ts-expect)**: Provides generic type assertion function, used like `expectType<string>('abc')()`.
 - **[tsd](https://github.com/SamVerschueren/tsd)**: Allows writing tests specifically for `.d.ts` definition files.
 
 ## Appreciation

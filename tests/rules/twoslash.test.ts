@@ -13,6 +13,14 @@ runRuleTests({
       filename,
       options: [],
     },
+    {
+      code: dedent`
+      let val = 9001;
+      //  ^? let val: number
+      `,
+      filename,
+      options: [],
+    },
     // Twoslash type from #4
     {
       code: dedent`
