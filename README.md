@@ -3,8 +3,8 @@
 > ESLint plugin with `^?` Twoslash, `$ExpectError`, and `$ExpectType` type assertions. ✨
 
 ```ts
-9001;
-// ^? number
+let val = 9001;
+//  ^? let val: number
 
 // $ExpectError
 const value: string = 9001;
