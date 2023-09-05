@@ -1,81 +1,82 @@
-import dedent from 'dedent';
-import { filename, runRuleTests } from '../helpers/configs';
+import dedent from "dedent";
+
+import { filename, runRuleTests } from "../helpers/configs.js";
 
 runRuleTests({
-  valid: [
-    // Snapshot matches.
-    {
-      code: dedent`
-      // $ExpectTypeSnapshot SnapshotMatches
-      const c = { a: 15, b: "b" as const, c: "c" };
-    `,
-      filename,
-      options: [{ disableExpectTypeSnapshotFix: true }],
-    },
-  ],
-  invalid: [
-    // Snapshot name is not specified
-    {
-      code: dedent`
+	invalid: [
+		// Snapshot name is not specified
+		{
+			code: dedent`
       // $ExpectTypeSnapshot
       const Button = class {};
     `,
-      options: [],
-      errors: [
-        {
-          messageId: 'SyntaxError',
-          line: 2,
-          column: 1,
-        },
-      ],
-      filename,
-    },
-    {
-      code: dedent`
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "SyntaxError",
+				},
+			],
+			filename,
+			options: [],
+		},
+		{
+			code: dedent`
       //$ExpectTypeSnapshot
       const Button = class {};
     `,
-      options: [],
-      errors: [
-        {
-          messageId: 'SyntaxError',
-          line: 2,
-          column: 1,
-        },
-      ],
-      filename,
-    },
-    // Snapshot not found. Suggestion to run eslint --fix to create snapshot.
-    {
-      code: dedent`
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "SyntaxError",
+				},
+			],
+			filename,
+			options: [],
+		},
+		// Snapshot not found. Suggestion to run eslint --fix to create snapshot.
+		{
+			code: dedent`
       // $ExpectTypeSnapshot snapshot-not-found
       const configA = { a: 15, b: "b" as const, c: "c" };
     `,
-      options: [{ disableExpectTypeSnapshotFix: true }],
-      errors: [
-        {
-          messageId: 'TypeSnapshotNotFound',
-          line: 2,
-          column: 1,
-        },
-      ],
-      filename,
-    },
-    // Snapshot has different type.
-    {
-      code: dedent`
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "TypeSnapshotNotFound",
+				},
+			],
+			filename,
+			options: [{ disableExpectTypeSnapshotFix: true }],
+		},
+		// Snapshot has different type.
+		{
+			code: dedent`
       // $ExpectTypeSnapshot TypeSnapshotDoNotMatch
       const configB = { a: 15, b: "b" as const, c: "c" };
     `,
-      options: [{ disableExpectTypeSnapshotFix: true }],
-      errors: [
-        {
-          messageId: 'TypeSnapshotDoNotMatch',
-          line: 2,
-          column: 1,
-        },
-      ],
-      filename,
-    },
-  ],
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "TypeSnapshotDoNotMatch",
+				},
+			],
+			filename,
+			options: [{ disableExpectTypeSnapshotFix: true }],
+		},
+	],
+	valid: [
+		// Snapshot matches.
+		{
+			code: dedent`
+      // $ExpectTypeSnapshot SnapshotMatches
+      const c = { a: 15, b: "b" as const, c: "c" };
+    `,
+			filename,
+			options: [{ disableExpectTypeSnapshotFix: true }],
+		},
+	],
 });

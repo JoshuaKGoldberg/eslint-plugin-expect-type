@@ -1,4 +1,4 @@
 {
-  "TypeSnapshotDoNotMatch": "{ a: number; b: \"b\"; c: boolean; }",
-  "SnapshotMatches": "{ a: number; b: \"b\"; c: string; }"
+	"SnapshotMatches": "{ a: number; b: \"b\"; c: string; }",
+	"TypeSnapshotDoNotMatch": "{ a: number; b: \"b\"; c: boolean; }"
 }

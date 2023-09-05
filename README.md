@@ -1,13 +1,27 @@
-# eslint-plugin-expect-type
+<h1 align="center">eslint-plugin-expect-type</h1>
 
-> ESLint plugin with `^?` Twoslash, `$ExpectError`, and `$ExpectType` type assertions. ✨
+<p align="center">ESLint plugin with ^? Twoslash, $ExpectError, and $ExpectType type assertions. 🧩</p>
+
+<p align="center">
+	<a href="https://codecov.io/gh/JoshuaKGoldberg/eslint-plugin-expect-type" target="_blank">
+		<img alt="Codecov Test Coverage" src="https://codecov.io/gh/JoshuaKGoldberg/eslint-plugin-expect-type/branch/main/graph/badge.svg"/>
+	</a>
+	<a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/blob/main/.github/CODE_OF_CONDUCT.md" target="_blank">
+		<img alt="Contributor Covenant" src="https://img.shields.io/badge/code_of_conduct-enforced-21bb42" />
+	</a>
+	<a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/blob/main/LICENSE.md" target="_blank">
+		<img alt="License: MIT" src="https://img.shields.io/github/license/JoshuaKGoldberg/eslint-plugin-expect-type?color=21bb42">
+	</a>
+	<img alt="Style: Prettier" src="https://img.shields.io/badge/style-prettier-21bb42.svg" />
+	<img alt="TypeScript: Strict" src="https://img.shields.io/badge/typescript-strict-21bb42.svg" />
+</p>
 
 ```ts
-let val = 9001;
-//  ^? let val: number
+let value = 9001;
+//  ^? let value: number
 
 // $ExpectError
-const value: string = 9001;
+let = "over nine thousand";
 
 // $ExpectType number
 9001;
@@ -29,8 +43,8 @@ Add the following options to your [ESLint configuration file](https://eslint.org
 
 ```json
 {
-  "extends": ["plugin:expect-type/recommended"],
-  "plugins": ["eslint-plugin-expect-type"]
+	"extends": ["plugin:expect-type/recommended"],
+	"plugins": ["eslint-plugin-expect-type"]
 }
 ```
 
@@ -62,3 +76,5 @@ You might consider using other popular type assertion libraries in the TypeScrip
 ## Appreciation
 
 Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the initial version and core infrastructure of this package! 💖
+
+> 💙 This package is based on [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)'s [create-typescript-app](https://github.com/JoshuaKGoldberg/create-typescript-app).
