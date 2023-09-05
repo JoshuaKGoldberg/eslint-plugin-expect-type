@@ -1,5 +1,4 @@
-import { TSESLint } from "@typescript-eslint/utils";
-import { JSONSchema4 } from "json-schema";
+import { ESLintUtils, TSESLint } from "@typescript-eslint/utils";
 import ts from "typescript";
 
 import { createRule } from "../utils/createRule.js";
@@ -34,20 +33,8 @@ const defaultOptions: Options = {
 	disableExpectTypeSnapshotFix: false,
 };
 
-// The schema for the rule options.
-const schema: JSONSchema4 = [
-	{
-		additionalProperties: false,
-		properties: {
-			disableExpectTypeSnapshotFix: {
-				type: "boolean",
-			},
-		},
-		type: "object",
-	},
-];
-
 export const name = "expect";
+
 export const rule = createRule<[Options], MessageIds>({
 	create(context, [options]) {
 		validate(context, options);
@@ -58,12 +45,21 @@ export const rule = createRule<[Options], MessageIds>({
 	meta: {
 		docs: {
 			description: "Expects type error, type snapshot, or type.",
-			recommended: "error",
 			requiresTypeChecking: true,
 		},
 		fixable: "code",
 		messages,
-		schema,
+		schema: [
+			{
+				additionalProperties: false,
+				properties: {
+					disableExpectTypeSnapshotFix: {
+						type: "boolean",
+					},
+				},
+				type: "object",
+			},
+		],
 		type: "problem",
 	},
 	name,
@@ -73,11 +69,12 @@ function validate(
 	context: TSESLint.RuleContext<MessageIds, [Options]>,
 	options: Options,
 ): void {
-	const parserServices = getParserServices(context);
+	const parserServices = ESLintUtils.getParserServices(context);
+	getParserServices(context);
 	const { program } = parserServices;
 
 	const fileName = context.getFilename();
-	const sourceFile = program.getSourceFile(fileName)!;
+	const sourceFile = program.getSourceFile(fileName);
 	if (!sourceFile) {
 		context.report({
 			data: {

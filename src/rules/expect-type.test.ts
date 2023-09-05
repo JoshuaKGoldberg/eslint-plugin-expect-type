@@ -1,9 +1,10 @@
 import dedent from "dedent";
 
-import { filename, runRuleTests } from "../helpers/configs.js";
+import { rule as expect } from "./expect.js";
+import { filename, ruleTester } from "./ruleTester.js";
 
 // Valid test cases.
-runRuleTests({
+ruleTester.run("expect", expect, {
 	invalid: [
 		{
 			code: dedent`
@@ -18,7 +19,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 		{
 			code: dedent`
@@ -33,7 +33,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 		// Complex type - historically (https://github.com/microsoft/TypeScript/issues/9879), dtslint and eslint type comparison fails here
 		{
@@ -49,7 +48,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 	],
 	valid: [
@@ -60,7 +58,6 @@ runRuleTests({
       const t = 6 as number;
     `,
 			filename,
-			options: [],
 		},
 		// Complex type
 		{
@@ -69,7 +66,6 @@ runRuleTests({
       const t = { a: 17, b: 'on' as const };
     `,
 			filename,
-			options: [],
 		},
 		// Ignored TypeScript compiler complaints
 		{
@@ -80,7 +76,6 @@ runRuleTests({
       }
     `,
 			filename,
-			options: [],
 		},
 	],
 });

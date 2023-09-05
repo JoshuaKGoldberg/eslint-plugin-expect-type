@@ -1,8 +1,9 @@
 import dedent from "dedent";
 
-import { filename, runRuleTests } from "../helpers/configs.js";
+import { rule as expect } from "./expect.js";
+import { filename, ruleTester } from "./ruleTester.js";
 
-runRuleTests({
+ruleTester.run("expect", expect, {
 	invalid: [
 		// Snapshot name is not specified
 		{
@@ -18,7 +19,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 		{
 			code: dedent`
@@ -33,7 +33,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 		// Snapshot not found. Suggestion to run eslint --fix to create snapshot.
 		{

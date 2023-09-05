@@ -23,6 +23,7 @@
 		"outro",
 		"packagejson",
 		"quickstart",
+		"TSESLint",
 		"tsup",
 		"twoslash",
 		"wontfix"

@@ -1,8 +1,10 @@
 import dedent from "dedent";
 
-import { filename, runRuleTests } from "../helpers/configs.js";
+import { rule as expect } from "./expect.js";
+import { filename, ruleTester } from "./ruleTester.js";
 
-runRuleTests({
+// Valid test cases.
+ruleTester.run("expect", expect, {
 	invalid: [
 		{
 			code: dedent`
@@ -18,7 +20,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         const square = (x: number) => x * x;
         const four = square(2);
@@ -40,7 +41,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         const four = 4;
         //    ^? const four: 4
@@ -61,7 +61,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         const four = 4;
         //    ^? const four: 4
@@ -81,7 +80,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 		// Two twoslash assertions on a single line. Only the first one is used.
 		{
@@ -97,7 +95,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         let x = 4, y = "four";
         //  ^? let x: number
@@ -118,7 +115,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         const square = (x: number) => x * x;
         const four = square(2);
@@ -141,7 +137,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         const square = (x: number) => x * x;
         const four = square(2);
@@ -166,7 +161,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         const t = { a: 17, b: 'on' as const };
         //    ^? const t: {
@@ -189,7 +183,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         const t = { a: 17, b: 'on' as const };
         //    ^? const t: {
@@ -215,7 +208,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 			output: dedent`
         let four = 4;
         //    ^? let four: number
@@ -235,7 +227,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 		{
 			code: dedent`
@@ -251,7 +242,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 		// Can't have an assertion on the first line of a file.
 		{
@@ -267,7 +257,6 @@ runRuleTests({
 				},
 			],
 			filename,
-			options: [],
 		},
 	],
 	valid: [
@@ -278,7 +267,6 @@ runRuleTests({
         //    ^? const t: { a: number; b: "on"; }
       `,
 			filename,
-			options: [],
 		},
 		{
 			code: dedent`
@@ -286,7 +274,6 @@ runRuleTests({
       //  ^? let val: number
       `,
 			filename,
-			options: [],
 		},
 		// Twoslash type from #4
 		{
@@ -296,7 +283,6 @@ runRuleTests({
         //    ^? const four: number
       `,
 			filename,
-			options: [],
 		},
 		// Multiline twoslash
 		{
@@ -308,7 +294,6 @@ runRuleTests({
         //       }
       `,
 			filename,
-			options: [],
 		},
 		// Multiline twoslash with another comment after it.
 		{
@@ -321,7 +306,6 @@ runRuleTests({
         // This is an unrelated, non-twoslash comment.
       `,
 			filename,
-			options: [],
 		},
 		// Test for a type alias
 		{
@@ -330,7 +314,6 @@ runRuleTests({
         //   ^? type MyType = 123
       `,
 			filename,
-			options: [],
 		},
 		// Make sure we handle path mappings in package.json
 		{
@@ -340,7 +323,6 @@ runRuleTests({
         //   ^? type Bar = string | number
       `,
 			filename,
-			options: [],
 		},
 		// Tab indentation: #64
 		{
