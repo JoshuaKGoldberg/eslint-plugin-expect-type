@@ -23,6 +23,7 @@ module.exports = {
 				"plugin:jsdoc/recommended-typescript-error",
 				"plugin:@typescript-eslint/strict",
 				"plugin:@typescript-eslint/stylistic",
+				"plugin:eslint-plugin/recommended",
 			],
 			files: ["**/*.ts"],
 			parser: "@typescript-eslint/parser",
@@ -41,6 +42,13 @@ module.exports = {
 				"jsdoc/require-param": "off",
 				"jsdoc/require-property": "off",
 				"jsdoc/require-returns": "off",
+			},
+		},
+		{
+			files: ["**/*.md/*.ts"],
+			rules: {
+				// Ignore unused variables in docs, as we intentionally use them sometimes
+				"@typescript-eslint/no-unused-vars": "off",
 			},
 		},
 		{

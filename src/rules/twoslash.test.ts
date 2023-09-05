@@ -1,9 +1,8 @@
 import dedent from "dedent";
 
-import { rule as expect } from "./expect.js";
+import { expect } from "./expect.js";
 import { filename, ruleTester } from "./ruleTester.js";
 
-// Valid test cases.
 ruleTester.run("expect", expect, {
 	invalid: [
 		{

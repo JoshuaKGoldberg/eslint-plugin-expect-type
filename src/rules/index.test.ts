@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import { describe, expect, it } from "vitest";
 
 import { rules } from "../../src/rules/index.js";
 

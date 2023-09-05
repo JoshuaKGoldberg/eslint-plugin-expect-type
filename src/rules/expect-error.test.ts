@@ -1,6 +1,6 @@
 import dedent from "dedent";
 
-import { rule as expect } from "./expect.js";
+import { expect } from "./expect.js";
 import { filename, ruleTester } from "./ruleTester.js";
 
 ruleTester.run("expect", expect, {

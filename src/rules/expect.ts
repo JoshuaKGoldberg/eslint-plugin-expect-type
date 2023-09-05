@@ -3,7 +3,6 @@ import ts from "typescript";
 
 import { createRule } from "../utils/createRule.js";
 import { isDiagnosticWithStart } from "../utils/diagnostics.js";
-import { getParserServices } from "../utils/getParserServices.js";
 import { loc } from "../utils/loc.js";
 import { getTypeSnapshot, updateTypeSnapshot } from "../utils/snapshot.js";
 
@@ -23,19 +22,17 @@ const messages = {
 };
 export type MessageIds = keyof typeof messages;
 
-// The options this rule can take.
 export interface Options {
 	readonly disableExpectTypeSnapshotFix: boolean;
 }
 
-// The default options for the rule.
 const defaultOptions: Options = {
 	disableExpectTypeSnapshotFix: false,
 };
 
 export const name = "expect";
 
-export const rule = createRule<[Options], MessageIds>({
+export const expect = createRule<[Options], MessageIds>({
 	create(context, [options]) {
 		validate(context, options);
 
@@ -70,7 +67,6 @@ function validate(
 	options: Options,
 ): void {
 	const parserServices = ESLintUtils.getParserServices(context);
-	getParserServices(context);
 	const { program } = parserServices;
 
 	const fileName = context.getFilename();
