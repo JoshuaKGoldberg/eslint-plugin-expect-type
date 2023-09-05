@@ -83,7 +83,7 @@ function validate(
 		return;
 	}
 
-	if (!/\$Expect(Type|Error|^\?)|\^\?/.test(sourceFile.text)) {
+	if (!/\$Expect(?:Type|Error|\?)|\^\?/.test(sourceFile.text)) {
 		return;
 	}
 
@@ -303,6 +303,7 @@ function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 		// Match on the contents of that comment so we do nothing in a commented-out assertion,
 		// i.e. `// foo; // $ExpectType number`
 		const comment = commentMatch[1];
+		// eslint-disable-next-line regexp/no-unused-capturing-group
 		const matchExpect = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(
 			comment,
 		) as [never, "Error" | "Type" | "TypeSnapshot", never, string?] | null;
@@ -571,11 +572,13 @@ function getLanguageServiceHost(program: ts.Program): ts.LanguageServiceHost {
 			ts.ScriptSnapshot.fromString(program.getSourceFile(name)?.text ?? ""),
 		getScriptVersion: () => "1",
 		// NB: We can't check `program` for files, it won't contain valid files like package.json
+		/* eslint-disable @typescript-eslint/unbound-method */
 		directoryExists: ts.sys.directoryExists,
 		fileExists: ts.sys.fileExists,
 		getDirectories: ts.sys.getDirectories,
 		readDirectory: ts.sys.readDirectory,
 		readFile: ts.sys.readFile,
+		/* eslint-enable @typescript-eslint/unbound-method */
 	};
 }
 
@@ -605,13 +608,11 @@ function getExpectTypeFailures(
 
 			nodeToCheck = getNodeForExpectType(node);
 			const type = checker.getTypeAtLocation(nodeToCheck);
-			const actual = type
-				? checker.typeToString(
-						type,
-						/*enclosingDeclaration*/ undefined,
-						ts.TypeFormatFlags.NoTruncation,
-				  )
-				: "";
+			const actual = checker.typeToString(
+				type,
+				/*enclosingDeclaration*/ undefined,
+				ts.TypeFormatFlags.NoTruncation,
+			);
 
 			if (
 				!expected ||

@@ -63,6 +63,13 @@ module.exports = {
 				project: "./tsconfig.eslint.json",
 			},
 			rules: {
+				// These rules should be configured for this repo and we like them on.
+				"@typescript-eslint/no-unnecessary-condition": [
+					"error",
+					{
+						allowConstantLoopConditions: true,
+					},
+				],
 				// These off-by-default rules work well for this repo and we like them on.
 				"deprecation/deprecation": "error",
 			},
