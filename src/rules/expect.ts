@@ -30,8 +30,6 @@ const defaultOptions: Options = {
 	disableExpectTypeSnapshotFix: false,
 };
 
-export const name = "expect";
-
 export const expect = createRule<[Options], MessageIds>({
 	create(context, [options]) {
 		validate(context, options);
@@ -59,7 +57,7 @@ export const expect = createRule<[Options], MessageIds>({
 		],
 		type: "problem",
 	},
-	name,
+	name: "expect",
 });
 
 function validate(
