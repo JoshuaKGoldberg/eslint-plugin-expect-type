@@ -4,6 +4,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/prepare
+      - run: pnpm build
+      - run: pnpm build:docs
       - run: pnpm lint:docs
 
 name: Lint Docs
