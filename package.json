@@ -31,7 +31,7 @@
 		"name": "JoshuaKGoldberg",
 		"email": "npm@joshuakgoldberg.com"
 	},
-	"type": "module",
+	"type": "commonjs",
 	"main": "./lib/index.js",
 	"files": [
 		"lib/",
