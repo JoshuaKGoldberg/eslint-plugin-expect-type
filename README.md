@@ -58,6 +58,7 @@ You might consider using other popular type assertion libraries in the TypeScrip
 - **[expect-type](https://github.com/mmkal/expect-type)**: Provides functions that return assorted generic type assertion methods, such as `expectTypeOf('abc').toMatchTypeOf<string>()`.
 - **[ts-expect](https://github.com/TypeStrong/ts-expect)**: Provides generic type assertion function, used like `expectType<string>('abc')()`.
 - **[tsd](https://github.com/SamVerschueren/tsd)**: Allows writing tests specifically for `.d.ts` definition files.
+- **[Vitest](https://vitest.dev/guide/testing-types.html)**: Includes `assertType` and `expectTypeOf` assertions.
 
 ## Appreciation
 
