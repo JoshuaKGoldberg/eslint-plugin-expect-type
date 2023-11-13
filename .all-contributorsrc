@@ -29,7 +29,7 @@
 			"name": "Igor Bezkrovnyi",
 			"avatar_url": "https://avatars.githubusercontent.com/u/1188919?v=4",
 			"profile": "https://github.com/ibezkrovnyi",
-			"contributions": ["code", "maintenance"]
+			"contributions": ["bug", "code", "doc", "maintenance"]
 		},
 		{
 			"login": "JoshuaKGoldberg",
