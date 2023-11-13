@@ -1,7 +1,8 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "automerge": true,
-  "internalChecksFilter": "strict",
-  "labels": ["dependencies"],
-  "stabilityDays": 3
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"automerge": true,
+	"internalChecksFilter": "strict",
+	"labels": ["dependencies"],
+	"minimumReleaseAge": "3 days",
+	"postUpdateOptions": ["pnpmDedupe"]
 }

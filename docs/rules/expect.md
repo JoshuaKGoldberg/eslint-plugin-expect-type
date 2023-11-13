@@ -32,7 +32,7 @@ For example:
 ```ts
 declare const getTextLength: (text: string) => number;
 
-getTextLength('abc');
+getTextLength("abc");
 // ^? number
 
 getTextLength;
@@ -42,7 +42,7 @@ getTextLength;
 Mismatching the type will cause a lint report:
 
 ```ts
-'abc';
+"abc";
 // ^? number
 ```
 
@@ -54,8 +54,8 @@ Multiline type annotations are also supported:
 
 ```ts
 const vector = {
-  x: 3,
-  y: 4,
+	x: 3,
+	y: 4,
 };
 vector;
 // ^? const vector: {
@@ -72,7 +72,7 @@ For example:
 
 ```ts
 // $ExpectError
-const value: number = 'abc';
+const value: number = "abc";
 ```
 
 > ⚠️ `$ExpectError` does not suppress TypeScript type errors.
@@ -90,7 +90,7 @@ For example:
 declare const getTextLength: (text: string) => number;
 
 // $ExpectType number
-getTextLength('abc');
+getTextLength("abc");
 
 // $ExpectType (text: string) => number
 getTextLength;
@@ -100,7 +100,7 @@ Mismatching the type will cause a lint report:
 
 ```ts
 // $ExpectType number
-'abc';
+"abc";
 ```
 
 ```plaintext
@@ -118,7 +118,7 @@ For example, given a `file.ts`:
 declare const getTextLength: (text: string) => number;
 
 // $ExpectTypeSnapshot FunctionCallExpression
-getTextLength('abc');
+getTextLength("abc");
 
 // $ExpectTypeSnapshot FunctionIdentifier
 getTextLength;
@@ -128,8 +128,8 @@ getTextLength;
 
 ```json
 {
-  "FunctionCallExpression": "number",
-  "FunctionIdentifier": "(text: string) => number"
+	"FunctionCallExpression": "number",
+	"FunctionIdentifier": "(text: string) => number"
 }
 ```
 
