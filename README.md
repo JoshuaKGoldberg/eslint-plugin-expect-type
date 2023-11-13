@@ -1,6 +1,6 @@
 <h1 align="center">eslint-plugin-expect-type</h1>
 
-<p align="center">ESLint plugin with ^? Twoslash, , and  type assertions. 🧩</p>
+<p align="center">ESLint plugin with `^?` Twoslash, `$ExpectError`, and `$ExpectType` type assertions. 🧩</p>
 
 <p align="center">
 	<a href="#contributors" target="_blank">

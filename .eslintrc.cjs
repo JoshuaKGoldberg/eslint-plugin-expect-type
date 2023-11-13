@@ -47,6 +47,9 @@ module.exports = {
 		{
 			files: "**/*.md/*.ts",
 			rules: {
+				// Ignore unused variables in docs, as we intentionally use them sometimes
+				"@typescript-eslint/no-unused-vars": "off",
+
 				"n/no-missing-import": [
 					"error",
 					{ allowModules: ["eslint-plugin-expect-type"] },
@@ -86,7 +89,7 @@ module.exports = {
 			},
 		},
 		{
-			files: ["*.jsonc"],
+			files: ["**/*.jsonc", "**/tsconfig.json"],
 			rules: {
 				"jsonc/no-comments": "off",
 			},
