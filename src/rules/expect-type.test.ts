@@ -7,9 +7,9 @@ ruleTester.run("expect", expect, {
 	invalid: [
 		{
 			code: dedent`
-      // $ExpectType number
-      const t = 'a';
-    `,
+			// $ExpectType number
+			const t = 'a';
+		`,
 			errors: [
 				{
 					column: 1,
@@ -21,9 +21,9 @@ ruleTester.run("expect", expect, {
 		},
 		{
 			code: dedent`
-      //$ExpectType number
-      const t = 'a';
-    `,
+			//$ExpectType number
+			const t = 'a';
+		`,
 			errors: [
 				{
 					column: 1,
@@ -36,9 +36,9 @@ ruleTester.run("expect", expect, {
 		// Complex type - historically (https://github.com/microsoft/TypeScript/issues/9879), dtslint and eslint type comparison fails here
 		{
 			code: dedent`
-      // $ExpectType { a: number; b: "on"; }
-      const t = { b: 'on' as const, a: 17 };
-    `,
+			// $ExpectType { a: number; b: "on"; }
+			const t = { b: 'on' as const, a: 17 };
+		`,
 			errors: [
 				{
 					column: 1,
@@ -53,27 +53,27 @@ ruleTester.run("expect", expect, {
 		// Primitive type
 		{
 			code: dedent`
-      // $ExpectType number
-      const t = 6 as number;
-    `,
+			// $ExpectType number
+			const t = 6 as number;
+		`,
 			filename,
 		},
 		// Complex type
 		{
 			code: dedent`
-      // $ExpectType { a: number; b: "on"; }
-      const t = { a: 17, b: 'on' as const };
-    `,
+			// $ExpectType { a: number; b: "on"; }
+			const t = { a: 17, b: 'on' as const };
+		`,
 			filename,
 		},
 		// Ignored TypeScript compiler complaints
 		{
 			code: dedent`
-      function hasUnusedParam(unusedParam: number, implicitAnyParam) {
-        const unusedLocal = 0;
-        return implicitAnyParam;
-      }
-    `,
+			function hasUnusedParam(unusedParam: number, implicitAnyParam) {
+				const unusedLocal = 0;
+				return implicitAnyParam;
+			}
+		`,
 			filename,
 		},
 	],

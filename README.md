@@ -1,8 +1,15 @@
 <h1 align="center">eslint-plugin-expect-type</h1>
 
-<p align="center">ESLint plugin with ^? Twoslash, $ExpectError, and $ExpectType type assertions. 🧩</p>
+<p align="center">ESLint plugin with ^? Twoslash, , and  type assertions. 🧩</p>
 
 <p align="center">
+	<a href="#contributors" target="_blank">
+<!-- prettier-ignore-start -->
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+<img alt="All Contributors: 8 👪" src="https://img.shields.io/badge/all_contributors-8_👪-21bb42.svg" />
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+<!-- prettier-ignore-end -->
+</a>
 	<a href="https://codecov.io/gh/JoshuaKGoldberg/eslint-plugin-expect-type" target="_blank">
 		<img alt="Codecov Test Coverage" src="https://codecov.io/gh/JoshuaKGoldberg/eslint-plugin-expect-type/branch/main/graph/badge.svg"/>
 	</a>
@@ -10,10 +17,12 @@
 		<img alt="Contributor Covenant" src="https://img.shields.io/badge/code_of_conduct-enforced-21bb42" />
 	</a>
 	<a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/blob/main/LICENSE.md" target="_blank">
-		<img alt="License: MIT" src="https://img.shields.io/github/license/JoshuaKGoldberg/eslint-plugin-expect-type?color=21bb42">
+		<img alt="License: Apache-2.0" src="https://img.shields.io/github/license/JoshuaKGoldberg/eslint-plugin-expect-type?color=21bb42">
 	</a>
 	<img alt="Style: Prettier" src="https://img.shields.io/badge/style-prettier-21bb42.svg" />
 	<img alt="TypeScript: Strict" src="https://img.shields.io/badge/typescript-strict-21bb42.svg" />
+	<img alt="npm package version" src="https://img.shields.io/npm/v/eslint-plugin-expect-type?color=21bb42" />
+	<img alt="Contributor Covenant" src="https://img.shields.io/badge/code_of_conduct-enforced-21bb42" />
 </p>
 
 ```ts
@@ -79,3 +88,32 @@ You might consider using other popular type assertion libraries in the TypeScrip
 Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the initial version and core infrastructure of this package! 💖
 
 > 💙 This package is based on [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)'s [create-typescript-app](https://github.com/JoshuaKGoldberg/create-typescript-app).
+
+## Contributors
+
+<!-- spellchecker: disable -->
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/BatuhanW"><img src="https://avatars.githubusercontent.com/u/16444991?v=4?s=100" width="100px;" alt="Batuhan Wilhelm"/><br /><sub><b>Batuhan Wilhelm</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3ABatuhanW" title="Bug reports">🐛</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=BatuhanW" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://colinking.co/"><img src="https://avatars.githubusercontent.com/u/2907397?v=4?s=100" width="100px;" alt="Colin"/><br /><sub><b>Colin</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3Acolinking" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://effectivetypescript.com/"><img src="https://avatars.githubusercontent.com/u/98301?v=4?s=100" width="100px;" alt="Dan Vanderkam"/><br /><sub><b>Dan Vanderkam</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=danvk" title="Code">💻</a> <a href="#maintenance-danvk" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/TkDodo"><img src="https://avatars.githubusercontent.com/u/1021430?v=4?s=100" width="100px;" alt="Dominik Dorfmeister"/><br /><sub><b>Dominik Dorfmeister</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=TkDodo" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ibezkrovnyi"><img src="https://avatars.githubusercontent.com/u/1188919?v=4?s=100" width="100px;" alt="Igor Bezkrovnyi"/><br /><sub><b>Igor Bezkrovnyi</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=ibezkrovnyi" title="Code">💻</a> <a href="#maintenance-ibezkrovnyi" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.joshuakgoldberg.com/"><img src="https://avatars.githubusercontent.com/u/3335181?v=4?s=100" width="100px;" alt="Josh Goldberg ✨"/><br /><sub><b>Josh Goldberg ✨</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3AJoshuaKGoldberg" title="Bug reports">🐛</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=JoshuaKGoldberg" title="Code">💻</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=JoshuaKGoldberg" title="Documentation">📖</a> <a href="#maintenance-JoshuaKGoldberg" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://twitter.com/_RussellDavis"><img src="https://avatars.githubusercontent.com/u/551404?v=4?s=100" width="100px;" alt="Russell Davis"/><br /><sub><b>Russell Davis</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=russelldavis" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://nirtamir.com/"><img src="https://avatars.githubusercontent.com/u/16452789?v=4?s=100" width="100px;" alt="nirtamir2"/><br /><sub><b>nirtamir2</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=nirtamir2" title="Documentation">📖</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+<!-- spellchecker: enable -->

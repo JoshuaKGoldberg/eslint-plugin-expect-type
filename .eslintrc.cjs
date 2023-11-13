@@ -10,7 +10,7 @@ module.exports = {
 		"plugin:n/recommended",
 		"plugin:perfectionist/recommended-natural",
 		"plugin:regexp/recommended",
-		"prettier",
+		"plugin:vitest/recommended",
 	],
 	overrides: [
 		{
@@ -45,10 +45,12 @@ module.exports = {
 			},
 		},
 		{
-			files: ["**/*.md/*.ts"],
+			files: "**/*.md/*.ts",
 			rules: {
-				// Ignore unused variables in docs, as we intentionally use them sometimes
-				"@typescript-eslint/no-unused-vars": "off",
+				"n/no-missing-import": [
+					"error",
+					{ allowModules: ["eslint-plugin-expect-type"] },
+				],
 			},
 		},
 		{
@@ -84,7 +86,7 @@ module.exports = {
 			},
 		},
 		{
-			files: ["*.jsonc", "tsconfig.json"],
+			files: ["*.jsonc"],
 			rules: {
 				"jsonc/no-comments": "off",
 			},
@@ -97,7 +99,6 @@ module.exports = {
 				"@typescript-eslint/no-unsafe-call": "off",
 			},
 		},
-
 		{
 			extends: ["plugin:yml/standard", "plugin:yml/prettier"],
 			files: ["**/*.{yml,yaml}"],
@@ -125,7 +126,6 @@ module.exports = {
 	plugins: [
 		"@typescript-eslint",
 		"deprecation",
-		"import",
 		"jsdoc",
 		"no-only-tests",
 		"perfectionist",
@@ -137,20 +137,21 @@ module.exports = {
 	rules: {
 		// These off/less-strict-by-default rules work well for this repo and we like them on.
 		"@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "all" }],
-		"import/extensions": ["error", "ignorePackages"],
 		"no-only-tests/no-only-tests": "error",
 
 		// These on-by-default rules don't work well for this repo and we like them off.
-		"n/no-missing-import": "off",
 		"no-case-declarations": "off",
 		"no-constant-condition": "off",
 		"no-inner-declarations": "off",
+		"no-mixed-spaces-and-tabs": "off",
 
 		// Stylistic concerns that don't interfere with Prettier
 		"@typescript-eslint/padding-line-between-statements": [
 			"error",
 			{ blankLine: "always", next: "*", prev: "block-like" },
 		],
+		"no-useless-rename": "error",
+		"object-shorthand": "error",
 		"perfectionist/sort-objects": [
 			"error",
 			{
