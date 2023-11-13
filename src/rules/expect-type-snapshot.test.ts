@@ -8,9 +8,9 @@ ruleTester.run("expect", expect, {
 		// Snapshot name is not specified
 		{
 			code: dedent`
-			// $ExpectTypeSnapshot
-			const Button = class {};
-		`,
+      // $ExpectTypeSnapshot
+      const Button = class {};
+    `,
 			errors: [
 				{
 					column: 1,
@@ -22,9 +22,9 @@ ruleTester.run("expect", expect, {
 		},
 		{
 			code: dedent`
-			//$ExpectTypeSnapshot
-			const Button = class {};
-		`,
+      //$ExpectTypeSnapshot
+      const Button = class {};
+    `,
 			errors: [
 				{
 					column: 1,
@@ -37,9 +37,9 @@ ruleTester.run("expect", expect, {
 		// Snapshot not found. Suggestion to run eslint --fix to create snapshot.
 		{
 			code: dedent`
-			// $ExpectTypeSnapshot snapshot-not-found
-			const configA = { a: 15, b: "b" as const, c: "c" };
-		`,
+      // $ExpectTypeSnapshot snapshot-not-found
+      const configA = { a: 15, b: "b" as const, c: "c" };
+    `,
 			errors: [
 				{
 					column: 1,
@@ -53,9 +53,9 @@ ruleTester.run("expect", expect, {
 		// Snapshot has different type.
 		{
 			code: dedent`
-			// $ExpectTypeSnapshot TypeSnapshotDoNotMatch
-			const configB = { a: 15, b: "b" as const, c: "c" };
-		`,
+      // $ExpectTypeSnapshot TypeSnapshotDoNotMatch
+      const configB = { a: 15, b: "b" as const, c: "c" };
+    `,
 			errors: [
 				{
 					column: 1,
@@ -71,9 +71,9 @@ ruleTester.run("expect", expect, {
 		// Snapshot matches.
 		{
 			code: dedent`
-			// $ExpectTypeSnapshot SnapshotMatches
-			const c = { a: 15, b: "b" as const, c: "c" };
-		`,
+      // $ExpectTypeSnapshot SnapshotMatches
+      const c = { a: 15, b: "b" as const, c: "c" };
+    `,
 			filename,
 			options: [{ disableExpectTypeSnapshotFix: true }],
 		},
