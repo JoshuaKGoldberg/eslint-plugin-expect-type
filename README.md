@@ -87,8 +87,6 @@ You might consider using other popular type assertion libraries in the TypeScrip
 
 Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the initial version and core infrastructure of this package! 💖
 
-> 💙 This package is based on [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)'s [create-typescript-app](https://github.com/JoshuaKGoldberg/create-typescript-app).
-
 ## Contributors
 
 <!-- spellchecker: disable -->
@@ -117,3 +115,5 @@ Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the i
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 <!-- spellchecker: enable -->
+
+> 💙 This package was templated with [create-typescript-app](https://github.com/JoshuaKGoldberg/create-typescript-app).
