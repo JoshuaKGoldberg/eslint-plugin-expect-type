@@ -84,7 +84,7 @@
 		"@vitest/coverage-v8": "^0.34.6",
 		"console-fail-test": "^0.2.3",
 		"cspell": "^8.0.0",
-		"dedent": "^0.7.0",
+		"dedent": "^1.0.0",
 		"eslint": "^8.53.0",
 		"eslint-doc-generator": "^1.4.3",
 		"eslint-plugin-deprecation": "^2.0.0",
