@@ -583,10 +583,9 @@ function getExpectTypeFailures(
 	languageService: ts.LanguageService,
 ): ExpectTypeFailures {
 	const { twoSlashAssertions, typeAssertions } = assertions;
-
 	const unmetExpectations: UnmetExpectation[] = [];
+
 	// Match assertions to the first node that appears on the line they apply to.
-	// `forEachChild` isn't available as a method in older TypeScript versions, so must use `ts.forEachChild` instead.
 	ts.forEachChild(sourceFile, function iterate(node) {
 		const line = lineOfPosition(node.getStart(sourceFile), sourceFile);
 		const assertion = typeAssertions.get(line);
@@ -692,11 +691,10 @@ function matchModuloWhitespace(actual: string, expected: string): boolean {
 }
 
 function getNodeForExpectType(node: ts.Node): ts.Node {
-	if (node.kind === ts.SyntaxKind.VariableStatement) {
-		// ts2.0 doesn't have `isVariableStatement`
+	if (ts.isVariableStatement(node)) {
 		const {
 			declarationList: { declarations },
-		} = node as ts.VariableStatement;
+		} = node;
 		if (declarations.length === 1) {
 			const { initializer } = declarations[0];
 			if (initializer) {
