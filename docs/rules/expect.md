@@ -135,8 +135,9 @@ getTextLength;
 
 These snapshots will automatically update whenever `eslint --fix` is run.
 
-> ⛔️ [#14](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/14): There is currently a bug where the snapshots will _always_ update unless the later `disableExpectTypeSnapshotFix` option is set.
-> Help wanted!
+> ⚠️ [#115](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/115): There are known issues around detecting whether to automatically update snapshots.
+> Editor extensions are likely to not apply updates automatically.
+> Try running ESLint with `--fix` on the command-line, or failing that, manually updating.
 
 ## Options
 
