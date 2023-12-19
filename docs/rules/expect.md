@@ -10,7 +10,7 @@
 
 Enforces that types indicated in special comments match the types of code values.
 
-> Types are compared with _"display"_ checking: meaning a direct string comparison between their actual type and the string comment or snapshot.
+> Types are compared with _"display"_ checking: a direct string comparison between their actual type and the string comment or snapshot.
 > See [issue #18](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/18) for discussion around a new assertion for _"assignability"_ checking.
 
 ## Comment Types
