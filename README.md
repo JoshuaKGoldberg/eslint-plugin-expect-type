@@ -83,6 +83,11 @@ You might consider using other popular type assertion libraries in the TypeScrip
 - **[tsd](https://github.com/SamVerschueren/tsd)**: Allows writing tests specifically for `.d.ts` definition files.
 - **[Vitest](https://vitest.dev/guide/testing-types.html)**: Includes `assertType` and `expectTypeOf` assertions.
 
+## TypeScript Version Support
+
+`eslint-plugin-expect-type` mirrors the [DefinitelyTyped TypeScript Support Window](https://github.com/DefinitelyTyped/DefinitelyTyped/#support-window).
+Roughly, that's major versions of TypeScript less than 2 years old.
+
 ## Appreciation
 
 Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the initial version and core infrastructure of this package! 💖
