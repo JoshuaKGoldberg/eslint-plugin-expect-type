@@ -169,40 +169,34 @@ function validate(
 		if (assertion.assertionType === "snapshot") {
 			const { snapshotName } = assertion;
 			const start = node.getStart();
-			const fix = (): TSESLint.RuleFix => {
-				let applied = false;
-				return {
-					range: [start, start],
-					// Bug: previously, ESLint would only read RuleFix objects if `--fix` is passed. Now it seems to no matter what.
-					// TODO: See if we can only update snapshots if `--fix` is passed?
-					// See: https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/14
-					get text() {
-						if (!applied) {
-							// Make sure we update snapshot only on first read of this object
-							applied = true;
-							if (!options.disableExpectTypeSnapshotFix) {
-								updateTypeSnapshot(fileName, snapshotName, actual);
-							}
-						}
 
-						return "";
-					},
-				};
-			};
+			context.report({
+				...templateDescriptor,
 
-			if (typeof assertion.expected === "undefined") {
-				context.report({
-					...templateDescriptor,
-					fix,
-					messageId: "TypeSnapshotNotFound",
-				});
-			} else {
-				context.report({
-					...templateDescriptor,
-					fix,
-					messageId: "TypeSnapshotDoNotMatch",
-				});
-			}
+				// ESLint doesn't indicate whether it's in --fix mode, and fixers run immediately.
+				// We don't have a way to delay file updates natively in ESLint.
+				// Instead, we use this inaccurate heuristic to know if we're in CLI --fix...
+				// See: https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/14
+				fix: process.argv.includes("--fix")
+					? (): TSESLint.RuleFix => {
+							return {
+								range: [start, start],
+								get text() {
+									if (!options.disableExpectTypeSnapshotFix) {
+										updateTypeSnapshot(fileName, snapshotName, actual);
+									}
+
+									return "";
+								},
+							};
+					  }
+					: undefined,
+
+				messageId:
+					typeof assertion.expected === "undefined"
+						? "TypeSnapshotNotFound"
+						: "TypeSnapshotDoNotMatch",
+			});
 		} else {
 			context.report({
 				...templateDescriptor,
