@@ -21,10 +21,9 @@ export function getExpectTypeFailures(
 		getLanguageServiceHost(program),
 	);
 	const { twoSlashAssertions, typeAssertions } = assertions;
-
 	const unmetExpectations: UnmetExpectation[] = [];
+
 	// Match assertions to the first node that appears on the line they apply to.
-	// `forEachChild` isn't available as a method in older TypeScript versions, so must use `ts.forEachChild` instead.
 	ts.forEachChild(sourceFile, function iterate(node) {
 		const line = lineOfPosition(node.getStart(sourceFile), sourceFile);
 		const assertion = typeAssertions.get(line);

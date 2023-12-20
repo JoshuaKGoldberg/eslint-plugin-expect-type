@@ -10,6 +10,9 @@
 
 Enforces that types indicated in special comments match the types of code values.
 
+> Types are compared with _"display"_ checking: a direct string comparison between their actual type and the string comment or snapshot.
+> See [issue #18](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/18) for discussion around a new assertion for _"assignability"_ checking.
+
 ## Comment Types
 
 The following kinds of comments are supported:
@@ -135,8 +138,9 @@ getTextLength;
 
 These snapshots will automatically update whenever `eslint --fix` is run.
 
-> ⛔️ [#14](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/14): There is currently a bug where the snapshots will _always_ update unless the later `disableExpectTypeSnapshotFix` option is set.
-> Help wanted!
+> ⚠️ [#115](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/115): There are known issues around detecting whether to automatically update snapshots.
+> Editor extensions are likely to not apply updates automatically.
+> Try running ESLint with `--fix` on the command-line, or failing that, manually updating.
 
 ## Options
 
