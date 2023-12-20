@@ -25,7 +25,6 @@ export function getLanguageServiceHost(
 
 export function getNodeForExpectType(node: ts.Node): ts.Node {
 	if (ts.isVariableStatement(node)) {
-		// ts2.0 doesn't have `isVariableStatement`
 		const {
 			declarationList: { declarations },
 		} = node;
