@@ -1,72 +1,99 @@
 {
-	"badgeTemplate": "<img alt=\"All Contributors: <%= contributors.length %> 👪\" src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>_👪-21bb42.svg\" />",
-	"commit": false,
-	"commitConvention": "angular",
-	"contributors": [
-		{
-			"login": "BatuhanW",
-			"name": "Batuhan Wilhelm",
-			"avatar_url": "https://avatars.githubusercontent.com/u/16444991?v=4",
-			"profile": "https://github.com/BatuhanW",
-			"contributions": ["bug", "code"]
-		},
-		{
-			"login": "colinking",
-			"name": "Colin",
-			"avatar_url": "https://avatars.githubusercontent.com/u/2907397?v=4",
-			"profile": "https://colinking.co/",
-			"contributions": ["bug"]
-		},
-		{
-			"login": "danvk",
-			"name": "Dan Vanderkam",
-			"avatar_url": "https://avatars.githubusercontent.com/u/98301?v=4",
-			"profile": "https://effectivetypescript.com/",
-			"contributions": ["code", "maintenance"]
-		},
-		{
-			"login": "ibezkrovnyi",
-			"name": "Igor Bezkrovnyi",
-			"avatar_url": "https://avatars.githubusercontent.com/u/1188919?v=4",
-			"profile": "https://github.com/ibezkrovnyi",
-			"contributions": ["bug", "code", "doc", "maintenance"]
-		},
-		{
-			"login": "JoshuaKGoldberg",
-			"name": "Josh Goldberg ✨",
-			"avatar_url": "https://avatars.githubusercontent.com/u/3335181?v=4",
-			"profile": "http://www.joshuakgoldberg.com/",
-			"contributions": ["bug", "code", "doc", "maintenance"]
-		},
-		{
-			"login": "nirtamir2",
-			"name": "nirtamir2",
-			"avatar_url": "https://avatars.githubusercontent.com/u/16452789?v=4",
-			"profile": "https://nirtamir.com/",
-			"contributions": ["doc"]
-		},
-		{
-			"login": "russelldavis",
-			"name": "Russell Davis",
-			"avatar_url": "https://avatars.githubusercontent.com/u/551404?v=4",
-			"profile": "https://twitter.com/_RussellDavis",
-			"contributions": ["code"]
-		},
-		{
-			"login": "TkDodo",
-			"name": "Dominik Dorfmeister",
-			"avatar_url": "https://avatars.githubusercontent.com/u/1021430?v=4",
-			"profile": "https://github.com/TkDodo",
-			"contributions": ["doc"]
-		}
-	],
-	"contributorsPerLine": 7,
-	"contributorsSortAlphabetically": true,
-	"files": ["README.md"],
-	"imageSize": 100,
-	"projectName": "eslint-plugin-expect-type",
-	"projectOwner": "JoshuaKGoldberg",
-	"repoHost": "https://github.com",
-	"repoType": "github"
+  "badgeTemplate": "<img alt=\"All Contributors: <%= contributors.length %> 👪\" src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>_👪-21bb42.svg\" />",
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "BatuhanW",
+      "name": "Batuhan Wilhelm",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16444991?v=4",
+      "profile": "https://github.com/BatuhanW",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "colinking",
+      "name": "Colin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2907397?v=4",
+      "profile": "https://colinking.co/",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "danvk",
+      "name": "Dan Vanderkam",
+      "avatar_url": "https://avatars.githubusercontent.com/u/98301?v=4",
+      "profile": "https://effectivetypescript.com/",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "ibezkrovnyi",
+      "name": "Igor Bezkrovnyi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1188919?v=4",
+      "profile": "https://github.com/ibezkrovnyi",
+      "contributions": [
+        "bug",
+        "code",
+        "doc",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "JoshuaKGoldberg",
+      "name": "Josh Goldberg ✨",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3335181?v=4",
+      "profile": "http://www.joshuakgoldberg.com/",
+      "contributions": [
+        "bug",
+        "code",
+        "doc",
+        "maintenance",
+        "tool"
+      ]
+    },
+    {
+      "login": "nirtamir2",
+      "name": "nirtamir2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16452789?v=4",
+      "profile": "https://nirtamir.com/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "russelldavis",
+      "name": "Russell Davis",
+      "avatar_url": "https://avatars.githubusercontent.com/u/551404?v=4",
+      "profile": "https://twitter.com/_RussellDavis",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "TkDodo",
+      "name": "Dominik Dorfmeister",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1021430?v=4",
+      "profile": "https://github.com/TkDodo",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "contributorsSortAlphabetically": true,
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "projectName": "eslint-plugin-expect-type",
+  "projectOwner": "JoshuaKGoldberg",
+  "repoHost": "https://github.com",
+  "repoType": "github",
+  "commitType": "docs"
 }
-
