@@ -53,7 +53,8 @@
         "bug",
         "code",
         "doc",
-        "maintenance"
+        "maintenance",
+        "infra"
       ]
     },
     {
