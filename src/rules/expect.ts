@@ -30,7 +30,6 @@ export const expect = createRule<[Options], MessageIds>({
 			context,
 			options.versionsToTest,
 		);
-		console.log({ versionsResolution });
 
 		if (versionsResolution.error) {
 			context.report({
@@ -44,7 +43,6 @@ export const expect = createRule<[Options], MessageIds>({
 		}
 
 		for (const { program, sourceFile } of versionsResolution.versions) {
-			console.log("sourceFile.getText()", sourceFile.getFullText());
 			const {
 				duplicates,
 				errorLines,

@@ -14,22 +14,15 @@ interface ReadConfigFile {
 }
 
 function createProgram(configFile: string, ts: TSModule): ts.Program {
-	console.log("createProgram", { configFile }, ts.version);
 	const projectDirectory = path.dirname(configFile);
 	const { config } = ts.readConfigFile(configFile, (...args) => {
-		console.log("readConfigFile reader", { args });
 		return ts.sys.readFile(...args);
 	}) as ReadConfigFile;
 	const parseConfigHost: ts.ParseConfigHost = {
 		fileExists: fs.existsSync,
-		readDirectory: (dir) => {
-			console.log("parseConfigHost readDirectory", { dir });
-			return ts.sys.readDirectory(dir);
-		},
-		readFile: (file) => {
-			console.log("parseConfigHost readFile", { file });
-			return fs.readFileSync(file, "utf8");
-		},
+		// eslint-disable-next-line @typescript-eslint/unbound-method
+		readDirectory: ts.sys.readDirectory,
+		readFile: (file) => fs.readFileSync(file, "utf8"),
 		useCaseSensitiveFileNames: true,
 	};
 	const parsed = ts.parseJsonConfigFileContent(
@@ -40,7 +33,6 @@ function createProgram(configFile: string, ts: TSModule): ts.Program {
 			noEmit: true,
 		},
 	);
-	console.log({ parsed });
 
 	// If the TypeScript version is too old to handle the "node16" module option,
 	// we can still run tests falling back to commonjs/node.
