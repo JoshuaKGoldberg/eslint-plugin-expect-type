@@ -148,3 +148,8 @@ These snapshots will automatically update whenever `eslint --fix` is run.
 
 Whether to disable `$ExpectTypeSnapshot` auto-fixing.
 Defaults to `false`.
+
+### `versions`
+
+Array of TypeScript versions to test.
+Defaults to the installed version.

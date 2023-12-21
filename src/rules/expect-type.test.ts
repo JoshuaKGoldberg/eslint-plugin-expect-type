@@ -18,6 +18,7 @@ ruleTester.run("expect", expect, {
 				},
 			],
 			filename,
+			only: true,
 		},
 		{
 			code: dedent`

@@ -17,8 +17,14 @@ export function getLanguageServiceHost(
 		directoryExists: ts.sys.directoryExists,
 		fileExists: ts.sys.fileExists,
 		getDirectories: ts.sys.getDirectories,
-		readDirectory: ts.sys.readDirectory,
-		readFile: ts.sys.readFile,
+		readDirectory: (...args) => {
+			console.log("getLanguageServiceHost readDirectory", { args });
+			return ts.sys.readDirectory(...args);
+		},
+		readFile: (...args) => {
+			console.log("getLanguageServiceHost readFile", { args });
+			return ts.sys.readFile(...args);
+		},
 		/* eslint-enable @typescript-eslint/unbound-method */
 	};
 }
