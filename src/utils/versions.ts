@@ -28,8 +28,26 @@ export type VersionsResolution =
 
 export function resolveVersionsToTest(
 	context: ExpectRuleContext,
-	versionsToTest: VersionToTest[],
+	versionsToTest: VersionToTest[] | undefined,
 ): VersionsResolution {
+	const { program: originalProgram } = ESLintUtils.getParserServices(context);
+	const originalSourceFile = originalProgram.getSourceFile(context.filename);
+
+	if (!originalSourceFile) {
+		return {
+			error: {
+				data: { filename: context.filename },
+				messageId: "FileIsNotIncludedInTSConfig",
+			},
+		};
+	}
+
+	if (!versionsToTest) {
+		return {
+			versions: [{ program: originalProgram, sourceFile: originalSourceFile }],
+		};
+	}
+
 	const tsconfigPath = findUp(context.filename, (dir) => {
 		const tsconfig = path.join(dir, "tsconfig.json");
 		return fs.existsSync(tsconfig) ? tsconfig : undefined;
@@ -38,17 +56,6 @@ export function resolveVersionsToTest(
 	if (!tsconfigPath) {
 		return {
 			error: { messageId: "NoTSConfig" },
-		};
-	}
-
-	const parserServices = ESLintUtils.getParserServices(context);
-
-	if (!parserServices.program.getSourceFile(context.filename)) {
-		return {
-			error: {
-				data: { filename: context.filename },
-				messageId: "FileIsNotIncludedInTSConfig",
-			},
 		};
 	}
 
@@ -69,7 +76,7 @@ export function resolveVersionsToTest(
 			tsconfigPath,
 			ts,
 			version.name,
-			parserServices.program,
+			originalProgram,
 		);
 
 		const sourceFile = program.getSourceFile(context.filename);

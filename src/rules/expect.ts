@@ -28,9 +28,7 @@ export const expect = createRule<[Options], MessageIds>({
 
 		const versionsResolution = resolveVersionsToTest(
 			context,
-			options.versionsToTest ?? [
-				{ name: ts.version, path: require.resolve("typescript") },
-			],
+			options.versionsToTest,
 		);
 		console.log({ versionsResolution });
 
