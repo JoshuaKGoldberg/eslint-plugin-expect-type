@@ -1,4 +1,6 @@
 /** @type {import('eslint-doc-generator').GenerateOptions} */
-module.exports = {
-  ruleDocTitleFormat: 'prefix-name',
+const config = {
+	ruleDocTitleFormat: "prefix-name",
 };
+
+module.exports = config;

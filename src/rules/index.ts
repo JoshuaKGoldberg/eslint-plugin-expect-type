@@ -1,5 +1,7 @@
-import { name as expectName, rule as expectRule } from './expect';
+import { TSESLint } from "@typescript-eslint/utils";
 
-export const rules = {
-  [expectName]: expectRule,
+import { expect } from "./expect.js";
+
+export const rules: Record<string, TSESLint.RuleModule<string, unknown[]>> = {
+	expect,
 };

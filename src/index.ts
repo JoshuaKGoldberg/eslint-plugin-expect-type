@@ -1,15 +1,12 @@
-import { rules } from './rules';
+import { rules } from "./rules/index.js";
 
-const configs = Object.keys(rules).reduce<Record<string, 'error'>>(
-  (acc, name) => ({ ...acc, [`expect-type/${name}`]: 'error' as const }),
-  {},
-);
+export { rules } from "./rules/index.js";
 
-export = {
-  rules,
-  configs: {
-    recommended: {
-      rules: configs,
-    },
-  },
+export const configs = {
+	recommended: {
+		rules: Object.keys(rules).reduce<Record<string, "error">>(
+			(acc, name) => ({ ...acc, [`expect-type/${name}`]: "error" as const }),
+			{},
+		),
+	},
 };

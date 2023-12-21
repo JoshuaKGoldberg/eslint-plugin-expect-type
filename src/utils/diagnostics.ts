@@ -1,8 +1,14 @@
-import ts from 'typescript';
-import { SetRequiredNonNullable } from './types';
+import ts from "typescript";
 
-export type DiagnosticWithStart = SetRequiredNonNullable<ts.Diagnostic, 'start'>;
+import { SetRequiredNonNullable } from "./types.js";
 
-export function isDiagnosticWithStart(diagnostic: ts.Diagnostic): diagnostic is DiagnosticWithStart {
-  return !!diagnostic.start;
+export type DiagnosticWithStart = SetRequiredNonNullable<
+	ts.Diagnostic,
+	"start"
+>;
+
+export function isDiagnosticWithStart(
+	diagnostic: ts.Diagnostic,
+): diagnostic is DiagnosticWithStart {
+	return !!diagnostic.start;
 }
