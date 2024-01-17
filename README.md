@@ -6,7 +6,7 @@
 	<a href="#contributors" target="_blank">
 <!-- prettier-ignore-start -->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<img alt="All Contributors: 9 👪" src="https://img.shields.io/badge/all_contributors-9_👪-21bb42.svg" />
+<img alt="All Contributors: 10 👪" src="https://img.shields.io/badge/all_contributors-10_👪-21bb42.svg" />
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <!-- prettier-ignore-end -->
 </a>
@@ -111,6 +111,7 @@ Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the i
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://twitter.com/_RussellDavis"><img src="https://avatars.githubusercontent.com/u/551404?v=4?s=100" width="100px;" alt="Russell Davis"/><br /><sub><b>Russell Davis</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=russelldavis" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/DetachHead"><img src="https://avatars.githubusercontent.com/u/57028336?v=4?s=100" width="100px;" alt="detachhead"/><br /><sub><b>detachhead</b></sub></a><br /><a href="#ideas-detachhead" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://nirtamir.com/"><img src="https://avatars.githubusercontent.com/u/16452789?v=4?s=100" width="100px;" alt="nirtamir2"/><br /><sub><b>nirtamir2</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=nirtamir2" title="Documentation">📖</a></td>
     </tr>
   </tbody>
