@@ -80,7 +80,7 @@
 		"@types/node": "^20.0.0",
 		"@typescript-eslint/eslint-plugin": "^7.0.0",
 		"@typescript-eslint/parser": "^7.0.0",
-		"@typescript-eslint/rule-tester": "^6.10.0",
+		"@typescript-eslint/rule-tester": "^7.0.0",
 		"@vitest/coverage-v8": "^1.0.0",
 		"console-fail-test": "^0.2.3",
 		"cspell": "^8.0.0",
