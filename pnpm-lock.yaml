@@ -54,7 +54,7 @@ devDependencies:
     version: 8.53.0
   eslint-doc-generator:
     specifier: ^1.4.3
-    version: 1.4.3(eslint@8.53.0)(typescript@5.2.2)
+    version: 1.6.2(eslint@8.53.0)(typescript@5.2.2)
   eslint-plugin-deprecation:
     specifier: ^2.0.0
     version: 2.0.0(eslint@8.53.0)(typescript@5.2.2)
@@ -160,11 +160,11 @@ packages:
       '@jridgewell/trace-mapping': 0.3.23
     dev: true
 
-  /@babel/code-frame@7.22.13:
-    resolution: {integrity: sha512-XktuhWlJ5g+3TJXc5upd9Ks1HutSArik6jf2eAjYFyIOf4ej3RN+184cZbzDvbPnuTJIUhPKKJE3cIsYTiAT3w==}
+  /@babel/code-frame@7.23.5:
+    resolution: {integrity: sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/highlight': 7.22.13
+      '@babel/highlight': 7.23.4
       chalk: 2.4.2
     dev: true
 
@@ -215,8 +215,8 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /@babel/highlight@7.22.13:
-    resolution: {integrity: sha512-C/BaXcnnvBCmHTpz/VGZ8jgtE2aYlW4hxDhseJAWZb7gqGM/qtCK6iZUb0TyKFf7BOUsBH7Q7fkRsDRhg1XklQ==}
+  /@babel/highlight@7.23.4:
+    resolution: {integrity: sha512-acGdbYSfp2WheJoJm/EBBBLh/ID8KDc64ISZ9DYtBmC8/Q204PZJLHyzeB5qMzJ5trcOkybd78M4x2KWsUq++A==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/helper-validator-identifier': 7.22.20
@@ -236,7 +236,7 @@ packages:
     resolution: {integrity: sha512-QPErUVm4uyJa60rkI73qneDacvdvzxshT3kksGqlGWYdOTIUOwJ7RDUL8sGqslY1uXWSL6xMFKEXDS3ox2uF0w==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.22.13
+      '@babel/code-frame': 7.23.5
       '@babel/parser': 7.23.5
       '@babel/types': 7.23.5
     dev: true
@@ -245,7 +245,7 @@ packages:
     resolution: {integrity: sha512-DdHPwvJY0sEeN4xJU5uRLmZjgMMDIvMPniLuYzUVXj/GGzysPl0/fwt44JBkyUIzGJPV8QgHMcQdQ34XFuKTYQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.22.13
+      '@babel/code-frame': 7.23.5
       '@babel/generator': 7.22.15
       '@babel/helper-environment-visitor': 7.22.5
       '@babel/helper-function-name': 7.22.5
@@ -1020,7 +1020,7 @@ packages:
       '@npmcli/git': 5.0.4
       glob: 10.3.10
       hosted-git-info: 7.0.1
-      json-parse-even-better-errors: 3.0.0
+      json-parse-even-better-errors: 3.0.1
       normalize-package-data: 6.0.0
       proc-log: 3.0.0
       semver: 7.6.0
@@ -3211,8 +3211,8 @@ packages:
       eslint: 8.53.0
     dev: true
 
-  /eslint-doc-generator@1.4.3(eslint@8.53.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-cn9KXE7xuKlxKi/9VbirR3cbz7W1geRObwWzZjJAnpTeNBoqA8Rj+lD8/HHHJ7PnOdaTrRyhhoYdCtxqq3U7Bw==}
+  /eslint-doc-generator@1.6.2(eslint@8.53.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-wqaRDZgeaQQK/7IypBUgkV/q8BV9KnZed7K1YWG+kKVRQKX4LWgGoWZlBYhyO3Ye1uV8exuWIYIlNfbZVR10fw==}
     engines: {node: ^14.18.0 || ^16.0.0 || >=18.0.0}
     hasBin: true
     peerDependencies:
@@ -3226,7 +3226,7 @@ packages:
       deepmerge: 4.3.1
       dot-prop: 7.2.0
       eslint: 8.53.0
-      jest-diff: 29.6.4
+      jest-diff: 29.7.0
       json-schema-traverse: 1.0.0
       markdown-table: 3.0.3
       no-case: 3.0.4
@@ -4746,8 +4746,8 @@ packages:
       '@pkgjs/parseargs': 0.11.0
     dev: true
 
-  /jest-diff@29.6.4:
-    resolution: {integrity: sha512-9F48UxR9e4XOEZvoUXEHSWY4qC4zERJaOfrbBg9JpbJOO43R1vN76REt/aMGZoY6GD5g84nnJiBIVlscegefpw==}
+  /jest-diff@29.7.0:
+    resolution: {integrity: sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       chalk: 4.1.2
@@ -4799,8 +4799,8 @@ packages:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
     dev: true
 
-  /json-parse-even-better-errors@3.0.0:
-    resolution: {integrity: sha512-iZbGHafX/59r39gPwVPRBGw0QQKnA7tte5pSMrhWOW7swGsVvVTjmfyAV9pNqk8YGT7tRCdxRu8uzcgZwoDooA==}
+  /json-parse-even-better-errors@3.0.1:
+    resolution: {integrity: sha512-aatBvbL26wVUCLmbWdCpeu9iF5wOyWpagiKkInA+kfws3sWdBrTnsvN2CKcyCYyUrc7rebNBlK6+kteg7ksecg==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dev: true
 
@@ -5576,7 +5576,7 @@ packages:
       semver: 7.6.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      type-fest: 4.7.1
+      type-fest: 4.10.3
       validate-npm-package-name: 5.0.0
     transitivePeerDependencies:
       - supports-color
@@ -5863,7 +5863,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.22.13
+      '@babel/code-frame': 7.23.5
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
@@ -5873,9 +5873,9 @@ packages:
     resolution: {integrity: sha512-SgOTCX/EZXtZxBE5eJ97P4yGM5n37BwRU+YMsH4vNzFqJV/oWFXXCmwFlgWUM4PrakybVOueJJ6pwHqSVhTFDw==}
     engines: {node: '>=16'}
     dependencies:
-      '@babel/code-frame': 7.22.13
+      '@babel/code-frame': 7.23.5
       error-ex: 1.3.2
-      json-parse-even-better-errors: 3.0.0
+      json-parse-even-better-errors: 3.0.1
       lines-and-columns: 2.0.4
       type-fest: 3.13.1
     dev: true
@@ -6187,7 +6187,7 @@ packages:
     resolution: {integrity: sha512-0J+Msgym3vrLOUB3hzQCuZHII0xkNGCtz/HJH9xZshwv9DbDwkw1KaE3gx/e2J5rpEY5rtOy6cyhKOPrkP7FZw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
-      json-parse-even-better-errors: 3.0.0
+      json-parse-even-better-errors: 3.0.1
       npm-normalize-package-bin: 3.0.1
     dev: true
 
@@ -6197,7 +6197,7 @@ packages:
     dependencies:
       find-up: 6.3.0
       read-pkg: 8.1.0
-      type-fest: 4.7.1
+      type-fest: 4.10.3
     dev: true
 
   /read-pkg-up@7.0.1:
@@ -6226,7 +6226,7 @@ packages:
       '@types/normalize-package-data': 2.4.1
       normalize-package-data: 6.0.0
       parse-json: 7.1.1
-      type-fest: 4.7.1
+      type-fest: 4.10.3
     dev: true
 
   /readable-stream@3.6.2:
@@ -7173,8 +7173,8 @@ packages:
     engines: {node: '>=14.16'}
     dev: true
 
-  /type-fest@4.7.1:
-    resolution: {integrity: sha512-iWr8RUmzAJRfhZugX9O7nZE6pCxDU8CZ3QxsLuTnGcBLJpCaP2ll3s4eMTBoFnU/CeXY/5rfQSuAEsTGJO4y8A==}
+  /type-fest@4.10.3:
+    resolution: {integrity: sha512-JLXyjizi072smKGGcZiAJDCNweT8J+AuRxmPZ1aG7TERg4ijx9REl8CNhbr36RV4qXqL1gO1FF9HL8OkVmmrsA==}
     engines: {node: '>=16'}
     dev: true
 
