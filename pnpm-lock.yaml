@@ -10,7 +10,7 @@ dependencies:
     version: 6.10.0(eslint@8.53.0)(typescript@5.2.2)
   fs-extra:
     specifier: ^11.1.1
-    version: 11.1.1
+    version: 11.2.0
 
 devDependencies:
   '@release-it/conventional-changelog':
@@ -3810,8 +3810,8 @@ packages:
       universalify: 2.0.1
     dev: true
 
-  /fs-extra@11.1.1:
-    resolution: {integrity: sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==}
+  /fs-extra@11.2.0:
+    resolution: {integrity: sha512-PmDi3uwK5nFuXh7XDTlVnS17xJS7vW36is2+w3xcv8SVxiB4NyATf4ctkVY5bkSjX0Y4nbvZCq1/EjtEyr9ktw==}
     engines: {node: '>=14.14'}
     dependencies:
       graceful-fs: 4.2.11
