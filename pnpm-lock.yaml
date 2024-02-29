@@ -36,7 +36,7 @@ devDependencies:
     version: 7.1.0(eslint@8.57.0)(typescript@5.3.3)
   '@typescript-eslint/rule-tester':
     specifier: ^7.0.0
-    version: 7.0.2(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.3.3)
+    version: 7.1.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.3.3)
   '@vitest/coverage-v8':
     specifier: ^1.0.0
     version: 1.3.1(vitest@1.3.1)
@@ -1565,16 +1565,16 @@ packages:
       - supports-color
     dev: true
 
-  /@typescript-eslint/rule-tester@7.0.2(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-QMn8gpxM1pXIBgsVQIv8/S6YzIjn5L+H9Yfiqx12gRTibuUNXOl8Aro36aMPbLlCppdacbzfFQwOYMHaQWZ+dw==}
+  /@typescript-eslint/rule-tester@7.1.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-50dYtvkm0VBZrJL2uJmn0g2beSTkux4C++QoMrQAxNXf+OQu7Zaws9NShGRh3xAntLjuHGCOefZNi/m/+/fP8w==}
     engines: {node: ^16.0.0 || >=18.0.0}
     peerDependencies:
       '@eslint/eslintrc': '>=2'
       eslint: ^8.56.0
     dependencies:
       '@eslint/eslintrc': 3.0.2
-      '@typescript-eslint/typescript-estree': 7.0.2(typescript@5.3.3)
-      '@typescript-eslint/utils': 7.0.2(eslint@8.57.0)(typescript@5.3.3)
+      '@typescript-eslint/typescript-estree': 7.1.0(typescript@5.3.3)
+      '@typescript-eslint/utils': 7.1.0(eslint@8.57.0)(typescript@5.3.3)
       ajv: 6.12.6
       eslint: 8.57.0
       lodash.merge: 4.6.2
@@ -1776,25 +1776,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
-
-  /@typescript-eslint/utils@7.0.2(eslint@8.57.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-PZPIONBIB/X684bhT1XlrkjNZJIEevwkKDsdwfiu1WeqBxYEEdIgVDgm8/bbKHVu+6YOpeRqcfImTdImx/4Bsw==}
-    engines: {node: ^16.0.0 || >=18.0.0}
-    peerDependencies:
-      eslint: ^8.56.0
-    dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
-      '@types/json-schema': 7.0.15
-      '@types/semver': 7.5.8
-      '@typescript-eslint/scope-manager': 7.0.2
-      '@typescript-eslint/types': 7.0.2
-      '@typescript-eslint/typescript-estree': 7.0.2(typescript@5.3.3)
-      eslint: 8.57.0
-      semver: 7.6.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: true
 
   /@typescript-eslint/utils@7.1.0(eslint@8.57.0)(typescript@5.3.3):
     resolution: {integrity: sha512-WUFba6PZC5OCGEmbweGpnNJytJiLG7ZvDBJJoUcX4qZYf1mGZ97mO2Mps6O2efxJcJdRNpqweCistDbZMwIVHw==}
