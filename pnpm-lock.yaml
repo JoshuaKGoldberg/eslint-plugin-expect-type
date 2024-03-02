@@ -54,7 +54,7 @@ devDependencies:
     version: 8.57.0
   eslint-doc-generator:
     specifier: ^1.4.3
-    version: 1.6.2(eslint@8.57.0)(typescript@5.3.3)
+    version: 1.7.0(eslint@8.57.0)(typescript@5.3.3)
   eslint-plugin-deprecation:
     specifier: ^2.0.0
     version: 2.0.0(eslint@8.57.0)(typescript@5.3.3)
@@ -3237,8 +3237,8 @@ packages:
       semver: 7.6.0
     dev: true
 
-  /eslint-doc-generator@1.6.2(eslint@8.57.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-wqaRDZgeaQQK/7IypBUgkV/q8BV9KnZed7K1YWG+kKVRQKX4LWgGoWZlBYhyO3Ye1uV8exuWIYIlNfbZVR10fw==}
+  /eslint-doc-generator@1.7.0(eslint@8.57.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-C1hE1acb/jruOO+cJe/rIsf+Kgq32JhimTgTtffwsjckKEJ800gx26kUtZhP+8Xm8M/n3BVBZ0XiNbojnNDqHQ==}
     engines: {node: ^14.18.0 || ^16.0.0 || >=18.0.0}
     hasBin: true
     peerDependencies:
