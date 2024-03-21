@@ -30,10 +30,10 @@ devDependencies:
     version: 20.11.28
   '@typescript-eslint/eslint-plugin':
     specifier: ^7.0.0
-    version: 7.3.0(@typescript-eslint/parser@7.2.0)(eslint@8.57.0)(typescript@5.4.2)
+    version: 7.3.0(@typescript-eslint/parser@7.3.0)(eslint@8.57.0)(typescript@5.4.2)
   '@typescript-eslint/parser':
     specifier: ^7.0.0
-    version: 7.2.0(eslint@8.57.0)(typescript@5.4.2)
+    version: 7.3.0(eslint@8.57.0)(typescript@5.4.2)
   '@typescript-eslint/rule-tester':
     specifier: ^7.0.0
     version: 7.2.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.2)
@@ -1515,7 +1515,7 @@ packages:
     resolution: {integrity: sha512-d0XxK3YTObnWVp6rZuev3c49+j4Lo8g4L1ZRm9z5L0xpoZycUPshHgczK5gsUMaZOstjVYYi09p5gYvUtfChYw==}
     dev: true
 
-  /@typescript-eslint/eslint-plugin@7.3.0(@typescript-eslint/parser@7.2.0)(eslint@8.57.0)(typescript@5.4.2):
+  /@typescript-eslint/eslint-plugin@7.3.0(@typescript-eslint/parser@7.3.0)(eslint@8.57.0)(typescript@5.4.2):
     resolution: {integrity: sha512-e65ii0Y/jkqX3GXSBM7v9qt9ufxd4omcWyPVVC/msq/hP+hYC6CddLRvlvclni+u7UcaNYT/QhBYlaMHaR2ixw==}
     engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
@@ -1527,7 +1527,7 @@ packages:
         optional: true
     dependencies:
       '@eslint-community/regexpp': 4.10.0
-      '@typescript-eslint/parser': 7.2.0(eslint@8.57.0)(typescript@5.4.2)
+      '@typescript-eslint/parser': 7.3.0(eslint@8.57.0)(typescript@5.4.2)
       '@typescript-eslint/scope-manager': 7.3.0
       '@typescript-eslint/type-utils': 7.3.0(eslint@8.57.0)(typescript@5.4.2)
       '@typescript-eslint/utils': 7.3.0(eslint@8.57.0)(typescript@5.4.2)
@@ -1544,9 +1544,9 @@ packages:
       - supports-color
     dev: true
 
-  /@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.4.2):
-    resolution: {integrity: sha512-5FKsVcHTk6TafQKQbuIVkXq58Fnbkd2wDL4LB7AURN7RUOu1utVP+G8+6u3ZhEroW3DF6hyo3ZEXxgKgp4KeCg==}
-    engines: {node: ^16.0.0 || >=18.0.0}
+  /@typescript-eslint/parser@7.3.0(eslint@8.57.0)(typescript@5.4.2):
+    resolution: {integrity: sha512-OZcvH8zipGILuxJmtFgzjAJ+bOpWidzEppIRsT2P4ZUrizU0EsPt4hhzDn3lNfM1Hv7slZPTEQGKjUEn/ftQYA==}
+    engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
       eslint: ^8.56.0
       typescript: '*'
@@ -1554,10 +1554,10 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/scope-manager': 7.2.0
-      '@typescript-eslint/types': 7.2.0
-      '@typescript-eslint/typescript-estree': 7.2.0(typescript@5.4.2)
-      '@typescript-eslint/visitor-keys': 7.2.0
+      '@typescript-eslint/scope-manager': 7.3.0
+      '@typescript-eslint/types': 7.3.0
+      '@typescript-eslint/typescript-estree': 7.3.0(typescript@5.4.2)
+      '@typescript-eslint/visitor-keys': 7.3.0
       debug: 4.3.4
       eslint: 8.57.0
       typescript: 5.4.2
@@ -3503,7 +3503,7 @@ packages:
       vitest:
         optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': 7.3.0(@typescript-eslint/parser@7.2.0)(eslint@8.57.0)(typescript@5.4.2)
+      '@typescript-eslint/eslint-plugin': 7.3.0(@typescript-eslint/parser@7.3.0)(eslint@8.57.0)(typescript@5.4.2)
       '@typescript-eslint/utils': 7.3.0(eslint@8.57.0)(typescript@5.4.2)
       eslint: 8.57.0
       vitest: 1.4.0(@types/node@20.11.28)
