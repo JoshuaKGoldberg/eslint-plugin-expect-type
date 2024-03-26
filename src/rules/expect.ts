@@ -42,7 +42,7 @@ export const expect = createRule<[Options], MessageIds>({
 		const parserServices = ESLintUtils.getParserServices(context);
 		const { program } = parserServices;
 
-		const fileName = context.getFilename();
+		const fileName = context.filename || context.getFilename();
 		const sourceFile = program.getSourceFile(fileName);
 		if (!sourceFile) {
 			context.report({
@@ -207,7 +207,7 @@ function reportUnmetExpectations(
 								get text() {
 									if (!options.disableExpectTypeSnapshotFix) {
 										updateTypeSnapshot(
-											context.getFilename(),
+											context.filename || context.getFilename(),
 											snapshotName,
 											actual,
 										);
