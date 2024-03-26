@@ -48,16 +48,31 @@ npm i -D eslint-plugin-expect-type
 
 ## Usage
 
-Add the following options to your [ESLint configuration file](https://eslint.org/docs/latest/user-guide/configuring/configuration-files):
+Add the following options to your [ESLint configuration file](https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new):
+
+```ts
+import expectType from "eslint-plugin-expect-type/configs/recommended";
+
+export default [
+	// your other ESLint configurations
+	expectType,
+];
+```
+
+Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTypeSnapshot` comments in code assert on types.
+
+### Usage (Legacy Config)
+
+If you're still using the [legacy ESLint configuration file format](https://eslint.org/docs/latest/user-guide/configuring/configuration-files):
 
 ```json
 {
 	"extends": ["plugin:expect-type/recommended"],
-	"plugins": ["eslint-plugin-expect-type"]
+	"plugins": ["expect-type"]
 }
 ```
 
-Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTypeSnapshot` comments in code assert on types.
+## Rules
 
 <!-- prettier-ignore-start -->
 <!-- begin auto-generated rules list -->
