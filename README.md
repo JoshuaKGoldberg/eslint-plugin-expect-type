@@ -68,7 +68,7 @@ If you're still using the [legacy ESLint configuration file format](https://esli
 ```json
 {
 	"extends": ["plugin:expect-type/recommended"],
-	"plugins": ["eslint-plugin-expect-type"]
+	"plugins": ["expect-type"]
 }
 ```
 
