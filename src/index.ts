@@ -1,12 +1,7 @@
-import { rules } from "./rules/index.js";
+import { recommendedRuleSettings } from "./plugin.js";
 
 export { rules } from "./rules/index.js";
 
 export const configs = {
-	recommended: {
-		rules: Object.keys(rules).reduce<Record<string, "error">>(
-			(acc, name) => ({ ...acc, [`expect-type/${name}`]: "error" as const }),
-			{},
-		),
-	},
+	recommended: recommendedRuleSettings,
 };

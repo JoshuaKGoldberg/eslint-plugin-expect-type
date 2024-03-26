@@ -40,6 +40,14 @@
 			},
 			"import": "./lib/index.mjs",
 			"require": "./lib/index.js"
+		},
+		"./configs/recommended": {
+			"types": {
+				"import": "./lib/configs/recommended.d.mts",
+				"require": "./lib/configs/recommended.d.ts"
+			},
+			"import": "./lib/configs/recommended.mjs",
+			"require": "./lib/configs/recommended.js"
 		}
 	},
 	"main": "./lib/index.js",
@@ -69,7 +77,7 @@
 		"*": "prettier --ignore-unknown --write"
 	},
 	"dependencies": {
-		"@typescript-eslint/utils": "^6.10.0",
+		"@typescript-eslint/utils": "^6.10.0 || ^7.0.1",
 		"fs-extra": "^11.1.1"
 	},
 	"devDependencies": {
@@ -78,9 +86,10 @@
 		"@types/eslint": "^8.44.7",
 		"@types/fs-extra": "^11.0.0",
 		"@types/node": "^20.0.0",
-		"@typescript-eslint/eslint-plugin": "^7.0.0",
-		"@typescript-eslint/parser": "^7.0.0",
-		"@typescript-eslint/rule-tester": "^7.0.0",
+		"@typescript-eslint/eslint-plugin": "^7.4.0",
+		"@typescript-eslint/parser": "^7.4.0",
+		"@typescript-eslint/rule-tester": "^7.4.0",
+		"@typescript-eslint/utils": "^7.4.0",
 		"@vitest/coverage-v8": "^1.0.0",
 		"console-fail-test": "^0.2.3",
 		"cspell": "^8.0.0",
