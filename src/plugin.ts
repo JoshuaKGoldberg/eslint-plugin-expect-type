@@ -18,7 +18,8 @@ export const plugin = {
 };
 
 export const recommendedRuleSettings = Object.fromEntries(
-	Object.entries(rules)
-		.filter(([, rule]) => rule.meta.docs?.recommended)
-		.map(([name]) => ["package-json/" + name, "error" as const]),
+	Object.entries(rules).map(([name]) => [
+		"expect-type/" + name,
+		"error" as const,
+	]),
 );
