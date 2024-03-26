@@ -42,6 +42,8 @@ export const expect = createRule<[Options], MessageIds>({
 		const parserServices = ESLintUtils.getParserServices(context);
 		const { program } = parserServices;
 
+		// TODO: Once ESLint <8 support is removed, soon
+		// eslint-disable-next-line deprecation/deprecation
 		const fileName = context.filename || context.getFilename();
 		const sourceFile = program.getSourceFile(fileName);
 		if (!sourceFile) {
@@ -207,6 +209,8 @@ function reportUnmetExpectations(
 								get text() {
 									if (!options.disableExpectTypeSnapshotFix) {
 										updateTypeSnapshot(
+											// TODO: Once ESLint <8 support is removed, soon
+											// eslint-disable-next-line deprecation/deprecation
 											context.filename || context.getFilename(),
 											snapshotName,
 											actual,
