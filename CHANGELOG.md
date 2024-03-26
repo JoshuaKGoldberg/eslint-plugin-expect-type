@@ -1,3 +1,9 @@
+# [0.4.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.3.0...v0.4.0) (2024-03-26)
+
+### Features
+
+- support ESLint 9 and typescript-eslint 7 ([#249](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/249)) ([039e3d8](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/039e3d83bf2d1b3aeb36fc5af603d0694e0ff335)), closes [#142](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/142)
+
 # [0.3.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.2.0...v0.3.0) (2023-12-20)
 
 ### Bug Fixes
