@@ -50,7 +50,7 @@ npm i -D eslint-plugin-expect-type
 
 Add the following options to your [ESLint configuration file](https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new):
 
-```js
+```ts
 import expectType from "eslint-plugin-expect-type/configs/recommended";
 
 export default [
