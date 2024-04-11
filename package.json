@@ -102,7 +102,7 @@
 		"eslint-plugin-jsdoc": "^48.0.0",
 		"eslint-plugin-jsonc": "^2.10.0",
 		"eslint-plugin-markdown": "^3.0.1",
-		"eslint-plugin-n": "^16.3.1",
+		"eslint-plugin-n": "^17.0.0",
 		"eslint-plugin-no-only-tests": "^3.1.0",
 		"eslint-plugin-perfectionist": "^2.3.0",
 		"eslint-plugin-regexp": "^2.1.1",
