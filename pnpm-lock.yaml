@@ -36,7 +36,7 @@ devDependencies:
     version: 7.6.0(eslint@8.57.0)(typescript@5.4.4)
   '@typescript-eslint/rule-tester':
     specifier: ^7.4.0
-    version: 7.5.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.4)
+    version: 7.6.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.4)
   '@vitest/coverage-v8':
     specifier: ^1.0.0
     version: 1.4.0(vitest@1.4.0)
@@ -1576,16 +1576,16 @@ packages:
       - supports-color
     dev: true
 
-  /@typescript-eslint/rule-tester@7.5.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.4):
-    resolution: {integrity: sha512-UQDe3amUHFJrRHImo5U20SyEkLyxUmYSEYD7qYd8ScJmIxM7+zBsiMZzHQgOVAsI0lvtcNCJ6Cet5+dcgf8vng==}
+  /@typescript-eslint/rule-tester@7.6.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.4):
+    resolution: {integrity: sha512-ioebRNx3V1pENvCM9uyY+MtJKDuU6wP/l21ju2HOlKL9wbT9tND8odqsD9V3/kgd2TepJlnmvd2pdnQIv01Y/g==}
     engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
       '@eslint/eslintrc': '>=2'
       eslint: ^8.56.0
     dependencies:
       '@eslint/eslintrc': 3.0.2
-      '@typescript-eslint/typescript-estree': 7.5.0(typescript@5.4.4)
-      '@typescript-eslint/utils': 7.5.0(eslint@8.57.0)(typescript@5.4.4)
+      '@typescript-eslint/typescript-estree': 7.6.0(typescript@5.4.4)
+      '@typescript-eslint/utils': 7.6.0(eslint@8.57.0)(typescript@5.4.4)
       ajv: 6.12.6
       eslint: 8.57.0
       lodash.merge: 4.6.2
@@ -1783,25 +1783,6 @@ packages:
       '@typescript-eslint/scope-manager': 6.21.0
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.4.4)
-      eslint: 8.57.0
-      semver: 7.6.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: true
-
-  /@typescript-eslint/utils@7.5.0(eslint@8.57.0)(typescript@5.4.4):
-    resolution: {integrity: sha512-3vZl9u0R+/FLQcpy2EHyRGNqAS/ofJ3Ji8aebilfJe+fobK8+LbIFmrHciLVDxjDoONmufDcnVSF38KwMEOjzw==}
-    engines: {node: ^18.18.0 || >=20.0.0}
-    peerDependencies:
-      eslint: ^8.56.0
-    dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
-      '@types/json-schema': 7.0.15
-      '@types/semver': 7.5.8
-      '@typescript-eslint/scope-manager': 7.5.0
-      '@typescript-eslint/types': 7.5.0
-      '@typescript-eslint/typescript-estree': 7.5.0(typescript@5.4.4)
       eslint: 8.57.0
       semver: 7.6.0
     transitivePeerDependencies:
