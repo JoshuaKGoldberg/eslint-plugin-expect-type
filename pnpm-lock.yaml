@@ -48,7 +48,7 @@ devDependencies:
     version: 8.7.0
   dedent:
     specifier: ^1.0.0
-    version: 1.5.1
+    version: 1.5.2
   eslint:
     specifier: ^8.53.0
     version: 8.57.0
@@ -2885,8 +2885,9 @@ packages:
       mimic-response: 3.1.0
     dev: true
 
-  /dedent@1.5.1:
-    resolution: {integrity: sha512-+LxW+KLWxu3HW3M2w2ympwtqPrqYRzU8fqi6Fhd18fBALe15blJPI/I4+UHveMVG6lJqB4JNd4UG0S5cnVHwIg==}
+  /dedent@1.5.2:
+    resolution: {integrity: sha512-O4ncVvQ2ZI0KH+of+Evf956RssiyxvMgU0hE8QyG+rwmUjcxEYX4DoF9FQxIaHye3WQjPXrv3uRhlDrRzlq2CQ==}
+    engines: {node: '>=18'}
     peerDependencies:
       babel-plugin-macros: ^3.1.0
     peerDependenciesMeta:
