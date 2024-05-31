@@ -38,7 +38,7 @@ importers:
         version: 7.10.0(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/rule-tester':
         specifier: ^7.4.0
-        version: 7.10.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5)
+        version: 7.11.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5)
       '@vitest/coverage-v8':
         specifier: ^1.0.0
         version: 1.6.0(vitest@1.6.0(@types/node@20.12.12))
@@ -1032,8 +1032,8 @@ packages:
       typescript:
         optional: true
 
-  '@typescript-eslint/rule-tester@7.10.0':
-    resolution: {integrity: sha512-Ef5UorVvLfj7dXBKVLoQo1XxNJm1g7wc51piRHNv5WwHX0uqBssSV5csFMy2Ob50Yqikn/UDElVO+mQck4TZ/g==}
+  '@typescript-eslint/rule-tester@7.11.0':
+    resolution: {integrity: sha512-EKir9b2n1JKnpm9DFHi0r3zbp7zoujMHDVMa/9xS9jeH80Van18r/vmy8WQbEQGiRBpm3PmaRFtSUbOG2FE6dg==}
     engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
       '@eslint/eslintrc': '>=2'
@@ -1128,12 +1128,6 @@ packages:
     engines: {node: ^16.0.0 || >=18.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0
-
-  '@typescript-eslint/utils@7.10.0':
-    resolution: {integrity: sha512-olzif1Fuo8R8m/qKkzJqT7qwy16CzPRWBvERS0uvyc+DHd8AKbO4Jb7kpAvVzMmZm8TrHnI7hvjN4I05zow+tg==}
-    engines: {node: ^18.18.0 || >=20.0.0}
-    peerDependencies:
-      eslint: ^8.56.0
 
   '@typescript-eslint/utils@7.11.0':
     resolution: {integrity: sha512-xlAWwPleNRHwF37AhrZurOxA1wyXowW4PqVXZVUNCLjB48CqdPJoJWkrpH2nij9Q3Lb7rtWindtoXwxjxlKKCA==}
@@ -5089,11 +5083,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/rule-tester@7.10.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5)':
+  '@typescript-eslint/rule-tester@7.11.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
       '@eslint/eslintrc': 3.0.2
-      '@typescript-eslint/typescript-estree': 7.10.0(typescript@5.4.5)
-      '@typescript-eslint/utils': 7.10.0(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 7.11.0(typescript@5.4.5)
+      '@typescript-eslint/utils': 7.11.0(eslint@8.57.0)(typescript@5.4.5)
       ajv: 6.12.6
       eslint: 8.57.0
       lodash.merge: 4.6.2
@@ -5226,17 +5220,6 @@ snapshots:
       '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.4.5)
       eslint: 8.57.0
       semver: 7.6.2
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
-  '@typescript-eslint/utils@7.10.0(eslint@8.57.0)(typescript@5.4.5)':
-    dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
-      '@typescript-eslint/scope-manager': 7.10.0
-      '@typescript-eslint/types': 7.10.0
-      '@typescript-eslint/typescript-estree': 7.10.0(typescript@5.4.5)
-      eslint: 8.57.0
     transitivePeerDependencies:
       - supports-color
       - typescript
