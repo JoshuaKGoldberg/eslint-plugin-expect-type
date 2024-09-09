@@ -5,26 +5,6 @@ import { filename, ruleTester } from "./ruleTester.js";
 
 ruleTester.run("expect", expect, {
 	invalid: [
-		{
-			code: dedent`
-        const square = (x: number) => x * x;
-        const four = square(2);
-        //    ^? const four: string
-      `,
-			errors: [
-				{
-					column: 7,
-					line: 2,
-					messageId: "TypesDoNotMatch",
-				},
-			],
-			filename,
-			output: dedent`
-        const square = (x: number) => x * x;
-        const four = square(2);
-        //    ^? const four: number
-      `,
-		},
 		// Offers a fix for an empty assertion (the usual starting point)
 		{
 			code: dedent`

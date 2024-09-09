@@ -1,6 +1,3 @@
-export type SetRequiredNonNullable<
-	BaseType,
-	Keys extends keyof BaseType,
-> = Omit<BaseType, Keys> & {
+export type SetRequiredNonNullable<BaseType, Keys extends keyof BaseType> = {
 	[K in Keys]: NonNullable<BaseType[K]>;
-};
+} & Omit<BaseType, Keys>;
