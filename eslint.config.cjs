@@ -1,6 +1,7 @@
 const eslint = require("@eslint/js");
 const comments = require("@eslint-community/eslint-plugin-eslint-comments/configs");
 const vitest = require("@vitest/eslint-plugin");
+const eslintPlugin = require("eslint-plugin-eslint-plugin");
 const jsdoc = require("eslint-plugin-jsdoc");
 const jsonc = require("eslint-plugin-jsonc");
 const markdown = require("eslint-plugin-markdown");
@@ -34,6 +35,7 @@ module.exports = tseslint.config(
 	...yml.configs["flat/recommended"],
 	...yml.configs["flat/prettier"],
 	comments.recommended,
+	eslintPlugin.configs["flat/recommended"],
 	jsdoc.configs["flat/contents-typescript-error"],
 	jsdoc.configs["flat/logical-typescript-error"],
 	jsdoc.configs["flat/stylistic-typescript-error"],
@@ -104,7 +106,7 @@ module.exports = tseslint.config(
 		},
 	}),
 	{
-		files: ["**/*.jsonc", "**/tsconfig.json"],
+		files: ["**/tsconfig.json"],
 		rules: {
 			"jsonc/comma-dangle": "off",
 			"jsonc/no-comments": "off",
