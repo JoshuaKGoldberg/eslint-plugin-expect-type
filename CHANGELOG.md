@@ -1,3 +1,9 @@
+## [0.4.1](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.4.0...v0.4.1) (2024-09-09)
+
+### Bug Fixes
+
+- make `recommended` config a valid flat config ([#462](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/462)) ([3e89c46](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/3e89c46c23c4c254157c5850ebc53001191e1758)), closes [#142](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/142) [eslint/eslint#18869](https://github.com/eslint/eslint/issues/18869)
+
 # [0.4.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.3.0...v0.4.0) (2024-03-26)
 
 ### Features
