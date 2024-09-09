@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@typescript-eslint/parser':
+        specifier: '>=6'
+        version: 8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.2)
       '@typescript-eslint/utils':
         specifier: ^6.10.0 || ^7.0.1 || ^8
         version: 8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.2)
@@ -33,12 +36,6 @@ importers:
       '@types/node':
         specifier: ^20.0.0
         version: 20.14.9
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^8.5.0
-        version: 8.5.0(@typescript-eslint/parser@8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.2))(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.2)
-      '@typescript-eslint/parser':
-        specifier: ^8.5.0
-        version: 8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.2)
       '@typescript-eslint/rule-tester':
         specifier: ^8.5.0
         version: 8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.2)
