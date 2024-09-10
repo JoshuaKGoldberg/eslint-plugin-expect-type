@@ -1,3 +1,9 @@
+## [0.4.2](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.4.1...v0.4.2) (2024-09-10)
+
+### Bug Fixes
+
+- bump ESLint-related packages to latest ([#468](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/468)) ([0969206](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/096920640acd0ab56e0d89ea0aa241ed99d6f1dc)), closes [#463](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/463) [#465](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/465)
+
 ## [0.4.1](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.4.0...v0.4.1) (2024-09-09)
 
 ### Bug Fixes
