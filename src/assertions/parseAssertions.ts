@@ -36,7 +36,7 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 			const directive = matchExpect[1];
 			const payload = matchExpect[3];
 			switch (directive) {
-				case "TypeSnapshot":
+				case "TypeSnapshot": {
 					const snapshotName = payload;
 					if (snapshotName) {
 						if (typeAssertions.delete(line)) {
@@ -56,6 +56,7 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 					}
 
 					break;
+				}
 
 				case "Error":
 					if (errorLines.has(line)) {

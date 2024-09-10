@@ -1,3 +1,5 @@
 {
+	"name": "sandbox",
+	"version": "0.0.0",
 	"types": "./foo.ts"
 }

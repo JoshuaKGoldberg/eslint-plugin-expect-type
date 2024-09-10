@@ -12,9 +12,10 @@ RuleTester.itOnly = vitest.it.only;
 RuleTester.describe = vitest.describe;
 
 export const ruleTester = new RuleTester({
-	parser: "@typescript-eslint/parser",
-	parserOptions: {
-		project: path.join(tsconfigRootDir, "tsconfig.json"),
-		tsconfigRootDir,
+	languageOptions: {
+		parserOptions: {
+			projectService: true,
+			tsconfigRootDir,
+		},
 	},
 });

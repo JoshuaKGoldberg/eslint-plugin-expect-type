@@ -1,7 +1,6 @@
 {
 	"$schema": "https://unpkg.com/knip@latest/schema.json",
-	"entry": ["src/index.ts!"],
-	"ignore": "src/rules/sandbox/**/*",
+	"entry": ["src/index.ts!", "src/rules/*.test.ts"],
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
 	"project": ["src/**/*.ts!"]
 }

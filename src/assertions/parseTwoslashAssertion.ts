@@ -6,7 +6,7 @@ export function parseTwoslashAssertion(
 	commentLine: number,
 	sourceText: string,
 	lineStarts: readonly number[],
-): SyntaxError | TwoSlashAssertion | null {
+): null | SyntaxError | TwoSlashAssertion {
 	const matchTwoslash = /^( *)\^\?(.*)$/.exec(comment) as
 		| [never, string, string]
 		| null;

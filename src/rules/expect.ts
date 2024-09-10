@@ -18,11 +18,11 @@ const messages = {
 		"This line has 2 or more $ExpectType assertions.",
 	OrphanAssertion: "Can not match a node to this assertion.",
 	SyntaxError: "Syntax Error: {{ message }}",
+	TypesDoNotMatch: "Expected type to be: {{ expected }}, got: {{ actual }}",
 	TypeSnapshotDoNotMatch:
 		"Expected type from Snapshot to be: {{ expected }}, got: {{ actual }}",
 	TypeSnapshotNotFound:
 		"Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix",
-	TypesDoNotMatch: "Expected type to be: {{ expected }}, got: {{ actual }}",
 };
 
 export type MessageIds = keyof typeof messages;
@@ -43,7 +43,7 @@ export const expect = createRule<[Options], MessageIds>({
 		const { program } = parserServices;
 
 		// TODO: Once ESLint <8 support is removed, soon
-		// eslint-disable-next-line deprecation/deprecation
+		// eslint-disable-next-line @typescript-eslint/no-deprecated
 		const fileName = context.filename || context.getFilename();
 		const sourceFile = program.getSourceFile(fileName);
 		if (!sourceFile) {
@@ -165,8 +165,8 @@ function reportSyntaxErrors(
 					type === "MissingExpectType"
 						? '$ExpectType requires type argument (e.g. // $ExpectType "string")'
 						: type === "MissingSnapshotName"
-						? "$ExpectTypeSnapshot requires snapshot name argument (e.g. // $ExpectTypeSnapshot MainComponentAPI)"
-						: 'Invalid twoslash assertion; make sure there is a space after the "^?".',
+							? "$ExpectTypeSnapshot requires snapshot name argument (e.g. // $ExpectTypeSnapshot MainComponentAPI)"
+							: 'Invalid twoslash assertion; make sure there is a space after the "^?".',
 			},
 			loc: {
 				column: 0,
@@ -210,7 +210,7 @@ function reportUnmetExpectations(
 									if (!options.disableExpectTypeSnapshotFix) {
 										updateTypeSnapshot(
 											// TODO: Once ESLint <8 support is removed, soon
-											// eslint-disable-next-line deprecation/deprecation
+											// eslint-disable-next-line @typescript-eslint/no-deprecated
 											context.filename || context.getFilename(),
 											snapshotName,
 											actual,
@@ -220,7 +220,7 @@ function reportUnmetExpectations(
 									return "";
 								},
 							};
-					  }
+						}
 					: undefined,
 
 				messageId:
@@ -247,7 +247,7 @@ function reportUnmetExpectations(
 											.join("\n"),
 								};
 							},
-					  }
+						}
 					: {}),
 			});
 		}
