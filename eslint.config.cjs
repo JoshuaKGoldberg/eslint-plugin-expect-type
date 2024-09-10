@@ -120,11 +120,6 @@ module.exports = tseslint.config(
 			// Ignore unused code, as they're often commented with the plugin
 			"@typescript-eslint/no-unused-expressions": "off",
 			"@typescript-eslint/no-unused-vars": "off",
-
-			"n/no-missing-import": [
-				"error",
-				{ allowModules: ["create-typescript-app"] },
-			],
 		},
 	},
 	{
