@@ -91,7 +91,7 @@
 		"@typescript-eslint/utils": "^8.5.0",
 		"@vitest/coverage-v8": "^1.0.0",
 		"@vitest/eslint-plugin": "^1.1.0",
-		"console-fail-test": "^0.2.3",
+		"console-fail-test": "^0.5.0",
 		"cspell": "^8.0.0",
 		"dedent": "^1.0.0",
 		"eslint": "^9.10.0",
