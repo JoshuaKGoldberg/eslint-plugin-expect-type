@@ -34,17 +34,17 @@ importers:
         specifier: ^11.0.0
         version: 11.0.4
       '@types/node':
-        specifier: ^20.0.0
-        version: 20.16.5
+        specifier: ^22.0.0
+        version: 22.5.4
       '@typescript-eslint/rule-tester':
         specifier: ^8.5.0
         version: 8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4)
       '@vitest/coverage-v8':
         specifier: ^1.0.0
-        version: 1.6.0(vitest@1.6.0(@types/node@20.16.5))
+        version: 1.6.0(vitest@1.6.0(@types/node@22.5.4))
       '@vitest/eslint-plugin':
         specifier: ^1.1.0
-        version: 1.1.0(@typescript-eslint/utils@8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4))(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4)(vitest@1.6.0(@types/node@20.16.5))
+        version: 1.1.0(@typescript-eslint/utils@8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4))(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4)(vitest@1.6.0(@types/node@22.5.4))
       console-fail-test:
         specifier: ^0.5.0
         version: 0.5.0
@@ -95,7 +95,7 @@ importers:
         version: 2.4.0
       knip:
         specifier: ^5.0.0
-        version: 5.30.0(@types/node@20.16.5)(typescript@5.5.4)
+        version: 5.30.0(@types/node@22.5.4)(typescript@5.5.4)
       lint-staged:
         specifier: ^15.1.0
         version: 15.2.10
@@ -140,7 +140,7 @@ importers:
         version: 8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4)
       vitest:
         specifier: ^1.0.0
-        version: 1.6.0(@types/node@20.16.5)
+        version: 1.6.0(@types/node@22.5.4)
 
 packages:
 
@@ -985,8 +985,8 @@ packages:
   '@types/minimist@1.2.2':
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
 
-  '@types/node@20.16.5':
-    resolution: {integrity: sha512-VwYCweNo3ERajwy0IUlqqcyZ8/A7Zwa9ZP3MnENWcB11AejO+tLy3pu850goUW2FC/IJMdZUfKpX/yxL1gymCA==}
+  '@types/node@22.5.4':
+    resolution: {integrity: sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==}
 
   '@types/normalize-package-data@2.4.1':
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -4604,12 +4604,12 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 20.16.5
+      '@types/node': 22.5.4
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.16.5
+      '@types/node': 22.5.4
 
   '@types/http-cache-semantics@4.0.4': {}
 
@@ -4617,7 +4617,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 20.16.5
+      '@types/node': 22.5.4
 
   '@types/mdast@3.0.12':
     dependencies:
@@ -4627,7 +4627,7 @@ snapshots:
 
   '@types/minimist@1.2.2': {}
 
-  '@types/node@20.16.5':
+  '@types/node@22.5.4':
     dependencies:
       undici-types: 6.19.8
 
@@ -4772,7 +4772,7 @@ snapshots:
       '@typescript-eslint/types': 8.5.0
       eslint-visitor-keys: 3.4.3
 
-  '@vitest/coverage-v8@1.6.0(vitest@1.6.0(@types/node@20.16.5))':
+  '@vitest/coverage-v8@1.6.0(vitest@1.6.0(@types/node@22.5.4))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -4787,17 +4787,17 @@ snapshots:
       std-env: 3.7.0
       strip-literal: 2.1.0
       test-exclude: 6.0.0
-      vitest: 1.6.0(@types/node@20.16.5)
+      vitest: 1.6.0(@types/node@22.5.4)
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.1.0(@typescript-eslint/utils@8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4))(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4)(vitest@1.6.0(@types/node@20.16.5))':
+  '@vitest/eslint-plugin@1.1.0(@typescript-eslint/utils@8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4))(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4)(vitest@1.6.0(@types/node@22.5.4))':
     dependencies:
       eslint: 9.10.0(jiti@1.21.6)
     optionalDependencies:
       '@typescript-eslint/utils': 8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4)
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@20.16.5)
+      vitest: 1.6.0(@types/node@22.5.4)
 
   '@vitest/expect@1.6.0':
     dependencies:
@@ -6346,11 +6346,11 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  knip@5.30.0(@types/node@20.16.5)(typescript@5.5.4):
+  knip@5.30.0(@types/node@22.5.4)(typescript@5.5.4):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@snyk/github-codeowners': 1.1.0
-      '@types/node': 20.16.5
+      '@types/node': 22.5.4
       easy-table: 1.2.0
       enhanced-resolve: 5.17.1
       fast-glob: 3.3.2
@@ -7652,13 +7652,13 @@ snapshots:
 
   validate-npm-package-name@5.0.1: {}
 
-  vite-node@1.6.0(@types/node@20.16.5):
+  vite-node@1.6.0(@types/node@22.5.4):
     dependencies:
       cac: 6.7.14
       debug: 4.3.7
       pathe: 1.1.2
       picocolors: 1.1.0
-      vite: 5.2.11(@types/node@20.16.5)
+      vite: 5.2.11(@types/node@22.5.4)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -7669,16 +7669,16 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.2.11(@types/node@20.16.5):
+  vite@5.2.11(@types/node@22.5.4):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.21.2
     optionalDependencies:
-      '@types/node': 20.16.5
+      '@types/node': 22.5.4
       fsevents: 2.3.3
 
-  vitest@1.6.0(@types/node@20.16.5):
+  vitest@1.6.0(@types/node@22.5.4):
     dependencies:
       '@vitest/expect': 1.6.0
       '@vitest/runner': 1.6.0
@@ -7697,11 +7697,11 @@ snapshots:
       strip-literal: 2.1.0
       tinybench: 2.8.0
       tinypool: 0.8.4
-      vite: 5.2.11(@types/node@20.16.5)
-      vite-node: 1.6.0(@types/node@20.16.5)
+      vite: 5.2.11(@types/node@22.5.4)
+      vite-node: 1.6.0(@types/node@22.5.4)
       why-is-node-running: 2.2.2
     optionalDependencies:
-      '@types/node': 20.16.5
+      '@types/node': 22.5.4
     transitivePeerDependencies:
       - less
       - lightningcss
