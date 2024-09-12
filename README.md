@@ -59,7 +59,7 @@ export default [
 ];
 ```
 
-> For CommonJS, use `const { default: expectType } = require("eslint-plugin-expect-type/configs/recommended");`.
+> For CommonJS, use `const expectType = require("eslint-plugin-expect-type/configs/recommended").default;`.
 
 Then, you'll be able to use `^?`, `$ExpectError`, `$ExpectType`, and `$ExpectTypeSnapshot` comments in code assert on types.
 
