@@ -1,12 +1,10 @@
-import { plugin, recommendedRuleSettings } from "./plugin.js";
+import { recommendedRuleSettings } from "./plugin.js";
 
 export { rules } from "./rules/index.js";
 
 export const configs = {
 	recommended: {
-		plugins: {
-			"expect-type": plugin,
-		},
+		plugins: ["expect-type"],
 		rules: recommendedRuleSettings,
 	},
 };
