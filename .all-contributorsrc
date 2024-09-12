@@ -111,6 +111,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "cexbrayat",
+      "name": "Cédric Exbrayat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/411874?v=4",
+      "profile": "https://books.ninja-squad.com",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
