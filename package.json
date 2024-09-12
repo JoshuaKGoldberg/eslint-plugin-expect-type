@@ -86,7 +86,7 @@
 		"@release-it/conventional-changelog": "^8.0.1",
 		"@types/dedent": "^0.7.0",
 		"@types/fs-extra": "^11.0.0",
-		"@types/node": "^20.0.0",
+		"@types/node": "^22.0.0",
 		"@typescript-eslint/rule-tester": "^8.5.0",
 		"@typescript-eslint/utils": "^8.5.0",
 		"@vitest/coverage-v8": "^1.0.0",
