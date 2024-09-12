@@ -1,6 +1,6 @@
 {
 	"name": "eslint-plugin-expect-type",
-	"version": "0.4.2",
+	"version": "0.4.3",
 	"description": "ESLint plugin with ^? Twoslash, $ExpectError, and $ExpectType type assertions. 🧩",
 	"keywords": [
 		"dtslint",

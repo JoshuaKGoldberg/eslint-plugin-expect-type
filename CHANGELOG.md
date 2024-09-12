@@ -1,3 +1,9 @@
+## [0.4.3](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.4.2...v0.4.3) (2024-09-12)
+
+### Bug Fixes
+
+- revert src/index.ts back to legacy config format ([#488](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/488)) ([1631ccc](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/1631ccc53846a161d02887461cbe8f63d77d1cce)), closes [#486](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/486) [#462](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/462)
+
 ## [0.4.2](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.4.1...v0.4.2) (2024-09-10)
 
 ### Bug Fixes
