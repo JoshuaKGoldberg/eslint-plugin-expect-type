@@ -81,7 +81,7 @@
 		"fs-extra": "^11.1.1"
 	},
 	"devDependencies": {
-		"@eslint-community/eslint-plugin-eslint-comments": "4.4.0",
+		"@eslint-community/eslint-plugin-eslint-comments": "4.4.1",
 		"@eslint/js": "^9.10.0",
 		"@release-it/conventional-changelog": "^9.0.0",
 		"@types/dedent": "^0.7.0",
