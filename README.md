@@ -82,7 +82,7 @@ If you're still using the [legacy ESLint configuration file format](https://esli
 💼 Configurations enabled in.\
 ✅ Set in the `recommended` configuration.\
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
-💭 Requires type information.
+💭 Requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
 | Name                           | Description                                 | 💼 | 🔧 | 💭 |
 | :----------------------------- | :------------------------------------------ | :- | :- | :- |
