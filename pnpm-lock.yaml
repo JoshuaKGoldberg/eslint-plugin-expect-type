@@ -95,7 +95,7 @@ importers:
         version: 2.4.0
       knip:
         specifier: ^5.0.0
-        version: 5.37.1(@types/node@22.9.1)(typescript@5.6.3)
+        version: 5.37.2(@types/node@22.9.1)(typescript@5.6.3)
       lint-staged:
         specifier: ^15.1.0
         version: 15.2.7
@@ -1214,8 +1214,8 @@ packages:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
 
-  ansi-regex@6.0.1:
-    resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
+  ansi-regex@6.1.0:
+    resolution: {integrity: sha512-7HSX4QQb4CspciLpVFwyRe79O3xsIZDDLER21kERQ71oaPodF8jL725AgJMFAYbooIqolJoRLuM81SpeUkpkvA==}
     engines: {node: '>=12'}
 
   ansi-styles@4.3.0:
@@ -2581,8 +2581,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  knip@5.37.1:
-    resolution: {integrity: sha512-69gjKj5lLsLXcIPXlHyFfX5AOHgRdh/iXH8gUqvmsHtjqoWhOATeXZDjvvemmgw7KxbWbUzxBNbpjhtJWzgqGA==}
+  knip@5.37.2:
+    resolution: {integrity: sha512-Rs9HHTgmUacyKxchP4kRwG8idi0tzVHVpSyo4EM9sNGDSrPq20lhKXOWMFmShGCV6CH2352393Ok/qG1NblCMw==}
     engines: {node: '>=18.6.0'}
     hasBin: true
     peerDependencies:
@@ -4936,7 +4936,7 @@ snapshots:
 
   ansi-regex@5.0.1: {}
 
-  ansi-regex@6.0.1: {}
+  ansi-regex@6.1.0: {}
 
   ansi-styles@4.3.0:
     dependencies:
@@ -6402,7 +6402,7 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  knip@5.37.1(@types/node@22.9.1)(typescript@5.6.3):
+  knip@5.37.2(@types/node@22.9.1)(typescript@5.6.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@snyk/github-codeowners': 1.1.0
@@ -7448,7 +7448,7 @@ snapshots:
 
   strip-ansi@7.1.0:
     dependencies:
-      ansi-regex: 6.0.1
+      ansi-regex: 6.1.0
 
   strip-final-newline@2.0.0: {}
 
