@@ -16,13 +16,7 @@ const tseslint = require("typescript-eslint");
 
 module.exports = tseslint.config(
 	{
-		ignores: [
-			"coverage*",
-			"lib",
-			"node_modules",
-			"pnpm-lock.yaml",
-			"**/*.snap",
-		],
+		ignores: ["coverage", "lib", "node_modules", "pnpm-lock.yaml", "**/*.snap"],
 	},
 	{
 		linterOptions: {
