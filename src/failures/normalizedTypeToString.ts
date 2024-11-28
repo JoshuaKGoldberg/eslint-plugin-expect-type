@@ -18,7 +18,8 @@ export function normalizedTypeToString(type: string) {
 		return printer.printNode(ts.EmitHint.Unspecified, node, sourceFile);
 	}
 
-	// TODO: pass undefined instead once https://github.com/microsoft/TypeScript/pull/52941 is released
+	// TODO: pass undefined instead once all supported TS versions support it per:
+	// https://github.com/microsoft/TypeScript/pull/52941
 	const context = ts.nullTransformationContext;
 
 	function visit(node: ts.Node) {
