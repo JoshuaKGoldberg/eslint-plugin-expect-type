@@ -3,7 +3,7 @@
 <p align="center">ESLint plugin with `^?` Twoslash, `$ExpectError`, and `$ExpectType` type assertions. 🧩</p>
 
 <p align="center">
-	<a href="#contributors" target="_blank">
+<a href="#contributors" target="_blank">
 <!-- prettier-ignore-start -->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <img alt="All Contributors: 13 👪" src="https://img.shields.io/badge/all_contributors-13_👪-21bb42.svg" />
