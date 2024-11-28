@@ -50,7 +50,6 @@ ruleTester.run("expect", expect, {
 			filename,
 			options: [{ disableExpectTypeSnapshotFix: true }],
 		},
-		// Snapshot has different type.
 		{
 			code: dedent`
       // $ExpectTypeSnapshot TypeSnapshotDoNotMatch
@@ -64,17 +63,52 @@ ruleTester.run("expect", expect, {
 				},
 			],
 			filename,
+			name: "Snapshot has different type",
+			options: [{ disableExpectTypeSnapshotFix: true }],
+		},
+		{
+			code: dedent`
+      // $ExpectTypeSnapshot TypeSnapshotDoNotMatchOr
+      const configB = { d: 0 };
+    `,
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "TypeSnapshotDoNotMatch",
+				},
+			],
+			filename,
+			name: "Snapshot has different type than ||",
 			options: [{ disableExpectTypeSnapshotFix: true }],
 		},
 	],
 	valid: [
-		// Snapshot matches.
 		{
 			code: dedent`
       // $ExpectTypeSnapshot SnapshotMatches
       const c = { a: 15, b: "b" as const, c: "c" };
     `,
 			filename,
+			name: "Snapshot matches",
+			options: [{ disableExpectTypeSnapshotFix: true }],
+		},
+		{
+			code: dedent`
+      // $ExpectTypeSnapshot SnapshotMatchesOr
+      const c = { a: 15, b: "b" as const, c: "c" };
+    `,
+			filename,
+			name: "Snapshot matches first || constituent",
+			options: [{ disableExpectTypeSnapshotFix: true }],
+		},
+		{
+			code: dedent`
+      // $ExpectTypeSnapshot SnapshotMatchesOr
+      const c = { d: true };
+    `,
+			filename,
+			name: "Snapshot matches second || constituent",
 			options: [{ disableExpectTypeSnapshotFix: true }],
 		},
 	],

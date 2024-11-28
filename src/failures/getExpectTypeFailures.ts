@@ -7,8 +7,8 @@ import {
 	getLanguageServiceHost,
 	getNodeForExpectType,
 	matchModuloWhitespace,
-	matchReadonlyArray,
 } from "../utils/typescript.js";
+import { normalizedTypeToString } from "./normalizedTypeToString.js";
 import { ExpectTypeFailures, UnmetExpectation } from "./types.js";
 
 export function getExpectTypeFailures(
@@ -45,18 +45,39 @@ export function getExpectTypeFailures(
 				ts.TypeFormatFlags.NoTruncation,
 			);
 
-			if (
-				!expected ||
-				(actual !== expected && !matchReadonlyArray(actual, expected))
-			) {
+			typeAssertions.delete(line);
+
+			const candidates = expected
+				?.split(/\s*\|\|\s*/)
+				.map((s) => s.trim())
+				.filter(Boolean);
+
+			if (!candidates || !candidateTypeMatches(actual, candidates)) {
 				unmetExpectations.push({ actual, assertion, node });
 			}
-
-			typeAssertions.delete(line);
 		}
 
 		ts.forEachChild(node, iterate);
 	});
+
+	function candidateTypeMatches(actual: string, candidates: string[]) {
+		let actualNormalized: string | undefined;
+
+		for (const candidate of candidates) {
+			if (candidate === actual) {
+				return true;
+			}
+
+			actualNormalized ??= normalizedTypeToString(actual);
+			const candidateNormalized = normalizedTypeToString(candidate);
+
+			if (actualNormalized === candidateNormalized) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	const twoSlashFailureLines: number[] = [];
 	if (twoSlashAssertions.length) {

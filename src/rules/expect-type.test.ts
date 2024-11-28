@@ -48,6 +48,20 @@ ruleTester.run("expect", expect, {
 			],
 			filename,
 		},
+		{
+			code: dedent`
+      // $ExpectType number || string;
+      const t = false;
+    `,
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "TypesDoNotMatch",
+				},
+			],
+			filename,
+		},
 	],
 	valid: [
 		// Primitive type
@@ -74,6 +88,20 @@ ruleTester.run("expect", expect, {
         return implicitAnyParam;
       }
     `,
+			filename,
+		},
+		{
+			code: dedent`
+      // $ExpectType number || string
+      const t = 6 as number;
+      `,
+			filename,
+		},
+		{
+			code: dedent`
+      // $ExpectType string || number
+      const t = 6 as number;
+      `,
 			filename,
 		},
 	],
