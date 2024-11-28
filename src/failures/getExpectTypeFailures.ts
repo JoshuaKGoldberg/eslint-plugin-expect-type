@@ -1,30 +1,29 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import { Assertions } from "../assertions/types.js";
-import { getNodeAtPosition } from "../utils/locations.js";
-import { lineOfPosition } from "../utils/locations.js";
+import { getNodeAtPosition, lineOfPosition } from "../utils/locations.js";
 import {
 	getLanguageServiceHost,
 	getNodeForExpectType,
 	matchModuloWhitespace,
 } from "../utils/typescript.js";
+import { ResolvedVersionToTest } from "../utils/versions.js";
 import { normalizedTypeToString } from "./normalizedTypeToString.js";
 import { ExpectTypeFailures, UnmetExpectation } from "./types.js";
 
 export function getExpectTypeFailures(
-	sourceFile: ts.SourceFile,
 	assertions: Pick<Assertions, "twoSlashAssertions" | "typeAssertions">,
-	program: ts.Program,
+	{ program, sourceFile, tsModule }: ResolvedVersionToTest,
 ): ExpectTypeFailures {
 	const checker = program.getTypeChecker();
-	const languageService = ts.createLanguageService(
+	const languageService = tsModule.createLanguageService(
 		getLanguageServiceHost(program),
 	);
 	const { twoSlashAssertions, typeAssertions } = assertions;
 	const unmetExpectations: UnmetExpectation[] = [];
 
 	// Match assertions to the first node that appears on the line they apply to.
-	ts.forEachChild(sourceFile, function iterate(node) {
+	tsModule.forEachChild(sourceFile, function iterate(node) {
 		const line = lineOfPosition(node.getStart(sourceFile), sourceFile);
 		const assertion = typeAssertions.get(line);
 		if (assertion !== undefined) {
@@ -33,7 +32,7 @@ export function getExpectTypeFailures(
 			let nodeToCheck = node;
 
 			// https://github.com/Microsoft/TypeScript/issues/14077
-			if (node.kind === ts.SyntaxKind.ExpressionStatement) {
+			if (node.kind === tsModule.SyntaxKind.ExpressionStatement) {
 				node = (node as ts.ExpressionStatement).expression;
 			}
 
@@ -42,7 +41,7 @@ export function getExpectTypeFailures(
 			const actual = checker.typeToString(
 				type,
 				/*enclosingDeclaration*/ undefined,
-				ts.TypeFormatFlags.NoTruncation,
+				tsModule.TypeFormatFlags.NoTruncation,
 			);
 
 			typeAssertions.delete(line);
@@ -57,7 +56,7 @@ export function getExpectTypeFailures(
 			}
 		}
 
-		ts.forEachChild(node, iterate);
+		tsModule.forEachChild(node, iterate);
 	});
 
 	function candidateTypeMatches(actual: string, candidates: string[]) {
@@ -68,8 +67,8 @@ export function getExpectTypeFailures(
 				return true;
 			}
 
-			actualNormalized ??= normalizedTypeToString(actual);
-			const candidateNormalized = normalizedTypeToString(candidate);
+			actualNormalized ??= normalizedTypeToString(actual, tsModule);
+			const candidateNormalized = normalizedTypeToString(candidate, tsModule);
 
 			if (actualNormalized === candidateNormalized) {
 				return true;

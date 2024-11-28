@@ -148,3 +148,28 @@ These snapshots will automatically update whenever `eslint --fix` is run.
 
 Whether to disable `$ExpectTypeSnapshot` auto-fixing.
 Defaults to `false`.
+
+### `versionsToTest`
+
+Array of TypeScript versions to test.
+Defaults to the installed version.
+
+If provided, this must be an array of objects containing:
+
+- `name: string`: An alias for a TypeScript version
+- `path: string`:
+
+For example:
+
+```json
+[
+	{
+		"name": "current",
+		"path": "node_modules/typescript"
+	},
+	{
+		"name": "5.0",
+		"path": "node_modules/typescript50"
+	}
+]
+```
