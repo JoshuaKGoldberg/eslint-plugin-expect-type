@@ -1,3 +1,9 @@
+# [0.5.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.4.3...v0.5.0) (2024-11-28)
+
+### Features
+
+- support ||s and type normalization for comparisons ([#634](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/634)) ([8724da8](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/8724da8b1e08b71de85661d620aad2600a6b75e5)), closes [#108](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/108) [#109](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/109) [#108](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/108) [#109](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/109)
+
 ## [0.4.3](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.4.2...v0.4.3) (2024-09-12)
 
 ### Bug Fixes
