@@ -16,10 +16,6 @@ export const locForTSNode = (sourceFile: ts.SourceFile, node: ts.Node) => {
 	};
 };
 
-export function lineOfPosition(pos: number, sourceFile: ts.SourceFile): number {
-	return sourceFile.getLineAndCharacterOfPosition(pos).line;
-}
-
 export function getNodeAtPosition(
 	sourceFile: ts.SourceFile,
 	position: number,
@@ -34,4 +30,8 @@ export function getNodeAtPosition(
 		}
 	});
 	return candidate;
+}
+
+export function lineOfPosition(pos: number, sourceFile: ts.SourceFile): number {
+	return sourceFile.getLineAndCharacterOfPosition(pos).line;
 }

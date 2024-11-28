@@ -1,5 +1,5 @@
-const eslint = require("@eslint/js");
 const comments = require("@eslint-community/eslint-plugin-eslint-comments/configs");
+const eslint = require("@eslint/js");
 const vitest = require("@vitest/eslint-plugin");
 const eslintPlugin = require("eslint-plugin-eslint-plugin");
 const jsdoc = require("eslint-plugin-jsdoc");
@@ -16,13 +16,7 @@ const tseslint = require("typescript-eslint");
 
 module.exports = tseslint.config(
 	{
-		ignores: [
-			"coverage",
-			"lib",
-			"node_modules",
-			"pnpm-lock.yaml",
-			"**/*.snap*",
-		],
+		ignores: ["coverage", "lib", "node_modules", "pnpm-lock.yaml", "**/*.snap"],
 	},
 	{
 		linterOptions: {
@@ -43,7 +37,7 @@ module.exports = tseslint.config(
 	packageJson,
 	perfectionist.configs["recommended-natural"],
 	regexp.configs["flat/recommended"],
-	...tseslint.config({
+	{
 		extends: [
 			...tseslint.configs.strictTypeChecked,
 			...tseslint.configs.stylisticTypeChecked,
@@ -52,8 +46,7 @@ module.exports = tseslint.config(
 		languageOptions: {
 			parserOptions: {
 				projectService: {
-					allowDefaultProject: [".*.js", "*.ts"],
-					defaultProject: "./tsconfig.json",
+					allowDefaultProject: ["*.config.*s", ".*rc.js"],
 				},
 				tsconfigRootDir: __dirname,
 			},
@@ -66,45 +59,24 @@ module.exports = tseslint.config(
 					allowConstantLoopConditions: true,
 				},
 			],
-			"@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "all" }],
 
-			"@typescript-eslint/prefer-nullish-coalescing": [
-				"error",
-				{ ignorePrimitives: true },
-			],
-			"@typescript-eslint/restrict-template-expressions": [
-				"error",
-				{ allowBoolean: true, allowNullish: true, allowNumber: true },
-			],
-
-			// These on-by-default rules don't work well for this repo and we like them off.
-			"jsdoc/lines-before-block": "off",
-			// These off-by-default rules work well for this repo and we like them on.
+			// Stylistic concerns that don't interfere with Prettier
 			"logical-assignment-operators": [
 				"error",
 				"always",
 				{ enforceForIfStatements: true },
 			],
-			"n/no-unsupported-features/node-builtins": [
-				"error",
-				{ allowExperimental: true },
-			],
-			"no-constant-condition": "off",
-			// Stylistic concerns that don't interfere with Prettier
 			"no-useless-rename": "error",
 			"object-shorthand": "error",
-
 			"operator-assignment": "error",
-			"perfectionist/sort-objects": [
-				"error",
-				{
-					order: "asc",
-					partitionByComment: true,
-					type: "natural",
-				},
-			],
 		},
-	}),
+		settings: {
+			perfectionist: {
+				partitionByComment: true,
+				type: "natural",
+			},
+		},
+	},
 	{
 		files: ["**/tsconfig.json"],
 		rules: {
@@ -123,14 +95,9 @@ module.exports = tseslint.config(
 		},
 	},
 	{
+		extends: [vitest.configs.recommended],
 		files: ["**/*.test.*"],
-		languageOptions: {
-			globals: vitest.environments.env.globals,
-		},
-		plugins: { vitest },
 		rules: {
-			...vitest.configs.recommended.rules,
-
 			// These on-by-default rules aren't useful in test files.
 			"@typescript-eslint/no-unsafe-assignment": "off",
 			"@typescript-eslint/no-unsafe-call": "off",
