@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare
+      - run: pnpm build
       - run: pnpm lint
   lint_docs:
     name: Lint Docs
@@ -20,6 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare
+      - run: pnpm build
       - run: pnpm build:docs
       - run: pnpm lint:docs
   lint_knip:
