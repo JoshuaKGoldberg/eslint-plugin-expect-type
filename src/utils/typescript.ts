@@ -39,6 +39,17 @@ export function getNodeForExpectType(node: ts.Node): ts.Node {
 	return node;
 }
 
+export function matchModuloWhitespace(
+	actual: string,
+	expected: string,
+): boolean {
+	// TODO: it's much easier to normalize actual based on the displayParts
+	//       This isn't 100% correct if a type has a space in it, e.g. type T = "string literal"
+	const normActual = actual.replace(/[\n\r ]+/g, " ").trim();
+	const normExpected = expected.replace(/[\n\r ]+/g, " ").trim();
+	return normActual === normExpected;
+}
+
 export function matchReadonlyArray(actual: string, expected: string) {
 	if (!(/\breadonly\b/.test(actual) && /\bReadonlyArray\b/.test(expected))) {
 		return false;
@@ -93,15 +104,4 @@ export function matchReadonlyArray(actual: string, expected: string) {
 	}
 
 	return true;
-}
-
-export function matchModuloWhitespace(
-	actual: string,
-	expected: string,
-): boolean {
-	// TODO: it's much easier to normalize actual based on the displayParts
-	//       This isn't 100% correct if a type has a space in it, e.g. type T = "string literal"
-	const normActual = actual.replace(/[\n\r ]+/g, " ").trim();
-	const normExpected = expected.replace(/[\n\r ]+/g, " ").trim();
-	return normActual === normExpected;
 }

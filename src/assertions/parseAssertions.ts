@@ -36,28 +36,6 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 			const directive = matchExpect[1];
 			const payload = matchExpect[3];
 			switch (directive) {
-				case "TypeSnapshot": {
-					const snapshotName = payload;
-					if (snapshotName) {
-						if (typeAssertions.delete(line)) {
-							duplicates.push(line);
-						} else {
-							typeAssertions.set(line, {
-								assertionType: "snapshot",
-								expected: getTypeSnapshot(sourceFile.fileName, snapshotName),
-								snapshotName,
-							});
-						}
-					} else {
-						syntaxErrors.push({
-							line,
-							type: "MissingSnapshotName",
-						});
-					}
-
-					break;
-				}
-
 				case "Error":
 					if (errorLines.has(line)) {
 						duplicates.push(line);
@@ -79,6 +57,28 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 						syntaxErrors.push({
 							line,
 							type: "MissingExpectType",
+						});
+					}
+
+					break;
+				}
+
+				case "TypeSnapshot": {
+					const snapshotName = payload;
+					if (snapshotName) {
+						if (typeAssertions.delete(line)) {
+							duplicates.push(line);
+						} else {
+							typeAssertions.set(line, {
+								assertionType: "snapshot",
+								expected: getTypeSnapshot(sourceFile.fileName, snapshotName),
+								snapshotName,
+							});
+						}
+					} else {
+						syntaxErrors.push({
+							line,
+							type: "MissingSnapshotName",
 						});
 					}
 
