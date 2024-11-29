@@ -8,8 +8,6 @@ export const messages = {
 	ExpectedErrorNotFound: "Expected an error on this line, but found none.",
 	ExpectedErrorNotFoundForVersion:
 		"Expected an error for TypeScript version {{ version }} on this line, but found none.",
-	FileIsNotIncludedInTSConfig:
-		'Expected to find a file "{{ fileName }}" present.',
 	Multiple$ExpectTypeAssertions:
 		"This line has 2 or more $ExpectType assertions.",
 	OrphanAssertion: "Can not match a node to this assertion.",

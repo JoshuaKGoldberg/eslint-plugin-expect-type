@@ -34,16 +34,10 @@ export function resolveVersionsToTest(
 	versionsToTest: undefined | VersionToTestOption[],
 ): VersionsResolution {
 	const { program: originalProgram } = ESLintUtils.getParserServices(context);
-	const originalSourceFile = originalProgram.getSourceFile(fileName);
 
-	if (!originalSourceFile) {
-		return {
-			error: {
-				data: { filename: fileName },
-				messageId: "FileIsNotIncludedInTSConfig",
-			},
-		};
-	}
+	// ESLintUtils.getParserServices would have thrown if there's no file.
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const originalSourceFile = originalProgram.getSourceFile(fileName)!;
 
 	if (!versionsToTest) {
 		return {
