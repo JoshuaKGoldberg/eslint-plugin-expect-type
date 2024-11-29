@@ -18,4 +18,5 @@ export interface UnmetExpectation {
 	actual: string;
 	assertion: Assertion;
 	node: ts.Node;
+	version?: string;
 }

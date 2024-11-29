@@ -2,11 +2,6 @@ export type Assertion = ManualAssertion | SnapshotAssertion | TwoSlashAssertion;
 
 export interface Assertions {
 	/**
-	 * Lines with more than one assertion (these are errors).
-	 */
-	readonly duplicates: readonly number[];
-
-	/**
 	 * Lines with an $ExpectError.
 	 */
 	readonly errorLines: ReadonlySet<number>;

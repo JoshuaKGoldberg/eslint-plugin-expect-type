@@ -9,7 +9,7 @@ ruleTester.run("expect", expect, {
 			code: dedent`
       // $ExpectType number
       const t = 'a';
-np    `,
+      `,
 			errors: [
 				{
 					column: 1,
@@ -23,7 +23,7 @@ np    `,
 			code: dedent`
       //$ExpectType number
       const t = 'a';
-    `,
+      `,
 			errors: [
 				{
 					column: 1,
@@ -38,7 +38,7 @@ np    `,
 			code: dedent`
       // $ExpectType { a: number; b: "on"; }
       const t = { b: 'on' as const, a: 17 };
-    `,
+      `,
 			errors: [
 				{
 					column: 1,

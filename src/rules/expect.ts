@@ -44,22 +44,16 @@ export const expect = createRule<[Options], MessageIds>({
 			return {};
 		}
 
-		for (const version of versionsResolution.versions) {
+		for (const version of versionsResolution.versionsToTest) {
 			testInVersion(version);
 		}
 
 		return {};
 
 		function testInVersion(version: ResolvedVersionToTest) {
-			const {
-				duplicates,
-				errorLines,
-				syntaxErrors,
-				twoSlashAssertions,
-				typeAssertions,
-			} = parseAssertions(version.sourceFile);
+			const { errorLines, syntaxErrors, twoSlashAssertions, typeAssertions } =
+				parseAssertions(version.sourceFile);
 
-			reportDuplicates(context, duplicates);
 			reportNotFoundErrors(context, errorLines, version);
 			reportSyntaxErrors(context, syntaxErrors);
 
@@ -103,7 +97,7 @@ export const expect = createRule<[Options], MessageIds>({
 						disableExpectTypeSnapshotFix: {
 							type: "boolean",
 						},
-						versions: {
+						versionsToTest: {
 							items: { $ref: "#/$defs/version" },
 							type: "array",
 						},
@@ -117,21 +111,6 @@ export const expect = createRule<[Options], MessageIds>({
 	},
 	name: "expect",
 });
-
-function reportDuplicates(
-	context: ExpectRuleContext,
-	duplicates: readonly number[],
-) {
-	for (const line of duplicates) {
-		context.report({
-			loc: {
-				column: 0,
-				line: line + 1,
-			},
-			messageId: "Multiple$ExpectTypeAssertions",
-		});
-	}
-}
 
 function reportNotFoundErrors(
 	context: ExpectRuleContext,
@@ -187,11 +166,12 @@ function reportUnmetExpectations(
 	unmetExpectations: readonly UnmetExpectation[],
 	sourceFile: ts.SourceFile,
 ) {
-	for (const { actual, assertion, node } of unmetExpectations) {
+	for (const { actual, assertion, node, version } of unmetExpectations) {
 		const templateDescriptor = {
 			data: {
 				actual,
 				expected: assertion.expected,
+				...(version && { version }),
 			},
 			loc: locForTSNode(sourceFile, node),
 		};
@@ -235,7 +215,9 @@ function reportUnmetExpectations(
 		} else {
 			context.report({
 				...templateDescriptor,
-				messageId: "TypesDoNotMatch",
+				messageId: templateDescriptor.data.version
+					? "TypesDoNotMatchForVersion"
+					: "TypesDoNotMatch",
 				...(assertion.assertionType === "twoslash"
 					? {
 							fix: (): TSESLint.RuleFix => {

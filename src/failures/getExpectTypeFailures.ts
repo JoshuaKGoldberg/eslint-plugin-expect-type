@@ -13,11 +13,11 @@ import { ExpectTypeFailures, UnmetExpectation } from "./types.js";
 
 export function getExpectTypeFailures(
 	assertions: Pick<Assertions, "twoSlashAssertions" | "typeAssertions">,
-	{ program, sourceFile, tsModule }: ResolvedVersionToTest,
+	{ program, sourceFile, tsModule, version }: ResolvedVersionToTest,
 ): ExpectTypeFailures {
 	const checker = program.getTypeChecker();
 	const languageService = tsModule.createLanguageService(
-		getLanguageServiceHost(program),
+		getLanguageServiceHost(program, tsModule),
 	);
 	const { twoSlashAssertions, typeAssertions } = assertions;
 	const unmetExpectations: UnmetExpectation[] = [];
@@ -36,7 +36,7 @@ export function getExpectTypeFailures(
 				node = (node as ts.ExpressionStatement).expression;
 			}
 
-			nodeToCheck = getNodeForExpectType(node);
+			nodeToCheck = getNodeForExpectType(node, tsModule);
 			const type = checker.getTypeAtLocation(nodeToCheck);
 			const actual = checker.typeToString(
 				type,
@@ -52,7 +52,7 @@ export function getExpectTypeFailures(
 				.filter(Boolean);
 
 			if (!candidates || !candidateTypeMatches(actual, candidates)) {
-				unmetExpectations.push({ actual, assertion, node });
+				unmetExpectations.push({ actual, assertion, node, version });
 			}
 		}
 
@@ -88,7 +88,7 @@ export function getExpectTypeFailures(
 				continue;
 			}
 
-			const node = getNodeAtPosition(sourceFile, position);
+			const node = getNodeAtPosition(sourceFile, position, tsModule);
 			if (!node) {
 				twoSlashFailureLines.push(
 					sourceFile.getLineAndCharacterOfPosition(position).line,

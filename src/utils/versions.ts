@@ -2,18 +2,17 @@ import type ts from "typescript";
 
 import { ESLintUtils } from "@typescript-eslint/utils";
 import { ReportDescriptor } from "@typescript-eslint/utils/ts-eslint";
-import fs from "node:fs";
-import path from "node:path";
+import { getTsconfig } from "get-tsconfig";
 import * as tsModuleOriginal from "typescript";
 
 import { ExpectRuleContext, MessageIds, VersionToTestOption } from "../meta.js";
-import { findUp } from "./files.js";
 import { getProgramForVersion, TSModule } from "./programs.js";
 
 export interface ResolvedVersionToTest {
 	program: ts.Program;
 	sourceFile: ts.SourceFile;
 	tsModule: TSModule;
+	version?: string;
 }
 
 export type VersionsResolution =
@@ -26,7 +25,7 @@ export interface VersionsResolutionFailure {
 
 export interface VersionsResolutionSuccess {
 	error?: never;
-	versions: ResolvedVersionToTest[];
+	versionsToTest: ResolvedVersionToTest[];
 }
 
 export function resolveVersionsToTest(
@@ -47,7 +46,7 @@ export function resolveVersionsToTest(
 
 	if (!versionsToTest) {
 		return {
-			versions: [
+			versionsToTest: [
 				{
 					program: originalProgram,
 					sourceFile: originalSourceFile,
@@ -57,16 +56,8 @@ export function resolveVersionsToTest(
 		};
 	}
 
-	const tsconfigPath = findUp(context.filename, (dir) => {
-		const tsconfig = path.join(dir, "tsconfig.json");
-		return fs.existsSync(tsconfig) ? tsconfig : undefined;
-	});
-
-	if (!tsconfigPath) {
-		return {
-			error: { messageId: "NoTSConfig" },
-		};
-	}
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const tsconfigPath = getTsconfig(context.filename)!.path;
 
 	const resolvedVersions: ResolvedVersionToTest[] = [];
 	const seenVersionNames = new Set<string>();
@@ -81,8 +72,18 @@ export function resolveVersionsToTest(
 			};
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-require-imports
-		const tsModule = require(version.path) as TSModule;
+		seenVersionNames.add(version.name);
+
+		const tsModule = tryRequireTypeScript(version);
+		if (typeof tsModule === "string") {
+			return {
+				error: {
+					data: { error: tsModule, ...version },
+					messageId: "CouldNotRequireTypeScript",
+				},
+			};
+		}
+
 		const program = getProgramForVersion(
 			tsconfigPath,
 			tsModule,
@@ -90,21 +91,27 @@ export function resolveVersionsToTest(
 			originalProgram,
 		);
 
-		const sourceFile = program.getSourceFile(context.filename);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const sourceFile = program.getSourceFile(context.filename)!;
 
-		if (!sourceFile) {
-			return {
-				error: {
-					data: { filename: context.filename, version: version.name },
-					messageId: "FileIsNotIncludedInTSConfigForVersion",
-				},
-			};
-		}
-
-		resolvedVersions.push({ program, sourceFile, tsModule });
+		resolvedVersions.push({
+			program,
+			sourceFile,
+			tsModule,
+			version: version.name,
+		});
 	}
 
 	return {
-		versions: resolvedVersions,
+		versionsToTest: resolvedVersions,
 	};
+}
+
+function tryRequireTypeScript(version: VersionToTestOption) {
+	try {
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		return require(version.path) as TSModule;
+	} catch (error) {
+		return (error as Error).message.split("\n")[0];
+	}
 }

@@ -13,5 +13,5 @@
 		"strict": true,
 		"target": "es2017"
 	},
-	"files": ["file.ts", "package/foo.ts"]
+	"files": ["file.ts", "package/foo.ts", "versioned.ts"]
 }

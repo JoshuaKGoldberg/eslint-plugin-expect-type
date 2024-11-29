@@ -1,30 +1,38 @@
-import * as ts from "typescript";
+import type ts from "typescript";
+
+import { TSModule } from "./programs.js";
 
 export function getLanguageServiceHost(
 	program: ts.Program,
+	tsModule: TSModule,
 ): ts.LanguageServiceHost {
 	return {
 		getCompilationSettings: () => program.getCompilerOptions(),
 		getCurrentDirectory: () => program.getCurrentDirectory(),
-		getDefaultLibFileName: (options) => ts.getDefaultLibFilePath(options),
+		getDefaultLibFileName: (options) => tsModule.getDefaultLibFilePath(options),
 		getScriptFileNames: () =>
 			program.getSourceFiles().map((sourceFile) => sourceFile.fileName),
 		getScriptSnapshot: (name) =>
-			ts.ScriptSnapshot.fromString(program.getSourceFile(name)?.text ?? ""),
+			tsModule.ScriptSnapshot.fromString(
+				program.getSourceFile(name)?.text ?? "",
+			),
 		getScriptVersion: () => "1",
 		// NB: We can't check `program` for files, it won't contain valid files like package.json
 		/* eslint-disable @typescript-eslint/unbound-method */
-		directoryExists: ts.sys.directoryExists,
-		fileExists: ts.sys.fileExists,
-		getDirectories: ts.sys.getDirectories,
-		readDirectory: ts.sys.readDirectory,
-		readFile: ts.sys.readFile,
+		directoryExists: tsModule.sys.directoryExists,
+		fileExists: tsModule.sys.fileExists,
+		getDirectories: tsModule.sys.getDirectories,
+		readDirectory: tsModule.sys.readDirectory,
+		readFile: tsModule.sys.readFile,
 		/* eslint-enable @typescript-eslint/unbound-method */
 	};
 }
 
-export function getNodeForExpectType(node: ts.Node): ts.Node {
-	if (ts.isVariableStatement(node)) {
+export function getNodeForExpectType(
+	node: ts.Node,
+	tsModule: TSModule,
+): ts.Node {
+	if (tsModule.isVariableStatement(node)) {
 		const {
 			declarationList: { declarations },
 		} = node;
