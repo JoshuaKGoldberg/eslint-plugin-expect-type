@@ -1,3 +1,9 @@
+## [0.6.1](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.6.0...v0.6.1) (2024-11-29)
+
+### Bug Fixes
+
+- clear programs cache if >90% of heap is used ([#643](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/643)) ([9596a34](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/9596a34934f4ddb8d0871dc1730888d5c4a0bcee)), closes [#642](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/642)
+
 # [0.6.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.5.1...v0.6.0) (2024-11-29)
 
 ### Features
