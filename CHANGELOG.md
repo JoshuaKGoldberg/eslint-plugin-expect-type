@@ -1,3 +1,9 @@
+## [0.6.2](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.6.1...v0.6.2) (2024-11-29)
+
+### Bug Fixes
+
+- allow spaces around assertions ([#645](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/645)) ([b8e3014](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/b8e3014be6620172b7802949542b4ec5615532c0)), closes [#644](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/644)
+
 ## [0.6.1](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.6.0...v0.6.1) (2024-11-29)
 
 ### Bug Fixes
