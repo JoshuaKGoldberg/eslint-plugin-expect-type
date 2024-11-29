@@ -2,7 +2,7 @@ import { RuleTester } from "@typescript-eslint/rule-tester";
 import * as path from "path";
 import * as vitest from "vitest";
 
-const tsconfigRootDir = path.join(__dirname, "sandbox");
+export const tsconfigRootDir = path.join(__dirname, "sandbox");
 
 export const filename = path.join(tsconfigRootDir, "file.ts");
 

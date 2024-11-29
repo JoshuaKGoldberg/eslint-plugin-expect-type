@@ -1,4 +1,4 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import { Assertion } from "../assertions/types.js";
 
@@ -18,4 +18,5 @@ export interface UnmetExpectation {
 	actual: string;
 	assertion: Assertion;
 	node: ts.Node;
+	version?: string;
 }

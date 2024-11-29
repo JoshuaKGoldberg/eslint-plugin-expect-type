@@ -1,4 +1,6 @@
-import * as ts from "typescript";
+import type ts from "typescript";
+
+import { TSModule } from "./programs.js";
 
 export const locForTSNode = (sourceFile: ts.SourceFile, node: ts.Node) => {
 	const start = sourceFile.getLineAndCharacterOfPosition(node.getStart());
@@ -19,14 +21,15 @@ export const locForTSNode = (sourceFile: ts.SourceFile, node: ts.Node) => {
 export function getNodeAtPosition(
 	sourceFile: ts.SourceFile,
 	position: number,
+	tsModule: TSModule,
 ): ts.Node | undefined {
 	let candidate: ts.Node | undefined = undefined;
-	ts.forEachChild(sourceFile, function iterate(node) {
+	tsModule.forEachChild(sourceFile, function iterate(node) {
 		const start = node.getStart();
 		const end = node.getEnd();
 		if (position >= start && position <= end) {
 			candidate = node;
-			ts.forEachChild(node, iterate);
+			tsModule.forEachChild(node, iterate);
 		}
 	});
 	return candidate;

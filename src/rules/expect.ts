@@ -1,82 +1,82 @@
-import { ESLintUtils, TSESLint } from "@typescript-eslint/utils";
-import ts from "typescript";
+import type ts from "typescript";
+
+import { TSESLint } from "@typescript-eslint/utils";
 
 import { parseAssertions } from "../assertions/parseAssertions.js";
 import { SyntaxError } from "../assertions/types.js";
 import { getExpectTypeFailures } from "../failures/getExpectTypeFailures.js";
 import { UnmetExpectation } from "../failures/types.js";
+import { ExpectRuleContext, MessageIds, messages, Options } from "../meta.js";
 import { createRule } from "../utils/createRule.js";
 import { isDiagnosticWithStart } from "../utils/diagnostics.js";
 import { lineOfPosition, locForTSNode } from "../utils/locations.js";
 import { updateTypeSnapshot } from "../utils/snapshot.js";
-
-const messages = {
-	ExpectedErrorNotFound: "Expected an error on this line, but found none.",
-	FileIsNotIncludedInTSConfig:
-		'Expected to find a file "{{ fileName }}" present.',
-	OrphanAssertion: "Can not match a node to this assertion.",
-	SyntaxError: "Syntax Error: {{ message }}",
-	TypesDoNotMatch: "Expected type to be: {{ expected }}, got: {{ actual }}",
-	TypeSnapshotDoNotMatch:
-		"Expected type from Snapshot to be: {{ expected }}, got: {{ actual }}",
-	TypeSnapshotNotFound:
-		"Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix",
-};
-
-export type MessageIds = keyof typeof messages;
-
-export interface Options {
-	readonly disableExpectTypeSnapshotFix: boolean;
-}
+import {
+	ResolvedVersionToTest,
+	resolveVersionsToTest,
+} from "../utils/versions.js";
 
 const defaultOptions: Options = {
 	disableExpectTypeSnapshotFix: false,
+	versionsToTest: undefined,
 };
-
-type ExpectRuleContext = TSESLint.RuleContext<MessageIds, [Options]>;
 
 export const expect = createRule<[Options], MessageIds>({
 	create(context, [options]) {
-		const parserServices = ESLintUtils.getParserServices(context);
-		const { program } = parserServices;
+		// Performance: if the source file doesn't have any triggering comments,
+		// avoid asking for diagnostics or type information altogether.
+		if (!/\$Expect(?:Type|Error|\?)|\^\?/.test(context.sourceCode.text)) {
+			return {};
+		}
 
-		// istanbul ignore next
+		/* istanbul ignore next */
 		// TODO: Once ESLint <8 support is removed, soon
 		// eslint-disable-next-line @typescript-eslint/no-deprecated
 		const fileName = context.filename || context.getFilename();
 
-		// ESLintUtils.getParserServices would have thrown if there's no file.
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const sourceFile = program.getSourceFile(fileName)!;
-
-		// Performance: if the source file doesn't have any triggering comments,
-		// avoid asking for diagnostics or type information altogether.
-		if (!/\$Expect(?:Type|Error|\?)|\^\?/.test(sourceFile.text)) {
+		const versionsResolution = resolveVersionsToTest(
+			context,
+			fileName,
+			options.versionsToTest,
+		);
+		if (versionsResolution.error) {
+			context.report({
+				...versionsResolution.error,
+				loc: {
+					end: { column: 0, line: 0 },
+					start: { column: 0, line: 0 },
+				},
+			});
 			return {};
 		}
 
-		const { errorLines, syntaxErrors, twoSlashAssertions, typeAssertions } =
-			parseAssertions(sourceFile);
-
-		reportNotFoundErrors(context, errorLines, program, sourceFile);
-		reportSyntaxErrors(context, syntaxErrors);
-
-		const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(
-			sourceFile,
-			{ twoSlashAssertions, typeAssertions },
-			program,
-		);
-
-		reportUnmetExpectations(
-			context,
-			fileName,
-			options,
-			unmetExpectations,
-			sourceFile,
-		);
-		reportUnusedAssertions(context, unusedAssertions);
+		for (const version of versionsResolution.versionsToTest) {
+			testInVersion(version);
+		}
 
 		return {};
+
+		function testInVersion(version: ResolvedVersionToTest) {
+			const { errorLines, syntaxErrors, twoSlashAssertions, typeAssertions } =
+				parseAssertions(version.sourceFile);
+
+			reportNotFoundErrors(context, errorLines, version);
+			reportSyntaxErrors(context, syntaxErrors);
+
+			const { unmetExpectations, unusedAssertions } = getExpectTypeFailures(
+				{ twoSlashAssertions, typeAssertions },
+				version,
+			);
+
+			reportUnmetExpectations(
+				context,
+				fileName,
+				options,
+				unmetExpectations,
+				version.sourceFile,
+			);
+			reportUnusedAssertions(context, unusedAssertions);
+		}
 	},
 	defaultOptions: [defaultOptions],
 	meta: {
@@ -86,17 +86,34 @@ export const expect = createRule<[Options], MessageIds>({
 		},
 		fixable: "code",
 		messages,
-		schema: [
-			{
-				additionalProperties: false,
-				properties: {
-					disableExpectTypeSnapshotFix: {
-						type: "boolean",
+		schema: {
+			$defs: {
+				version: {
+					additionalProperties: false,
+					properties: {
+						name: { required: true, type: "string" },
+						path: { required: true, type: "string" },
 					},
+					type: "object",
 				},
-				type: "object",
 			},
-		],
+			items: [
+				{
+					additionalProperties: false,
+					properties: {
+						disableExpectTypeSnapshotFix: {
+							type: "boolean",
+						},
+						versionsToTest: {
+							items: { $ref: "#/$defs/version" },
+							type: "array",
+						},
+					},
+					type: "object",
+				},
+			],
+			type: "array",
+		},
 		type: "problem",
 	},
 	name: "expect",
@@ -105,10 +122,9 @@ export const expect = createRule<[Options], MessageIds>({
 function reportNotFoundErrors(
 	context: ExpectRuleContext,
 	errorLines: ReadonlySet<number>,
-	program: ts.Program,
-	sourceFile: ts.SourceFile,
+	{ program, sourceFile, tsModule, version }: ResolvedVersionToTest,
 ) {
-	const diagnostics = ts.getPreEmitDiagnostics(program, sourceFile);
+	const diagnostics = tsModule.getPreEmitDiagnostics(program, sourceFile);
 	const seenDiagnosticsOnLine = new Set(
 		diagnostics
 			.filter(isDiagnosticWithStart)
@@ -118,11 +134,14 @@ function reportNotFoundErrors(
 	for (const line of errorLines) {
 		if (!seenDiagnosticsOnLine.has(line)) {
 			context.report({
+				data: { version },
 				loc: {
 					column: 0,
 					line: line + 1,
 				},
-				messageId: "ExpectedErrorNotFound",
+				messageId: version
+					? "ExpectedErrorNotFoundForVersion"
+					: "ExpectedErrorNotFound",
 			});
 		}
 	}
@@ -158,11 +177,12 @@ function reportUnmetExpectations(
 	unmetExpectations: readonly UnmetExpectation[],
 	sourceFile: ts.SourceFile,
 ) {
-	for (const { actual, assertion, node } of unmetExpectations) {
+	for (const { actual, assertion, node, version } of unmetExpectations) {
 		const templateDescriptor = {
 			data: {
 				actual,
 				expected: assertion.expected,
+				...(version && { version }),
 			},
 			loc: locForTSNode(sourceFile, node),
 		};
@@ -205,7 +225,9 @@ function reportUnmetExpectations(
 		} else {
 			context.report({
 				...templateDescriptor,
-				messageId: "TypesDoNotMatch",
+				messageId: templateDescriptor.data.version
+					? "TypesDoNotMatchForVersion"
+					: "TypesDoNotMatch",
 				...(assertion.assertionType === "twoslash"
 					? {
 							fix: (): TSESLint.RuleFix => {

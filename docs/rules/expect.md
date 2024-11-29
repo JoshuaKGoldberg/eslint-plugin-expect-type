@@ -148,3 +148,30 @@ These snapshots will automatically update whenever `eslint --fix` is run.
 
 Whether to disable `$ExpectTypeSnapshot` auto-fixing.
 Defaults to `false`.
+
+### `versionsToTest`
+
+Array of TypeScript versions to test.
+Defaults to only the installed version.
+
+If provided, this must be an array of objects containing:
+
+- `name: string`: Alias to refer to the TypeScript version
+- `path: string`: Import path to `require()` TypeScript from
+
+For example:
+
+```json
+[
+	{
+		"name": "current",
+		"path": "typescript"
+	},
+	{
+		"name": "5.0",
+		"path": "typescript50"
+	}
+]
+```
+
+`versionsToTest` can be useful if you want to have a single lint job that checks multiple TypeScript versions (instead of a matrix of jobs).
