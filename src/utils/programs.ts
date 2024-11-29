@@ -36,19 +36,6 @@ function createProgram(configFile: string, ts: TSModule): ts.Program {
 		},
 	);
 
-	// If the TypeScript version is too old to handle the "node16" module option,
-	// we can still run tests falling back to commonjs/node.
-	// Once 4.7 is out of DefinitelyTyped support (2024-05) we can remove this.
-	// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-7.html
-	if (
-		config.compilerOptions.module.toLowerCase() === "node16" &&
-		parsed.options.module === undefined
-	) {
-		parsed.options.module = ts.ModuleKind.CommonJS;
-		// eslint-disable-next-line @typescript-eslint/no-deprecated
-		parsed.options.moduleResolution = ts.ModuleResolutionKind.NodeJs;
-	}
-
 	const host = ts.createCompilerHost(parsed.options, true);
 	return ts.createProgram(parsed.fileNames, parsed.options, host);
 }
