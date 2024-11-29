@@ -2,6 +2,7 @@ import type * as ts from "typescript";
 
 import fs from "node:fs";
 import path from "node:path";
+import v8 from "node:v8";
 
 export type TSModule = typeof ts;
 
@@ -46,19 +47,25 @@ function createProgram(configFile: string, ts: TSModule): ts.Program {
 export function getProgramForVersion(
 	configFile: string,
 	ts: TSModule,
-	versionName: string,
-	lintProgram: ts.Program,
+	version: string,
+	originalProgram: ts.Program,
 ): ts.Program {
-	let versionToProgram = programCache.get(lintProgram);
+	let versionToProgram = programCache.get(originalProgram);
 	if (versionToProgram === undefined) {
 		versionToProgram = new Map<string, ts.Program>();
-		programCache.set(lintProgram, versionToProgram);
+		programCache.set(originalProgram, versionToProgram);
 	}
 
-	let newProgram = versionToProgram.get(versionName);
+	let newProgram = versionToProgram.get(version);
 	if (newProgram === undefined) {
 		newProgram = createProgram(configFile, ts);
-		versionToProgram.set(versionName, newProgram);
+		versionToProgram.set(version, newProgram);
+	}
+
+	const heapStats = v8.getHeapStatistics();
+	const heapUsage = heapStats.used_heap_size / heapStats.heap_size_limit;
+	if (heapUsage > 0.9) {
+		versionToProgram.clear();
 	}
 
 	return newProgram;
