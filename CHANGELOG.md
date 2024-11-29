@@ -1,3 +1,9 @@
+# [0.6.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.5.1...v0.6.0) (2024-11-29)
+
+### Features
+
+- add versionsToTest option to support multiple TypeScript versions ([#635](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/635)) ([153f83e](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/153f83ec0802507101dedfc9b980f9bd79ff0972)), closes [#107](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/107)
+
 ## [0.5.1](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.5.0...v0.5.1) (2024-11-29)
 
 ### Bug Fixes
