@@ -115,7 +115,7 @@ export const expect = createRule<[Options], MessageIds>({
 function reportNotFoundErrors(
 	context: ExpectRuleContext,
 	errorLines: ReadonlySet<number>,
-	{ program, sourceFile, tsModule }: ResolvedVersionToTest,
+	{ program, sourceFile, tsModule, version }: ResolvedVersionToTest,
 ) {
 	const diagnostics = tsModule.getPreEmitDiagnostics(program, sourceFile);
 	const seenDiagnosticsOnLine = new Set(
@@ -127,11 +127,14 @@ function reportNotFoundErrors(
 	for (const line of errorLines) {
 		if (!seenDiagnosticsOnLine.has(line)) {
 			context.report({
+				data: { version },
 				loc: {
 					column: 0,
 					line: line + 1,
 				},
-				messageId: "ExpectedErrorNotFound",
+				messageId: version
+					? "ExpectedErrorNotFoundForVersion"
+					: "ExpectedErrorNotFound",
 			});
 		}
 	}

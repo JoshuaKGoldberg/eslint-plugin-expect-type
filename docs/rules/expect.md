@@ -152,12 +152,12 @@ Defaults to `false`.
 ### `versionsToTest`
 
 Array of TypeScript versions to test.
-Defaults to the installed version.
+Defaults to only the installed version.
 
 If provided, this must be an array of objects containing:
 
-- `name: string`: An alias for a TypeScript version
-- `path: string`:
+- `name: string`: Alias to refer to the TypeScript version
+- `path: string`: Import path to `require()` TypeScript from
 
 For example:
 
@@ -165,11 +165,13 @@ For example:
 [
 	{
 		"name": "current",
-		"path": "node_modules/typescript"
+		"path": "typescript"
 	},
 	{
 		"name": "5.0",
-		"path": "node_modules/typescript50"
+		"path": "typescript50"
 	}
 ]
 ```
+
+`versionsToTest` can be useful if you want to have a single lint job that checks multiple TypeScript versions (instead of a matrix of jobs).

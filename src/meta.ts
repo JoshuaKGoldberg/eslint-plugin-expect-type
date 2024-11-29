@@ -6,7 +6,8 @@ export const messages = {
 	DuplicateTSVersionName:
 		"Multiple TypeScript versions specified with name '{{ name }}'.",
 	ExpectedErrorNotFound: "Expected an error on this line, but found none.",
-	// TODO: *ForVersion
+	ExpectedErrorNotFoundForVersion:
+		"Expected an error for TypeScript version {{ version }} on this line, but found none.",
 	FileIsNotIncludedInTSConfig:
 		'Expected to find a file "{{ fileName }}" present.',
 	Multiple$ExpectTypeAssertions:
@@ -18,7 +19,8 @@ export const messages = {
 		"Expected type for TypeScript version {{ version }} to be: {{ expected }}, got: {{ actual }}",
 	TypeSnapshotDoNotMatch:
 		"Expected type from snapshot to be: {{ expected }}, got: {{ actual }}",
-	// TODO: *ForVersion
+	TypeSnapshotDoNotMatchForVersion:
+		"Expected type for TypeScript version {{ version }} from snapshot to be: {{ expected }}, got: {{ actual }}",
 	TypeSnapshotNotFound:
 		"Type Snapshot not found. Please consider running ESLint in FIX mode: eslint --fix",
 };

@@ -3,8 +3,6 @@ import path from "node:path";
 import { expect } from "./expect.js";
 import { ruleTester, tsconfigRootDir } from "./ruleTester.js";
 
-const filename = path.join(tsconfigRootDir, "versioned.ts");
-
 ruleTester.run("expect", expect, {
 	invalid: [
 		{
@@ -19,7 +17,7 @@ ruleTester.run("expect", expect, {
 					messageId: "CouldNotRequireTypeScript",
 				},
 			],
-			filename,
+			filename: path.join(tsconfigRootDir, "versioned-errors.ts"),
 			options: [
 				{
 					disableExpectTypeSnapshotFix: true,
@@ -40,7 +38,7 @@ ruleTester.run("expect", expect, {
 					messageId: "DuplicateTSVersionName",
 				},
 			],
-			filename,
+			filename: path.join(tsconfigRootDir, "versioned-errors.ts"),
 			options: [
 				{
 					disableExpectTypeSnapshotFix: true,
@@ -79,7 +77,7 @@ ruleTester.run("expect", expect, {
 					messageId: "TypesDoNotMatchForVersion",
 				},
 			],
-			filename,
+			filename: path.join(tsconfigRootDir, "versioned-errors.ts"),
 			options: [
 				{
 					disableExpectTypeSnapshotFix: true,
@@ -91,6 +89,53 @@ ruleTester.run("expect", expect, {
 						{
 							name: "5.4",
 							path: "typescript54",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `// ^? ExpectedErrorNotFoundForVersion`,
+			errors: [
+				{
+					data: {
+						version: "current",
+					},
+					line: 4,
+					messageId: "ExpectedErrorNotFoundForVersion",
+				},
+			],
+			filename: path.join(tsconfigRootDir, "versioned-no-errors.ts"),
+			options: [
+				{
+					disableExpectTypeSnapshotFix: true,
+					versionsToTest: [
+						{
+							name: "current",
+							path: "typescript",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `// ^? TypeSnapshotDoNotMatchForVersion`,
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "TypeSnapshotDoNotMatch",
+				},
+			],
+			filename: path.join(tsconfigRootDir, "versioned-snapshot.ts"),
+			name: "Snapshot has different type",
+			options: [
+				{
+					disableExpectTypeSnapshotFix: true,
+					versionsToTest: [
+						{
+							name: "current",
+							path: "typescript",
 						},
 					],
 				},

@@ -13,5 +13,11 @@
 		"strict": true,
 		"target": "es2017"
 	},
-	"files": ["file.ts", "package/foo.ts", "versioned.ts"]
+	"files": [
+		"file.ts",
+		"package/foo.ts",
+		"versioned-errors.ts",
+		"versioned-no-errors.ts",
+		"versioned-snapshot.ts"
+	]
 }
