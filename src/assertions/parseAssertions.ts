@@ -26,14 +26,14 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 		// i.e. `// foo; // $ExpectType number`
 		const comment = commentMatch[1];
 		// eslint-disable-next-line regexp/no-unused-capturing-group
-		const matchExpect = /^ ?\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(
+		const matchExpect = /^\s*\$Expect(TypeSnapshot|Type|Error)( (.*))?$/.exec(
 			comment,
 		) as [never, "Error" | "Type" | "TypeSnapshot", never, string?] | null;
 		const commentIndex = commentMatch.index;
 		const line = getLine(commentIndex);
 		if (matchExpect) {
 			const directive = matchExpect[1];
-			const payload = matchExpect[3];
+			const payload = matchExpect[3]?.trim();
 			switch (directive) {
 				case "Error":
 					errorLines.add(line);
