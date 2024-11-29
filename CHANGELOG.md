@@ -1,3 +1,9 @@
+## [0.5.1](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.5.0...v0.5.1) (2024-11-29)
+
+### Bug Fixes
+
+- remove unusable message IDs ([#639](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/639)) ([8452533](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/8452533f390ce17038848c0fbd9f3df08443fccf)), closes [#114](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/114) [#636](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/636) [#638](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/638) [#114](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/114)
+
 # [0.5.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.4.3...v0.5.0) (2024-11-28)
 
 ### Features

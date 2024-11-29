@@ -30,15 +30,16 @@ export interface VersionsResolutionSuccess {
 
 export function resolveVersionsToTest(
 	context: ExpectRuleContext,
+	fileName: string,
 	versionsToTest: undefined | VersionToTestOption[],
 ): VersionsResolution {
 	const { program: originalProgram } = ESLintUtils.getParserServices(context);
-	const originalSourceFile = originalProgram.getSourceFile(context.filename);
+	const originalSourceFile = originalProgram.getSourceFile(fileName);
 
 	if (!originalSourceFile) {
 		return {
 			error: {
-				data: { filename: context.filename },
+				data: { filename: fileName },
 				messageId: "FileIsNotIncludedInTSConfig",
 			},
 		};

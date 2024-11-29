@@ -29,8 +29,14 @@ export const expect = createRule<[Options], MessageIds>({
 			return {};
 		}
 
+		/* istanbul ignore next */
+		// TODO: Once ESLint <8 support is removed, soon
+		// eslint-disable-next-line @typescript-eslint/no-deprecated
+		const fileName = context.filename || context.getFilename();
+
 		const versionsResolution = resolveVersionsToTest(
 			context,
+			fileName,
 			options.versionsToTest,
 		);
 		if (versionsResolution.error) {
@@ -64,6 +70,7 @@ export const expect = createRule<[Options], MessageIds>({
 
 			reportUnmetExpectations(
 				context,
+				fileName,
 				options,
 				unmetExpectations,
 				version.sourceFile,
@@ -165,6 +172,7 @@ function reportSyntaxErrors(
 
 function reportUnmetExpectations(
 	context: ExpectRuleContext,
+	fileName: string,
 	options: Options,
 	unmetExpectations: readonly UnmetExpectation[],
 	sourceFile: ts.SourceFile,
@@ -196,9 +204,8 @@ function reportUnmetExpectations(
 								get text() {
 									if (!options.disableExpectTypeSnapshotFix) {
 										updateTypeSnapshot(
-											// TODO: Once ESLint <8 support is removed, soon
-											// eslint-disable-next-line @typescript-eslint/no-deprecated
-											context.filename || context.getFilename(),
+											// TODO: Once ESLint <8 support is removed, context.filename
+											fileName,
 											snapshotName,
 											actual,
 										);
