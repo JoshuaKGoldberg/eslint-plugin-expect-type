@@ -8,7 +8,6 @@ import { Assertions, SyntaxError } from "./types.js";
 export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 	const errorLines = new Set<number>();
 	const typeAssertions = new Map<number, Assertion>();
-	const duplicates: number[] = [];
 	const syntaxErrors: SyntaxError[] = [];
 	const twoSlashAssertions: TwoSlashAssertion[] = [];
 
@@ -37,22 +36,13 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 			const payload = matchExpect[3];
 			switch (directive) {
 				case "Error":
-					if (errorLines.has(line)) {
-						duplicates.push(line);
-					}
-
 					errorLines.add(line);
 					break;
 
 				case "Type": {
 					const expected = payload;
 					if (expected) {
-						// Don't bother with the assertion if there are 2 assertions on 1 line. Just fail for the duplicate.
-						if (typeAssertions.delete(line)) {
-							duplicates.push(line);
-						} else {
-							typeAssertions.set(line, { assertionType: "manual", expected });
-						}
+						typeAssertions.set(line, { assertionType: "manual", expected });
 					} else {
 						syntaxErrors.push({
 							line,
@@ -66,15 +56,11 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 				case "TypeSnapshot": {
 					const snapshotName = payload;
 					if (snapshotName) {
-						if (typeAssertions.delete(line)) {
-							duplicates.push(line);
-						} else {
-							typeAssertions.set(line, {
-								assertionType: "snapshot",
-								expected: getTypeSnapshot(sourceFile.fileName, snapshotName),
-								snapshotName,
-							});
-						}
+						typeAssertions.set(line, {
+							assertionType: "snapshot",
+							expected: getTypeSnapshot(sourceFile.fileName, snapshotName),
+							snapshotName,
+						});
 					} else {
 						syntaxErrors.push({
 							line,
@@ -105,7 +91,6 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 	}
 
 	return {
-		duplicates,
 		errorLines,
 		syntaxErrors,
 		twoSlashAssertions,

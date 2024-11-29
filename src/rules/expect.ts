@@ -14,8 +14,6 @@ const messages = {
 	ExpectedErrorNotFound: "Expected an error on this line, but found none.",
 	FileIsNotIncludedInTSConfig:
 		'Expected to find a file "{{ fileName }}" present.',
-	Multiple$ExpectTypeAssertions:
-		"This line has 2 or more $ExpectType assertions.",
 	OrphanAssertion: "Can not match a node to this assertion.",
 	SyntaxError: "Syntax Error: {{ message }}",
 	TypesDoNotMatch: "Expected type to be: {{ expected }}, got: {{ actual }}",
@@ -42,23 +40,14 @@ export const expect = createRule<[Options], MessageIds>({
 		const parserServices = ESLintUtils.getParserServices(context);
 		const { program } = parserServices;
 
+		// istanbul ignore next
 		// TODO: Once ESLint <8 support is removed, soon
 		// eslint-disable-next-line @typescript-eslint/no-deprecated
 		const fileName = context.filename || context.getFilename();
-		const sourceFile = program.getSourceFile(fileName);
-		if (!sourceFile) {
-			context.report({
-				data: {
-					fileName,
-				},
-				loc: {
-					column: 0,
-					line: 1,
-				},
-				messageId: "FileIsNotIncludedInTSConfig",
-			});
-			return {};
-		}
+
+		// ESLintUtils.getParserServices would have thrown if there's no file.
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const sourceFile = program.getSourceFile(fileName)!;
 
 		// Performance: if the source file doesn't have any triggering comments,
 		// avoid asking for diagnostics or type information altogether.
@@ -66,15 +55,9 @@ export const expect = createRule<[Options], MessageIds>({
 			return {};
 		}
 
-		const {
-			duplicates,
-			errorLines,
-			syntaxErrors,
-			twoSlashAssertions,
-			typeAssertions,
-		} = parseAssertions(sourceFile);
+		const { errorLines, syntaxErrors, twoSlashAssertions, typeAssertions } =
+			parseAssertions(sourceFile);
 
-		reportDuplicates(context, duplicates);
 		reportNotFoundErrors(context, errorLines, program, sourceFile);
 		reportSyntaxErrors(context, syntaxErrors);
 
@@ -84,7 +67,13 @@ export const expect = createRule<[Options], MessageIds>({
 			program,
 		);
 
-		reportUnmetExpectations(context, options, unmetExpectations, sourceFile);
+		reportUnmetExpectations(
+			context,
+			fileName,
+			options,
+			unmetExpectations,
+			sourceFile,
+		);
 		reportUnusedAssertions(context, unusedAssertions);
 
 		return {};
@@ -112,21 +101,6 @@ export const expect = createRule<[Options], MessageIds>({
 	},
 	name: "expect",
 });
-
-function reportDuplicates(
-	context: ExpectRuleContext,
-	duplicates: readonly number[],
-) {
-	for (const line of duplicates) {
-		context.report({
-			loc: {
-				column: 0,
-				line: line + 1,
-			},
-			messageId: "Multiple$ExpectTypeAssertions",
-		});
-	}
-}
 
 function reportNotFoundErrors(
 	context: ExpectRuleContext,
@@ -179,6 +153,7 @@ function reportSyntaxErrors(
 
 function reportUnmetExpectations(
 	context: ExpectRuleContext,
+	fileName: string,
 	options: Options,
 	unmetExpectations: readonly UnmetExpectation[],
 	sourceFile: ts.SourceFile,
@@ -209,9 +184,8 @@ function reportUnmetExpectations(
 								get text() {
 									if (!options.disableExpectTypeSnapshotFix) {
 										updateTypeSnapshot(
-											// TODO: Once ESLint <8 support is removed, soon
-											// eslint-disable-next-line @typescript-eslint/no-deprecated
-											context.filename || context.getFilename(),
+											// TODO: Once ESLint <8 support is removed, context.filename
+											fileName,
 											snapshotName,
 											actual,
 										);
