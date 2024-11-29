@@ -39,6 +39,21 @@ ruleTester.run("expect", expect, {
 		},
 		{
 			code: dedent`
+      //   $ExpectType   number${"  "}
+      'a';
+      `,
+			errors: [
+				{
+					column: 1,
+					data: { actual: '"a"', expected: "number" },
+					line: 2,
+					messageId: "TypesDoNotMatch",
+				},
+			],
+			filename,
+		},
+		{
+			code: dedent`
       // $ExpectType number
       const t = 'a';
       `,
@@ -103,6 +118,14 @@ ruleTester.run("expect", expect, {
     `,
 			filename,
 			name: "Primitive type",
+		},
+		{
+			code: dedent`
+      // ... // $ExpectType string
+      const t = 6 as number;
+    `,
+			filename,
+			name: "Commented type",
 		},
 		{
 			code: dedent`
