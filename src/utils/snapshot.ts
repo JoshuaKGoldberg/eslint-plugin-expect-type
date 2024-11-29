@@ -19,14 +19,14 @@ export const getTypeSnapshot = (filename: string, snapshotName: string) => {
 export const updateTypeSnapshot = (
 	filename: string,
 	snapshotName: string,
-	actualType: string,
+	actualType: null | string,
 ) => {
 	const snapshotPath = getSnapshotPath(filename);
 	ensureFileSync(snapshotPath);
 
 	const json =
 		(readJsonSync(snapshotPath, { throws: false }) as
-			| Record<string, string>
+			| Record<string, null | string>
 			| undefined) ?? {};
 	json[snapshotName] = actualType;
 	writeJsonSync(snapshotPath, json, { spaces: 2 });

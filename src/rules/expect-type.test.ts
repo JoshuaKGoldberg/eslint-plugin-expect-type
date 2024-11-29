@@ -7,9 +7,41 @@ ruleTester.run("expect", expect, {
 	invalid: [
 		{
 			code: dedent`
+      // $ExpectType
+      'a';
+      `,
+			errors: [
+				{
+					column: 1,
+					data: {
+						message:
+							'$ExpectType requires type argument (e.g. // $ExpectType "string")',
+					},
+					line: 2,
+					messageId: "SyntaxError",
+				},
+			],
+			filename,
+		},
+		{
+			code: dedent`
+      // $ExpectType number
+      'a';
+      `,
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "TypesDoNotMatch",
+				},
+			],
+			filename,
+		},
+		{
+			code: dedent`
       // $ExpectType number
       const t = 'a';
-np    `,
+      `,
 			errors: [
 				{
 					column: 1,

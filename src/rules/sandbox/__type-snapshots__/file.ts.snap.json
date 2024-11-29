@@ -2,5 +2,7 @@
 	"SnapshotMatches": "{ a: number; b: \"b\"; c: string; }",
 	"SnapshotMatchesOr": "{ a: number; b: \"b\"; c: string; } || { d: boolean }",
 	"TypeSnapshotDoNotMatch": "{ a: number; b: \"b\"; c: boolean; }",
-	"TypeSnapshotDoNotMatchOr": "{ a: number; b: \"b\"; c: boolean; } { d: boolean }"
+	"TypeSnapshotDoNotMatchOr": "{ a: number; b: \"b\"; c: boolean; } { d: boolean }",
+	"SnapshotNotFoundFixing": "boolean[]",
+	"SnapshotNotMatchedFixing": "boolean[]"
 }
