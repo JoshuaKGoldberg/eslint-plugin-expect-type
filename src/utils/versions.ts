@@ -35,7 +35,7 @@ export function resolveVersionsToTest(
 ): VersionsResolution {
 	const { program: originalProgram } = ESLintUtils.getParserServices(context);
 
-	// ESLintUtils.getParserServices would have thrown if there's no file.
+	// ESLintUtils.getParserServices would have thrown if there's no source file.
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const originalSourceFile = originalProgram.getSourceFile(fileName)!;
 
@@ -51,6 +51,9 @@ export function resolveVersionsToTest(
 		};
 	}
 
+	// ESLintUtils.getParserServices would have thrown if the file isn't included.
+	// Technically different TS versions might have different resolutions...
+	// ...but we've yet to see an issue from this in the wild.
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const tsconfigPath = getTsconfig(context.filename)!.path;
 
