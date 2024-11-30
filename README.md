@@ -1,6 +1,6 @@
 <h1 align="center">eslint-plugin-expect-type</h1>
 
-<p align="center">ESLint plugin with `^?` Twoslash, `$ExpectError`, and `$ExpectType` type assertions. 🧩</p>
+<p align="center">ESLint plugin with <code>^?</code> Twoslash, <code>$ExpectError</code>, and <code>$ExpectType</code> type assertions. 🧩</p>
 
 <p align="center">
 <!-- prettier-ignore-start -->
