@@ -83,7 +83,7 @@ importers:
         version: 0.19.0(eslint@9.17.0(jiti@2.4.2))(jsonc-eslint-parser@2.4.0)
       eslint-plugin-perfectionist:
         specifier: ^4.1.2
-        version: 4.5.0(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
+        version: 4.6.0(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
       eslint-plugin-regexp:
         specifier: ^2.7.0
         version: 2.7.0(eslint@9.17.0(jiti@2.4.2))
@@ -1075,6 +1075,10 @@ packages:
     resolution: {integrity: sha512-8XQ4Ss7G9WX8oaYvD4OOLCjIQYgRQxO+qCiR2V2s2GxI9AUpo7riNwo6jDhKtTcaJjT8PY54j2Yb33kWtSJsmA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@typescript-eslint/types@8.19.1':
+    resolution: {integrity: sha512-JBVHMLj7B1K1v1051ZaMMgLW4Q/jre5qGK0Ew6UgXz1Rqh+/xPzV1aW581OM00X6iOfyr1be+QyW8LOUf19BbA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@typescript-eslint/typescript-estree@8.19.0':
     resolution: {integrity: sha512-WW9PpDaLIFW9LCbucMSdYUuGeFUz1OkWYS/5fwZwTA+l2RwlWFdJvReQqMUMBw4yJWJOfqd7An9uwut2Oj8sLw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -1816,8 +1820,8 @@ packages:
       eslint: '>=8.0.0'
       jsonc-eslint-parser: ^2.0.0
 
-  eslint-plugin-perfectionist@4.5.0:
-    resolution: {integrity: sha512-Dh+6UO50GLRM5z8HMv7HkCy+XUGgDfG8jbTYrqL6A07VBIPzlnM3CMZkovWEWT3mOPzlFTYdyp1bYr+HZTKD6g==}
+  eslint-plugin-perfectionist@4.6.0:
+    resolution: {integrity: sha512-kOswTebUK0LlYExRwqz7YQtvyTUIRsKfp8XrwBBeHGh2e8MBOS6K+7VvG6HpmNckyKySi1I96uPeAlptMFGcRQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       eslint: '>=8.0.0'
@@ -4473,6 +4477,8 @@ snapshots:
 
   '@typescript-eslint/types@8.19.0': {}
 
+  '@typescript-eslint/types@8.19.1': {}
+
   '@typescript-eslint/typescript-estree@8.19.0(typescript@5.7.2)':
     dependencies:
       '@typescript-eslint/types': 8.19.0
@@ -5325,9 +5331,9 @@ snapshots:
       sort-package-json: 2.12.0
       validate-npm-package-name: 6.0.0
 
-  eslint-plugin-perfectionist@4.5.0(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2):
+  eslint-plugin-perfectionist@4.6.0(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2):
     dependencies:
-      '@typescript-eslint/types': 8.19.0
+      '@typescript-eslint/types': 8.19.1
       '@typescript-eslint/utils': 8.19.0(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
       eslint: 9.17.0(jiti@2.4.2)
       natural-orderby: 5.0.0
