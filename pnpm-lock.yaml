@@ -29,7 +29,7 @@ importers:
         version: 9.18.0
       '@release-it/conventional-changelog':
         specifier: ^10.0.0
-        version: 10.0.0(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.0.0)(release-it@18.1.1(@types/node@22.10.10)(typescript@5.7.3))
+        version: 10.0.0(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.0.0)(release-it@18.1.2(@types/node@22.10.10)(typescript@5.7.3))
       '@types/dedent':
         specifier: ^0.7.2
         version: 0.7.2
@@ -122,7 +122,7 @@ importers:
         version: 0.14.0(prettier@3.4.2)
       release-it:
         specifier: ^18.0.0
-        version: 18.1.1(@types/node@22.10.10)(typescript@5.7.3)
+        version: 18.1.2(@types/node@22.10.10)(typescript@5.7.3)
       sentences-per-line:
         specifier: ^0.3.0
         version: 0.3.0
@@ -3158,8 +3158,8 @@ packages:
     resolution: {integrity: sha512-+crtS5QjFRqFCoQmvGduwYWEBng99ZvmFvF+cUJkGYF1L1BfU8C6Zp9T7f5vPAwyLkUExpvK+ANVZmGU49qi4Q==}
     engines: {node: '>=12'}
 
-  release-it@18.1.1:
-    resolution: {integrity: sha512-rC/iVKri7U/Kp/Myujmsf7HG2gPq8My/LBVB72TbZZYKD14fmgDZC4Eyn8DD7Yh2h/G/YCCsRe1QQPrjXj9Mzg==}
+  release-it@18.1.2:
+    resolution: {integrity: sha512-HOVRcicehCgoCsPFOu0iCBlEC8GDOoKS5s6ICkWmqomGEoZtRQ88D3RCsI5MciSU8vAQU+aWZW2z57NQNNb74w==}
     engines: {node: ^20.9.0 || >=22.0.0}
     hasBin: true
 
@@ -3535,8 +3535,8 @@ packages:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
 
-  type-fest@4.32.0:
-    resolution: {integrity: sha512-rfgpoi08xagF3JSdtJlCwMq9DGNDE0IMh3Mkpc1wUypg9vPi786AiqeBBKcqvIkq42azsBM85N490fyZjeUftw==}
+  type-fest@4.33.0:
+    resolution: {integrity: sha512-s6zVrxuyKbbAsSAD5ZPTB77q4YIdRctkTbJ2/Dqlinwz+8ooH2gd+YA7VA6Pa93KML9GockVvoxjZ2vHP+mu8g==}
     engines: {node: '>=16'}
 
   typedarray@0.0.6:
@@ -3570,8 +3570,8 @@ packages:
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
-  undici@6.21.0:
-    resolution: {integrity: sha512-BUgJXc752Kou3oOIuU1i+yZZypyZRqNPW0vqoMPl8VaoalSfeR0D8/t4iAS3yirs79SSMTxTag+ZC86uswv+Cw==}
+  undici@6.21.1:
+    resolution: {integrity: sha512-q/1rj5D0/zayJB2FraXdaWxbhWiNKDvu8naDT2dl1yTlvJp4BLtOcp2a5BvgGNQpYYJzau7tf1WgKv3b+7mqpQ==}
     engines: {node: '>=18.17'}
 
   unicorn-magic@0.1.0:
@@ -4517,13 +4517,13 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@release-it/conventional-changelog@10.0.0(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.0.0)(release-it@18.1.1(@types/node@22.10.10)(typescript@5.7.3))':
+  '@release-it/conventional-changelog@10.0.0(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.0.0)(release-it@18.1.2(@types/node@22.10.10)(typescript@5.7.3))':
     dependencies:
       concat-stream: 2.0.0
       conventional-changelog: 6.0.0(conventional-commits-filter@5.0.0)
       conventional-recommended-bump: 10.0.0
       git-semver-tags: 8.0.0(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.0.0)
-      release-it: 18.1.1(@types/node@22.10.10)(typescript@5.7.3)
+      release-it: 18.1.2(@types/node@22.10.10)(typescript@5.7.3)
       semver: 7.6.3
     transitivePeerDependencies:
       - conventional-commits-filter
@@ -4893,7 +4893,7 @@ snapshots:
       chalk: 5.4.1
       cli-boxes: 3.0.0
       string-width: 7.2.0
-      type-fest: 4.32.0
+      type-fest: 4.33.0
       widest-line: 5.0.0
       wrap-ansi: 9.0.0
 
@@ -5313,7 +5313,7 @@ snapshots:
 
   dot-prop@9.0.0:
     dependencies:
-      type-fest: 4.32.0
+      type-fest: 4.33.0
 
   eastasianwidth@0.2.0: {}
 
@@ -5448,7 +5448,7 @@ snapshots:
       json-schema: 0.4.0
       json-schema-traverse: 1.0.0
       markdown-table: 3.0.4
-      type-fest: 4.32.0
+      type-fest: 4.33.0
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -6756,7 +6756,7 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.26.2
       index-to-position: 0.1.2
-      type-fest: 4.32.0
+      type-fest: 4.33.0
 
   parse-ms@4.0.0: {}
 
@@ -6897,14 +6897,14 @@ snapshots:
     dependencies:
       find-up-simple: 1.0.0
       read-pkg: 9.0.1
-      type-fest: 4.32.0
+      type-fest: 4.33.0
 
   read-pkg@9.0.1:
     dependencies:
       '@types/normalize-package-data': 2.4.4
       normalize-package-data: 6.0.2
       parse-json: 8.1.0
-      type-fest: 4.32.0
+      type-fest: 4.33.0
       unicorn-magic: 0.1.0
 
   readable-stream@3.6.2:
@@ -6936,7 +6936,7 @@ snapshots:
     dependencies:
       rc: 1.2.8
 
-  release-it@18.1.1(@types/node@22.10.10)(typescript@5.7.3):
+  release-it@18.1.2(@types/node@22.10.10)(typescript@5.7.3):
     dependencies:
       '@iarna/toml': 2.2.5
       '@octokit/rest': 21.0.2
@@ -6958,7 +6958,7 @@ snapshots:
       proxy-agent: 6.5.0
       semver: 7.6.3
       shelljs: 0.8.5
-      undici: 6.21.0
+      undici: 6.21.1
       update-notifier: 7.3.1
       url-join: 5.0.0
       wildcard-match: 5.1.4
@@ -7326,7 +7326,7 @@ snapshots:
 
   type-fest@2.19.0: {}
 
-  type-fest@4.32.0: {}
+  type-fest@4.33.0: {}
 
   typedarray@0.0.6: {}
 
@@ -7351,7 +7351,7 @@ snapshots:
 
   undici-types@6.20.0: {}
 
-  undici@6.21.0: {}
+  undici@6.21.1: {}
 
   unicorn-magic@0.1.0: {}
 
