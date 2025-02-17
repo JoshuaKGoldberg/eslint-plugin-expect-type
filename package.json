@@ -129,7 +129,7 @@
 		"eslint": ">=7",
 		"typescript": ">=4"
 	},
-	"packageManager": "pnpm@10.3.0",
+	"packageManager": "pnpm@10.4.0",
 	"engines": {
 		"node": ">=18"
 	},
