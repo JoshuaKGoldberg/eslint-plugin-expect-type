@@ -3,7 +3,7 @@
 After [forking the repo from GitHub](https://help.github.com/articles/fork-a-repo) and [installing pnpm](https://pnpm.io/installation):
 
 ```shell
-git clone https://github.com/ < your-name-here > /eslint-plugin-expect-type
+git clone https://github.com/(your-name-here)/eslint-plugin-expect-type
 cd eslint-plugin-expect-type
 pnpm install
 ```
@@ -27,10 +27,10 @@ pnpm build --watch
 
 ### Building Docs
 
-Run [**eslint-doc-generator**](https://github.com/bmish/eslint-doc-generator) to auto-generate .md documentation for ESLint rules:
+Run [`eslint-doc-generator`](https://github.com/bmish/eslint-doc-generator) to generate Markdown files documenting rules.
 
 ```shell
-pnpm run build:docs
+pnpm build:docs
 ```
 
 ## Formatting
@@ -50,7 +50,7 @@ This package includes several forms of linting to enforce consistent code qualit
 Each should be shown in VS Code, and can be run manually on the command-line:
 
 - `pnpm lint` ([ESLint](https://eslint.org) with [typescript-eslint](https://typescript-eslint.io)): Lints JavaScript and TypeScript source files
-- `pnpm lint:docs` ([eslint-doc-generator`](https://github.com/bmish/eslint-doc-generator)): Makes sure generated .md documentation matches ESLint rules source
+- `pnpm lint:docs` ([eslint-doc-generator](https://github.com/bmish/eslint-doc-generator)): Generates and validates documentation for ESLint rules
 - `pnpm lint:knip` ([knip](https://github.com/webpro/knip)): Detects unused files, dependencies, and code exports
 - `pnpm lint:md` ([Markdownlint](https://github.com/DavidAnson/markdownlint)): Checks Markdown source files
 - `pnpm lint:packages` ([pnpm dedupe --check](https://pnpm.io/cli/dedupe)): Checks for unnecessarily duplicated packages in the `pnpm-lock.yml` file
@@ -63,6 +63,8 @@ For example, ESLint can be run with `--fix` to auto-fix some lint rule complaint
 ```shell
 pnpm run lint --fix
 ```
+
+Note that you'll need to run `pnpm build` before `pnpm lint` so that lint rules which check the file system can pick up on any built files.
 
 ## Testing
 

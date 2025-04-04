@@ -1,6 +1,7 @@
 {
-	"dictionaries": ["typescript"],
+	"dictionaries": ["npm", "node", "typescript"],
 	"ignorePaths": [
+		".all-contributorsrc",
 		".github",
 		"CHANGELOG.md",
 		"coverage",
@@ -10,16 +11,17 @@
 	],
 	"words": [
 		"Codecov",
+		"TSESLint",
 		"contributorsrc",
 		"conventionalcommits",
 		"dtslint",
+		"eslint-doc-generatorrc",
 		"ibezkrovnyi",
 		"knip",
 		"lcov",
 		"outro",
 		"packagejson",
 		"quickstart",
-		"TSESLint",
 		"tsup",
 		"twoslash",
 		"wontfix"
