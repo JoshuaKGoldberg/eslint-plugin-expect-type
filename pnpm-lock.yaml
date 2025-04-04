@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@typescript-eslint/parser':
-        specifier: '>=8'
+        specifier: '>=6'
         version: 8.29.0(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)
       '@typescript-eslint/utils':
         specifier: ^6.10.0 || ^7.0.1 || ^8
@@ -55,8 +55,8 @@ importers:
         specifier: 0.5.0
         version: 0.5.0
       create-typescript-app:
-        specifier: 2.26.1
-        version: 2.26.1(bingo-systems@0.5.4)
+        specifier: 2.26.7
+        version: 2.26.7(bingo-systems@0.5.4)
       cspell:
         specifier: 8.17.5
         version: 8.17.5
@@ -1058,8 +1058,8 @@ packages:
     peerDependencies:
       '@octokit/core': '>=6'
 
-  '@octokit/plugin-throttling@9.6.0':
-    resolution: {integrity: sha512-zn7m1N3vpJDaVzLqjCRdJ0cRzNiekHEWPi8Ww9xyPNrDt5PStHvVE0eR8wy4RSU8Eg7YO8MHyvn6sv25EGVhhg==}
+  '@octokit/plugin-throttling@9.6.1':
+    resolution: {integrity: sha512-bt3EBUkeKUzDQXRCcFrR9SWVqlLFRRqcCrr6uAorWt6NXTyjMKqcGrFmXqJy9NCbnKgiIZ2OXWq04theFc76Jg==}
     engines: {node: '>= 18'}
     peerDependencies:
       '@octokit/core': ^6.1.3
@@ -1869,8 +1869,8 @@ packages:
       typescript:
         optional: true
 
-  create-typescript-app@2.26.1:
-    resolution: {integrity: sha512-jcHJhqVu+iP/O484z6fxr/OYarXf1EeYtBi/5jdbWRTfL6J+d4FjtWs9kxrh/7886aA5XH3BOuHuv/1ddy/Psw==}
+  create-typescript-app@2.26.7:
+    resolution: {integrity: sha512-2uc7u6cd/kjqE4Ama4H7sGLnA8YgCmAlJf+vQgyIp44Qrvnzp6ieaUBgESHTIwnzaV2ssXvviiLGGYpinUoAKQ==}
     engines: {node: '>=18.3.0'}
     hasBin: true
 
@@ -2443,8 +2443,8 @@ packages:
   git-url-parse@16.0.1:
     resolution: {integrity: sha512-mcD36GrhAzX5JVOsIO52qNpgRyFzYWRbU1VSRFCvJt1IJvqfvH427wWw/CFqkWvjVPtdG5VTx4MKUeC5GeFPDQ==}
 
-  github-default-labels@0.1.0:
-    resolution: {integrity: sha512-vFpUWrpPKKrtL8AA9RPdsS6JDfQW+YjlVUhYvb8/et8wZUHC+L6OsJ+A8TyaqzT86wvbZxnDkw/BNGJzoz47cQ==}
+  github-default-labels@0.1.1:
+    resolution: {integrity: sha512-7EiHNBNSBu3agoS/DI/DgGh2f+L9A9HpfzZE46a+sbBSRezfqOZn5CXDqDtTrrh0WEDqYCe692U1sqr1gKtPpA==}
     engines: {node: '>=18.3.0'}
 
   glob-parent@5.1.2:
@@ -3192,8 +3192,8 @@ packages:
     resolution: {integrity: sha512-NHDDGYudnvRutt/VhKFlX26IotXe1w0cmkDm6JGquh5bz/bDTw0LufSmH/GxTjEdpHEO+bVKFTwdrcGa/9XlKQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  new-github-repository@0.2.1:
-    resolution: {integrity: sha512-zzUV4UzmGgY/naFxleMZZQUGquODAKSLnu+lGqOWPfWunmyqJBlNNfYwah4Rpw00PduTVJm3W3Bvwoj6Y/Zm1w==}
+  new-github-repository@0.2.2:
+    resolution: {integrity: sha512-Cecmb0aMGu7EGRW+6Epm1vMRzvJcTiKISU8AXGINA8WlQ8c/eB8J88llIEQQrbPIvem4BMQqh5uyt32ijPHpDA==}
     engines: {node: '>=18.3.0'}
 
   normalize-package-data@6.0.0:
@@ -3227,8 +3227,8 @@ packages:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
 
-  object-strings-deep@0.1.1:
-    resolution: {integrity: sha512-5ypgv3IIlt7v2pybSIcn1OcAQvJBtB2GrOXf1MAVNsMyQ/CYV9P5ZQPAsVrKTbZ0EMUHHMsSLbMc9SBHB57MxA==}
+  object-strings-deep@0.1.2:
+    resolution: {integrity: sha512-k5EsgxZzN+ktO5NqFP1cFf957Ajp98lT4zhN/skEm+o/8wi4XtUGPUFoRRmW7t1Gisksjtpzra2UcyWLzR4gdA==}
     engines: {node: '>=18.3.0'}
 
   octokit-from-auth@0.3.1:
@@ -5092,7 +5092,7 @@ snapshots:
       '@octokit/types': 13.10.0
       bottleneck: 2.19.5
 
-  '@octokit/plugin-throttling@9.6.0(@octokit/core@6.1.4)':
+  '@octokit/plugin-throttling@9.6.1(@octokit/core@6.1.4)':
     dependencies:
       '@octokit/core': 6.1.4
       '@octokit/types': 13.10.0
@@ -5648,7 +5648,7 @@ snapshots:
       get-github-auth-token: 0.1.2
       hash-object: 5.0.1
       hosted-git-info: 8.0.2
-      new-github-repository: 0.2.1
+      new-github-repository: 0.2.2
       prettier: 3.5.3
       read-package-up: 11.0.0
       read-pkg: 9.0.1
@@ -5942,7 +5942,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.2
 
-  create-typescript-app@2.26.1(bingo-systems@0.5.4):
+  create-typescript-app@2.26.7(bingo-systems@0.5.4):
     dependencies:
       bingo: 0.5.14
       bingo-fs: 0.5.5
@@ -5951,7 +5951,7 @@ snapshots:
       cspell-populate-words: 0.3.0
       execa: 9.5.2
       git-url-parse: 16.0.1
-      github-default-labels: 0.1.0
+      github-default-labels: 0.1.1
       html-to-text: 9.0.5
       image-size: 1.2.1
       input-from-file: 0.5.4(bingo@0.5.14)
@@ -5963,7 +5963,7 @@ snapshots:
       lodash: 4.17.21
       marked: 15.0.7
       npm-user: 6.1.1
-      object-strings-deep: 0.1.1
+      object-strings-deep: 0.1.2
       parse-author: 2.0.0
       parse-package-name: 1.0.0
       remove-dependencies: 0.1.1
@@ -6716,7 +6716,7 @@ snapshots:
     dependencies:
       git-up: 8.1.0
 
-  github-default-labels@0.1.0: {}
+  github-default-labels@0.1.1: {}
 
   glob-parent@5.1.2:
     dependencies:
@@ -7544,7 +7544,7 @@ snapshots:
     dependencies:
       type-fest: 2.19.0
 
-  new-github-repository@0.2.1:
+  new-github-repository@0.2.2:
     dependencies:
       '@octokit/openapi-types': 24.2.0
       octokit: 4.1.2
@@ -7586,7 +7586,7 @@ snapshots:
 
   object-assign@4.1.1: {}
 
-  object-strings-deep@0.1.1: {}
+  object-strings-deep@0.1.2: {}
 
   octokit-from-auth@0.3.1:
     dependencies:
@@ -7602,7 +7602,7 @@ snapshots:
       '@octokit/plugin-paginate-rest': 11.6.0(@octokit/core@6.1.4)
       '@octokit/plugin-rest-endpoint-methods': 13.5.0(@octokit/core@6.1.4)
       '@octokit/plugin-retry': 7.2.0(@octokit/core@6.1.4)
-      '@octokit/plugin-throttling': 9.6.0(@octokit/core@6.1.4)
+      '@octokit/plugin-throttling': 9.6.1(@octokit/core@6.1.4)
       '@octokit/request-error': 6.1.7
       '@octokit/types': 13.10.0
 
