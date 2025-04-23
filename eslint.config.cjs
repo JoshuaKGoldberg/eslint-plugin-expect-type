@@ -6,9 +6,7 @@ const jsdoc = require("eslint-plugin-jsdoc");
 const jsonc = require("eslint-plugin-jsonc");
 const markdown = require("eslint-plugin-markdown");
 const n = require("eslint-plugin-n");
-const {
-	default: packageJson,
-} = require("eslint-plugin-package-json/configs/recommended");
+const { default: packageJson } = require("eslint-plugin-package-json");
 const perfectionist = require("eslint-plugin-perfectionist");
 const regexp = require("eslint-plugin-regexp");
 const yml = require("eslint-plugin-yml");
@@ -41,7 +39,7 @@ module.exports = tseslint.config(
 	jsdoc.configs["flat/logical-typescript-error"],
 	jsdoc.configs["flat/stylistic-typescript-error"],
 	n.configs["flat/recommended"],
-	packageJson,
+	packageJson.configs.recommended,
 	perfectionist.configs["recommended-natural"],
 	regexp.configs["flat/recommended"],
 	{
