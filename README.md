@@ -35,7 +35,7 @@ Make sure you have TypeScript and @typescript-eslint/parser installed, then inst
 npm i -D eslint-plugin-expect-type
 ```
 
-> See [typescript-eslint's Getting Started docs](https://typescript-eslint.io/docs) for how to run ESLint on TypeScript files.
+> See [typescript-eslint's Getting Started docs]([https://typescript-eslint.io/docs](https://typescript-eslint.io/getting-started/) for how to run ESLint on TypeScript files.
 
 ## Usage
 
