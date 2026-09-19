@@ -84,6 +84,7 @@ export const expect = createRule<[Options], MessageIds>({
 	},
 	defaultOptions: [defaultOptions],
 	meta: {
+		defaultOptions: [defaultOptions],
 		docs: {
 			description: "Expects type error, type snapshot, or type.",
 			requiresTypeChecking: true,

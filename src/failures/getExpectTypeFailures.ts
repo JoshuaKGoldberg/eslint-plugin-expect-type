@@ -27,14 +27,12 @@ export function getExpectTypeFailures(
 		if (assertion !== undefined) {
 			const { expected } = assertion;
 
-			let nodeToCheck = node;
-
 			// https://github.com/Microsoft/TypeScript/issues/14077
 			if (node.kind === tsModule.SyntaxKind.ExpressionStatement) {
 				node = (node as ts.ExpressionStatement).expression;
 			}
 
-			nodeToCheck = getNodeForExpectType(node, tsModule);
+			const nodeToCheck = getNodeForExpectType(node, tsModule);
 			const type = checker.getTypeAtLocation(nodeToCheck);
 			const actual = checker.typeToString(
 				type,

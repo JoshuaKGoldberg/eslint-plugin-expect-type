@@ -1,10 +1,10 @@
 const comments = require("@eslint-community/eslint-plugin-eslint-comments/configs");
 const eslint = require("@eslint/js");
+const { default: markdown } = require("@eslint/markdown");
 const vitest = require("@vitest/eslint-plugin");
-const eslintPlugin = require("eslint-plugin-eslint-plugin");
+const { default: eslintPlugin } = require("eslint-plugin-eslint-plugin");
 const jsdoc = require("eslint-plugin-jsdoc");
 const jsonc = require("eslint-plugin-jsonc");
-const markdown = require("eslint-plugin-markdown");
 const n = require("eslint-plugin-n");
 const { default: packageJson } = require("eslint-plugin-package-json");
 const perfectionist = require("eslint-plugin-perfectionist");
@@ -30,11 +30,11 @@ module.exports = tseslint.config(
 	},
 	eslint.configs.recommended,
 	...jsonc.configs["flat/recommended-with-json"],
-	...markdown.configs.recommended,
+	...markdown.configs.processor,
 	...yml.configs["flat/recommended"],
 	...yml.configs["flat/prettier"],
 	comments.recommended,
-	eslintPlugin.configs["flat/recommended"],
+	eslintPlugin.configs.recommended,
 	jsdoc.configs["flat/contents-typescript-error"],
 	jsdoc.configs["flat/logical-typescript-error"],
 	jsdoc.configs["flat/stylistic-typescript-error"],
@@ -42,6 +42,14 @@ module.exports = tseslint.config(
 	packageJson.configs.recommended,
 	perfectionist.configs["recommended-natural"],
 	regexp.configs["flat/recommended"],
+	{
+		files: ["package.json"],
+		rules: {
+			// Changing publish metadata is out of scope for a lint rule
+			"package-json/require-sideEffects": "off",
+			"package-json/specify-peers-locally": "off",
+		},
+	},
 	{
 		extends: [
 			...tseslint.configs.strictTypeChecked,
@@ -110,6 +118,7 @@ module.exports = tseslint.config(
 	},
 	{
 		files: ["**/*.{yml,yaml}"],
+		ignores: ["pnpm-workspace.yaml"],
 		rules: {
 			"yml/file-extension": ["error", { extension: "yml" }],
 			"yml/sort-keys": [

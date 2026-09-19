@@ -16,8 +16,7 @@ export interface ResolvedVersionToTest {
 }
 
 export type VersionsResolution =
-	| VersionsResolutionFailure
-	| VersionsResolutionSuccess;
+	VersionsResolutionFailure | VersionsResolutionSuccess;
 
 export interface VersionsResolutionFailure {
 	error: Pick<ReportDescriptor<MessageIds>, "data" | "messageId">;
