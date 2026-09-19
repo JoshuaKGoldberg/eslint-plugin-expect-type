@@ -137,7 +137,6 @@ function getTypesDoNotMatchFix(
 
 	switch (assertion.assertionType) {
 		case "manual":
-			// Don't clobber `A || B` alternatives: they're intentional.
 			if (assertion.expected.includes("||")) {
 				return undefined;
 			}
