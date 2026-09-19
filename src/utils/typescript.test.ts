@@ -1,38 +1,57 @@
-import path from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
 import { getLanguageService } from "./typescript.js";
 
-const fileName = path.join(
-	__dirname,
-	"../rules/sandbox/versioned-no-errors.ts",
-);
+// Deliberately mixed-case, so case-sensitive canonicalization is exercised.
+const fileName = "/Example/File.ts";
+const text = "declare const value: string;";
 
-function createProgram() {
+function createProgram(useCaseSensitiveFileNames = true) {
+	const options: ts.CompilerOptions = { lib: ["lib.es5.d.ts"], types: [] };
+	const host = ts.createCompilerHost(options);
+
 	return ts.createProgram({
-		options: { strict: true },
+		host: {
+			...host,
+			getCanonicalFileName: (file) =>
+				useCaseSensitiveFileNames ? file : file.toLowerCase(),
+			getSourceFile: (file, ...args) =>
+				file === fileName
+					? ts.createSourceFile(file, text, ts.ScriptTarget.ES5)
+					: host.getSourceFile(file, ...args),
+			useCaseSensitiveFileNames: () => useCaseSensitiveFileNames,
+		},
+		options,
 		rootNames: [fileName],
 	});
 }
 
 describe("getLanguageService", () => {
-	it("returns quick info from the program's source files", () => {
-		const program = createProgram();
-		const sourceFile = program.getSourceFile(fileName);
+	it.each([true, false])(
+		"reuses the program's source files when useCaseSensitiveFileNames is %s",
+		(useCaseSensitiveFileNames) => {
+			const program = createProgram(useCaseSensitiveFileNames);
 
-		const languageService = getLanguageService(program, ts);
-		const quickInfo = languageService.getQuickInfoAtPosition(
-			fileName,
-			sourceFile?.text.indexOf("value") ?? -1,
-		);
+			const languageService = getLanguageService(program, ts);
+			const quickInfo = languageService.getQuickInfoAtPosition(
+				fileName,
+				text.indexOf("value"),
+			);
 
-		expect(quickInfo?.displayParts?.map((part) => part.text).join("")).toBe(
-			"const value: string",
-		);
-		expect(languageService.getProgram()?.getSourceFile(fileName)).toBe(
-			sourceFile,
-		);
+			expect(quickInfo?.displayParts?.map((part) => part.text).join("")).toBe(
+				"const value: string",
+			);
+			expect(languageService.getProgram()?.getSourceFile(fileName)).toBe(
+				program.getSourceFile(fileName),
+			);
+		},
+	);
+
+	it("keeps the same language service program across requests", () => {
+		const languageService = getLanguageService(createProgram(), ts);
+
+		expect(languageService.getProgram()).toBe(languageService.getProgram());
 	});
 
 	it("reuses the language service for the same program", () => {
@@ -49,5 +68,14 @@ describe("getLanguageService", () => {
 		const languageServiceB = getLanguageService(createProgram(), ts);
 
 		expect(languageServiceA).not.toBe(languageServiceB);
+	});
+
+	it("can be disposed", () => {
+		const languageService = getLanguageService(createProgram(), ts);
+		languageService.getProgram();
+
+		expect(() => {
+			languageService.dispose();
+		}).not.toThrow();
 	});
 });

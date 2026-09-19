@@ -4,6 +4,11 @@ import { WeakCachedFactory } from "cached-factory";
 
 import { TSModule } from "./programs.js";
 
+/**
+ * Creates a language service host backed by the program's source files.
+ * getScriptSnapshot only returns snapshots for files in the program, so the
+ * language service never asks the document registry for any other file.
+ */
 function getLanguageServiceHost(
 	program: ts.Program,
 	tsModule: TSModule,
@@ -12,12 +17,15 @@ function getLanguageServiceHost(
 		getCompilationSettings: () => program.getCompilerOptions(),
 		getCurrentDirectory: () => program.getCurrentDirectory(),
 		getDefaultLibFileName: (options) => tsModule.getDefaultLibFilePath(options),
+		// The program never changes, so a constant version tells the language
+		// service it never needs to re-check whether its own program is stale.
+		getProjectVersion: () => "1",
 		getScriptFileNames: () =>
 			program.getSourceFiles().map((sourceFile) => sourceFile.fileName),
-		getScriptSnapshot: (name) =>
-			tsModule.ScriptSnapshot.fromString(
-				program.getSourceFile(name)?.text ?? "",
-			),
+		getScriptSnapshot: (fileName) => {
+			const sourceFile = program.getSourceFile(fileName);
+			return sourceFile && tsModule.ScriptSnapshot.fromString(sourceFile.text);
+		},
 		getScriptVersion: () => "1",
 		// NB: We can't check `program` for files, it won't contain valid files like package.json
 		/* eslint-disable @typescript-eslint/unbound-method */
@@ -26,7 +34,10 @@ function getLanguageServiceHost(
 		getDirectories: tsModule.sys.getDirectories,
 		readDirectory: tsModule.sys.readDirectory,
 		readFile: tsModule.sys.readFile,
+		// Needed so symlinked (e.g. pnpm) imports resolve to the same paths as in the program.
+		realpath: tsModule.sys.realpath,
 		/* eslint-enable @typescript-eslint/unbound-method */
+		useCaseSensitiveFileNames: () => tsModule.sys.useCaseSensitiveFileNames,
 	};
 }
 
@@ -86,36 +97,22 @@ export function matchModuloWhitespace(
  * Creates a document registry that hands the language service the program's
  * existing source files. Without this, the language service would re-parse and
  * re-bind every file in the program (including lib.*.d.ts files) from scratch.
+ * A real registry is spread in for the rest of the interface, notably
+ * getKeyForCompilationSettings; only the members that touch source files are overridden.
  */
 function getDocumentRegistry(
 	program: ts.Program,
 	tsModule: TSModule,
 ): ts.DocumentRegistry {
-	const fallback = tsModule.createDocumentRegistry();
+	// The host only provides snapshots for files in the program.
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const getDocument = (fileName: string) => program.getSourceFile(fileName)!;
 
 	return {
-		...fallback,
-		acquireDocumentWithKey: (fileName, path, ...args) =>
-			program.getSourceFileByPath(path) ??
-			fallback.acquireDocumentWithKey(fileName, path, ...args),
-		releaseDocumentWithKey: (
-			path: ts.Path,
-			key: ts.DocumentRegistryBucketKey,
-			scriptKind?: ts.ScriptKind,
-			impliedNodeFormat?: ts.ResolutionMode,
-		) => {
-			// Files served from the program were never acquired from the fallback.
-			if (!program.getSourceFileByPath(path)) {
-				fallback.releaseDocumentWithKey(
-					path,
-					key,
-					scriptKind ?? tsModule.ScriptKind.Unknown,
-					impliedNodeFormat,
-				);
-			}
-		},
-		updateDocumentWithKey: (fileName, path, ...args) =>
-			program.getSourceFileByPath(path) ??
-			fallback.updateDocumentWithKey(fileName, path, ...args),
+		...tsModule.createDocumentRegistry(),
+		acquireDocumentWithKey: getDocument,
+		// Nothing was acquired from the base registry, so there's nothing to release.
+		releaseDocumentWithKey: () => undefined,
+		updateDocumentWithKey: getDocument,
 	};
 }
