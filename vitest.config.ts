@@ -4,9 +4,8 @@ export default defineConfig({
 	test: {
 		clearMocks: true,
 		coverage: {
-			all: true,
 			exclude: ["lib"],
-			include: ["src"],
+			include: ["src/**/*.ts"],
 			reporter: ["html", "lcov"],
 		},
 		exclude: ["lib", "node_modules"],

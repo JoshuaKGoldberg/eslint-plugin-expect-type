@@ -7,8 +7,7 @@ const { ensureFileSync, readFileSync, readJsonSync, writeJsonSync } = fse;
 export const getTypeSnapshot = (filename: string, snapshotName: string) => {
 	const snapshotPath = getSnapshotPath(filename);
 	const json = readJsonSync(snapshotPath, { throws: false }) as
-		| Record<string, string>
-		| undefined;
+		Record<string, string> | undefined;
 	if (!json) {
 		return;
 	}
@@ -26,8 +25,7 @@ export const updateTypeSnapshot = (
 
 	const json =
 		(readJsonSync(snapshotPath, { throws: false }) as
-			| Record<string, null | string>
-			| undefined) ?? {};
+			Record<string, null | string> | undefined) ?? {};
 	json[snapshotName] = actualType;
 	writeJsonSync(snapshotPath, json, {
 		spaces: detectIndentation(snapshotPath),

@@ -13,6 +13,7 @@
 		"contributorsrc",
 		"conventionalcommits",
 		"dtslint",
+		"esbuild",
 		"ibezkrovnyi",
 		"knip",
 		"lcov",

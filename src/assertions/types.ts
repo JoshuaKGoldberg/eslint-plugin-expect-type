@@ -41,9 +41,7 @@ export interface SnapshotAssertion {
 export interface SyntaxError {
 	readonly line: number;
 	readonly type:
-		| "InvalidTwoslash"
-		| "MissingExpectType"
-		| "MissingSnapshotName";
+		"InvalidTwoslash" | "MissingExpectType" | "MissingSnapshotName";
 }
 
 export interface TwoSlashAssertion {
