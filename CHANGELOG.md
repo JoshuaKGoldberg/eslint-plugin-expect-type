@@ -1,3 +1,12 @@
+# Changelog
+
+# [0.7.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.6.2...v0.7.0) (2026-09-19)
+
+### Features
+
+- add auto-fixer for $ExpectType assertions ([#836](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/836)) ([634045c](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/634045c5615d105e7ff97cc66326a6b1853e17cf)), closes [#52](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/52) [#47](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/47)
+- reuse program source files and cache language services for twoslash assertions ([#835](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/835)) ([738c26e](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/738c26e8b59f6dc32c4e3c43fc009490107f752d)), closes [#637](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/637)
+
 ## [0.6.2](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.6.1...v0.6.2) (2024-11-29)
 
 ### Bug Fixes
