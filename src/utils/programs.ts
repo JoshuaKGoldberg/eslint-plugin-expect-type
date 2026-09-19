@@ -1,10 +1,16 @@
 import type * as ts from "typescript";
 
+import { CachedFactory, WeakCachedFactory } from "cached-factory";
 import fs from "node:fs";
 import path from "node:path";
 import v8 from "node:v8";
 
 export type TSModule = typeof ts;
+
+type ProgramsByModule = WeakCachedFactory<
+	TSModule,
+	CachedFactory<string, ts.Program>
+>;
 
 interface ReadConfigFile {
 	config: {
@@ -13,8 +19,6 @@ interface ReadConfigFile {
 		};
 	};
 }
-
-const programCache = new WeakMap<ts.Program, Map<string, ts.Program>>();
 
 function createProgram(configFile: string, ts: TSModule): ts.Program {
 	const projectDirectory = path.dirname(configFile);
@@ -42,31 +46,30 @@ function createProgram(configFile: string, ts: TSModule): ts.Program {
 }
 
 /**
- * Maps a ts.Program to its equivalent created with a specific version.
+ * Maps a ts.Program to its equivalent created with a specific TypeScript module.
  */
 export function getProgramForVersion(
 	configFile: string,
 	ts: TSModule,
-	version: string,
 	originalProgram: ts.Program,
 ): ts.Program {
-	let versionToProgram = programCache.get(originalProgram);
-	if (versionToProgram === undefined) {
-		versionToProgram = new Map<string, ts.Program>();
-		programCache.set(originalProgram, versionToProgram);
-	}
-
-	let newProgram = versionToProgram.get(version);
-	if (newProgram === undefined) {
-		newProgram = createProgram(configFile, ts);
-		versionToProgram.set(version, newProgram);
-	}
+	const program = programCache.get(originalProgram).get(ts).get(configFile);
 
 	const heapStats = v8.getHeapStatistics();
 	const heapUsage = heapStats.used_heap_size / heapStats.heap_size_limit;
 	if (heapUsage > 0.9) {
-		versionToProgram.clear();
+		programCache.clear();
 	}
 
-	return newProgram;
+	return program;
 }
+
+const programCache = new WeakCachedFactory<ts.Program, ProgramsByModule>(
+	() =>
+		new WeakCachedFactory(
+			(ts: TSModule) =>
+				new CachedFactory((configFile: string) =>
+					createProgram(configFile, ts),
+				),
+		),
+);
