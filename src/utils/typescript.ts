@@ -1,8 +1,10 @@
 import type ts from "typescript";
 
+import { WeakCachedFactory } from "cached-factory";
+
 import { TSModule } from "./programs.js";
 
-export function getLanguageServiceHost(
+function getLanguageServiceHost(
 	program: ts.Program,
 	tsModule: TSModule,
 ): ts.LanguageServiceHost {
@@ -27,6 +29,28 @@ export function getLanguageServiceHost(
 		/* eslint-enable @typescript-eslint/unbound-method */
 	};
 }
+
+/**
+ * Gets a language service for the program, creating one if it doesn't exist yet.
+ * The service is cached per program so that linting many files against the same
+ * program only pays for creating the service once.
+ */
+export function getLanguageService(
+	program: ts.Program,
+	tsModule: TSModule,
+): ts.LanguageService {
+	return languageServices.get(tsModule).get(program);
+}
+
+const languageServices = new WeakCachedFactory(
+	(tsModule: TSModule) =>
+		new WeakCachedFactory((program: ts.Program) =>
+			tsModule.createLanguageService(
+				getLanguageServiceHost(program, tsModule),
+				getDocumentRegistry(program, tsModule),
+			),
+		),
+);
 
 export function getNodeForExpectType(
 	node: ts.Node,
@@ -56,4 +80,42 @@ export function matchModuloWhitespace(
 	const normActual = actual.replace(/[\n\r ]+/g, " ").trim();
 	const normExpected = expected.replace(/[\n\r ]+/g, " ").trim();
 	return normActual === normExpected;
+}
+
+/**
+ * Creates a document registry that hands the language service the program's
+ * existing source files. Without this, the language service would re-parse and
+ * re-bind every file in the program (including lib.*.d.ts files) from scratch.
+ */
+function getDocumentRegistry(
+	program: ts.Program,
+	tsModule: TSModule,
+): ts.DocumentRegistry {
+	const fallback = tsModule.createDocumentRegistry();
+
+	return {
+		...fallback,
+		acquireDocumentWithKey: (fileName, path, ...args) =>
+			program.getSourceFileByPath(path) ??
+			fallback.acquireDocumentWithKey(fileName, path, ...args),
+		releaseDocumentWithKey: (
+			path: ts.Path,
+			key: ts.DocumentRegistryBucketKey,
+			scriptKind?: ts.ScriptKind,
+			impliedNodeFormat?: ts.ResolutionMode,
+		) => {
+			// Files served from the program were never acquired from the fallback.
+			if (!program.getSourceFileByPath(path)) {
+				fallback.releaseDocumentWithKey(
+					path,
+					key,
+					scriptKind ?? tsModule.ScriptKind.Unknown,
+					impliedNodeFormat,
+				);
+			}
+		},
+		updateDocumentWithKey: (fileName, path, ...args) =>
+			program.getSourceFileByPath(path) ??
+			fallback.updateDocumentWithKey(fileName, path, ...args),
+	};
 }

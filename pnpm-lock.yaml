@@ -14,6 +14,9 @@ importers:
       '@typescript-eslint/utils':
         specifier: ^6.10.0 || ^7.0.1 || ^8
         version: 8.16.0(eslint@9.15.0(jiti@2.4.0))(typescript@5.7.2)
+      cached-factory:
+        specifier: ^0.3.0
+        version: 0.3.0
       fs-extra:
         specifier: ^11.1.1
         version: 11.2.0
@@ -1423,6 +1426,10 @@ packages:
   cac@6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
+
+  cached-factory@0.3.0:
+    resolution: {integrity: sha512-8PWf78SYJg9kGpUNlqOlg2iE4nu/iW7FidBVdvEZPy0GJRUyN91X7q0VzX/oyJE6bGrgr/bR0VhcGF87vgeQaw==}
+    engines: {node: '>=18'}
 
   callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
@@ -4927,6 +4934,8 @@ snapshots:
       load-tsconfig: 0.2.5
 
   cac@6.7.14: {}
+
+  cached-factory@0.3.0: {}
 
   callsites@3.1.0: {}
 
