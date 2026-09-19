@@ -53,6 +53,8 @@ Mismatching the type will cause a lint report:
 Expected type to be: number, got: string
 ```
 
+Running ESLint with `--fix` will replace the expected type with the actual one.
+
 Multiline type annotations are also supported:
 
 ```ts
@@ -175,3 +177,6 @@ For example:
 ```
 
 `versionsToTest` can be useful if you want to have a single lint job that checks multiple TypeScript versions (instead of a matrix of jobs).
+
+Type assertions are not auto-fixed when `versionsToTest` is set, as different versions may report different types.
+Use `||` alternatives to accept multiple types instead.

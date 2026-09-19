@@ -42,7 +42,19 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 				case "Type": {
 					const expected = payload;
 					if (expected) {
-						typeAssertions.set(line, { assertionType: "manual", expected });
+						// The payload capture runs to the end of the comment, so the
+						// expected type starts at the comment's end minus its length
+						// (ignoring leading whitespace, which .trim() removed).
+						const expectedStart =
+							commentIndex +
+							2 +
+							comment.length -
+							(matchExpect[3] ?? "").trimStart().length;
+						typeAssertions.set(line, {
+							assertionType: "manual",
+							expected,
+							expectedRange: [expectedStart, expectedStart + expected.length],
+						});
 					} else {
 						syntaxErrors.push({
 							line,

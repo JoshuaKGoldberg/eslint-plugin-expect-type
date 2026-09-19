@@ -3,7 +3,11 @@ import type ts from "typescript";
 import { TSESLint } from "@typescript-eslint/utils";
 
 import { parseAssertions } from "../assertions/parseAssertions.js";
-import { SyntaxError } from "../assertions/types.js";
+import {
+	ManualAssertion,
+	SyntaxError,
+	TwoSlashAssertion,
+} from "../assertions/types.js";
 import { getExpectTypeFailures } from "../failures/getExpectTypeFailures.js";
 import { UnmetExpectation } from "../failures/types.js";
 import { ExpectRuleContext, MessageIds, messages, Options } from "../meta.js";
@@ -119,6 +123,46 @@ export const expect = createRule<[Options], MessageIds>({
 	name: "expect",
 });
 
+function getTypesDoNotMatchFix(
+	actual: string,
+	assertion: ManualAssertion | TwoSlashAssertion,
+	version: string | undefined,
+): TSESLint.ReportFixFunction | undefined {
+	// With versionsToTest, each version's source file is read from disk rather
+	// than from ESLint's source text, and versions may disagree on the type.
+	// Either way, there's no single correct text to fix to.
+	if (version !== undefined) {
+		return undefined;
+	}
+
+	switch (assertion.assertionType) {
+		case "manual":
+			// Don't clobber `A || B` alternatives: they're intentional.
+			if (assertion.expected.includes("||")) {
+				return undefined;
+			}
+
+			return () => ({
+				range: assertion.expectedRange,
+				text: actual,
+			});
+
+		case "twoslash":
+			return () => {
+				const { expectedPrefix, expectedRange, insertSpace } = assertion;
+				return {
+					range: expectedRange,
+					text:
+						(insertSpace ? " " : "") +
+						actual
+							.split("\n")
+							.map((line, i) => (i > 0 ? expectedPrefix + line : line))
+							.join("\n"),
+				};
+			};
+	}
+}
+
 function reportNotFoundErrors(
 	context: ExpectRuleContext,
 	errorLines: ReadonlySet<number>,
@@ -225,26 +269,10 @@ function reportUnmetExpectations(
 		} else {
 			context.report({
 				...templateDescriptor,
+				fix: getTypesDoNotMatchFix(actual, assertion, version),
 				messageId: templateDescriptor.data.version
 					? "TypesDoNotMatchForVersion"
 					: "TypesDoNotMatch",
-				...(assertion.assertionType === "twoslash"
-					? {
-							fix: (): TSESLint.RuleFix => {
-								const { expectedPrefix, expectedRange, insertSpace } =
-									assertion;
-								return {
-									range: expectedRange,
-									text:
-										(insertSpace ? " " : "") +
-										actual
-											.split("\n")
-											.map((line, i) => (i > 0 ? expectedPrefix + line : line))
-											.join("\n"),
-								};
-							},
-						}
-					: {}),
 			});
 		}
 	}
