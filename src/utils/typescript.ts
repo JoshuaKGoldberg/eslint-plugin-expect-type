@@ -4,11 +4,6 @@ import { WeakCachedFactory } from "cached-factory";
 
 import { TSModule } from "./programs.js";
 
-/**
- * Creates a language service host backed by the program's source files.
- * getScriptSnapshot only returns snapshots for files in the program, so the
- * language service never asks the document registry for any other file.
- */
 function getLanguageServiceHost(
 	program: ts.Program,
 	tsModule: TSModule,
@@ -17,8 +12,6 @@ function getLanguageServiceHost(
 		getCompilationSettings: () => program.getCompilerOptions(),
 		getCurrentDirectory: () => program.getCurrentDirectory(),
 		getDefaultLibFileName: (options) => tsModule.getDefaultLibFilePath(options),
-		// The program never changes, so a constant version tells the language
-		// service it never needs to re-check whether its own program is stale.
 		getProjectVersion: () => "1",
 		getScriptFileNames: () =>
 			program.getSourceFiles().map((sourceFile) => sourceFile.fileName),

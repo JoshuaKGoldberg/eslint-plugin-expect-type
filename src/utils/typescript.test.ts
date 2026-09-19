@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 
 import { getLanguageService } from "./typescript.js";
 
-// Deliberately mixed-case, so case-sensitive canonicalization is exercised.
 const fileName = "/Example/File.ts";
 const text = "declare const value: string;";
 
