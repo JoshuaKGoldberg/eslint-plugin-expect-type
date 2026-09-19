@@ -43,14 +43,6 @@ module.exports = tseslint.config(
 	perfectionist.configs["recommended-natural"],
 	regexp.configs["flat/recommended"],
 	{
-		files: ["package.json"],
-		rules: {
-			// Changing publish metadata is out of scope for a lint rule
-			"package-json/require-sideEffects": "off",
-			"package-json/specify-peers-locally": "off",
-		},
-	},
-	{
 		extends: [
 			...tseslint.configs.strictTypeChecked,
 			...tseslint.configs.stylisticTypeChecked,

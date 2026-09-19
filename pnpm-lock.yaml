@@ -166,9 +166,6 @@ importers:
 
   .:
     dependencies:
-      '@typescript-eslint/parser':
-        specifier: '>=6'
-        version: 8.70.0(eslint@10.11.0(jiti@2.4.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       '@typescript-eslint/utils':
         specifier: ^6.10.0 || ^7.0.1 || ^8
         version: 8.70.0(eslint@10.11.0(jiti@2.4.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
@@ -200,6 +197,9 @@ importers:
       '@types/node':
         specifier: ^26.6.1
         version: 26.6.1
+      '@typescript-eslint/parser':
+        specifier: ^8.70.0
+        version: 8.70.0(eslint@10.11.0(jiti@2.4.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       '@typescript-eslint/rule-tester':
         specifier: ^8.70.0
         version: 8.70.0(eslint@10.11.0(jiti@2.4.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
