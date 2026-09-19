@@ -5,7 +5,7 @@
 <p align="center">
 <!-- prettier-ignore-start -->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors" target="_blank"><img alt="All Contributors: 16 👪" src="https://img.shields.io/badge/all_contributors-16_👪-21bb42.svg" /></a>
+<a href="#contributors" target="_blank"><img alt="All Contributors: 17 👪" src="https://img.shields.io/badge/all_contributors-17_👪-21bb42.svg" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <!-- prettier-ignore-end -->
 <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/blob/main/.github/CODE_OF_CONDUCT.md" target="_blank"><img alt="Contributor Covenant" src="https://img.shields.io/badge/code_of_conduct-enforced-21bb42" /></a>
@@ -128,6 +128,7 @@ Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the i
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mrazauskas"><img src="https://avatars.githubusercontent.com/u/72159681?v=4?s=100" width="100px;" alt="Tom Mrazauskas"/><br /><sub><b>Tom Mrazauskas</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=mrazauskas" title="Documentation">📖</a></td>
     </tr>
     <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/yzhang-stytch"><img src="https://avatars.githubusercontent.com/u/230020276?v=4?s=100" width="100px;" alt="Yi Jiang"/><br /><sub><b>Yi Jiang</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3Ayzhang-stytch" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/DetachHead"><img src="https://avatars.githubusercontent.com/u/57028336?v=4?s=100" width="100px;" alt="detachhead"/><br /><sub><b>detachhead</b></sub></a><br /><a href="#ideas-detachhead" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://nirtamir.com/"><img src="https://avatars.githubusercontent.com/u/16452789?v=4?s=100" width="100px;" alt="nirtamir2"/><br /><sub><b>nirtamir2</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=nirtamir2" title="Documentation">📖</a></td>
     </tr>

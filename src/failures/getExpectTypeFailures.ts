@@ -3,7 +3,7 @@ import type ts from "typescript";
 import { Assertions } from "../assertions/types.js";
 import { getNodeAtPosition, lineOfPosition } from "../utils/locations.js";
 import {
-	getLanguageServiceHost,
+	getLanguageService,
 	getNodeForExpectType,
 	matchModuloWhitespace,
 } from "../utils/typescript.js";
@@ -16,9 +16,7 @@ export function getExpectTypeFailures(
 	{ program, sourceFile, tsModule, version }: ResolvedVersionToTest,
 ): ExpectTypeFailures {
 	const checker = program.getTypeChecker();
-	const languageService = tsModule.createLanguageService(
-		getLanguageServiceHost(program, tsModule),
-	);
+	const languageService = getLanguageService(program, tsModule);
 	const { twoSlashAssertions, typeAssertions } = assertions;
 	const unmetExpectations: UnmetExpectation[] = [];
 

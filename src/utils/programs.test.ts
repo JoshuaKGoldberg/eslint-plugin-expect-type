@@ -17,7 +17,7 @@ const originalProgram = ts.createProgram({
 });
 
 function actGetProgramForVersion() {
-	return getProgramForVersion("tsconfig.json", ts, "current", originalProgram);
+	return getProgramForVersion("tsconfig.json", ts, originalProgram);
 }
 
 describe("getProgramForVersion", () => {
