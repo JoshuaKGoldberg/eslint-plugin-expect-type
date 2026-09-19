@@ -85,7 +85,6 @@ export function resolveVersionsToTest(
 		const program = getProgramForVersion(
 			tsconfigPath,
 			tsModule,
-			version.name,
 			originalProgram,
 		);
 
