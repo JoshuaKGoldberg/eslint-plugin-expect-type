@@ -34,11 +34,6 @@ export const updateTypeSnapshot = (
 	});
 };
 
-/**
- * Preserves the indentation of an existing snapshot file, so re-running
- * --fix doesn't fight with the repository's formatter.
- * Defaults to 2 spaces for new or empty files.
- */
 function detectIndentation(snapshotPath: string): number | string {
 	const text = readFileSync(snapshotPath, "utf8");
 	const match = /^([\t ]+)"/m.exec(text);

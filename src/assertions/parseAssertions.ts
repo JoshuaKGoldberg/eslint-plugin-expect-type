@@ -42,9 +42,6 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 				case "Type": {
 					const expected = payload;
 					if (expected) {
-						// The payload capture runs to the end of the comment, so the
-						// expected type starts at the comment's end minus its length
-						// (ignoring leading whitespace, which .trim() removed).
 						const expectedStart =
 							commentIndex +
 							2 +
