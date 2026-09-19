@@ -42,7 +42,16 @@ export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 				case "Type": {
 					const expected = payload;
 					if (expected) {
-						typeAssertions.set(line, { assertionType: "manual", expected });
+						const expectedStart =
+							commentIndex +
+							2 +
+							comment.length -
+							(matchExpect[3] ?? "").trimStart().length;
+						typeAssertions.set(line, {
+							assertionType: "manual",
+							expected,
+							expectedRange: [expectedStart, expectedStart + expected.length],
+						});
 					} else {
 						syntaxErrors.push({
 							line,

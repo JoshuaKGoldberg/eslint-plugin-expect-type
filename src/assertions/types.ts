@@ -25,6 +25,11 @@ export interface Assertions {
 export interface ManualAssertion {
 	readonly assertionType: "manual";
 	readonly expected: string;
+
+	/**
+	 * Range of positions corresponding to the "expected" string (for fixer)
+	 */
+	readonly expectedRange: [number, number];
 }
 
 export interface SnapshotAssertion {
