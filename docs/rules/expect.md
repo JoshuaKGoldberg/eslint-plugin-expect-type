@@ -146,6 +146,25 @@ These snapshots will automatically update whenever `eslint --fix` is run.
 > Editor extensions are likely to not apply updates automatically.
 > Try running ESLint with `--fix` on the command-line, or failing that, manually updating.
 
+## Differences Between Twoslash and `$ExpectType`
+
+`^?` and `$ExpectType` intentionally produce different strings for the same type:
+
+- `$ExpectType` uses TypeScript's type checker to _stringify_ the type, matching `dtslint`.
+- `^?` uses TypeScript's language service to _display_ the type, matching editor hovers and the TypeScript Playground.
+
+For example, a function declaration is stringified as a function type but displayed as a signature:
+
+```ts
+declare function getTextLength(text: string): number;
+
+// $ExpectType (text: string) => number
+getTextLength;
+
+getTextLength;
+// ^? function getTextLength(text: string): number
+```
+
 ## Options
 
 ### `disableExpectTypeSnapshotFix`
