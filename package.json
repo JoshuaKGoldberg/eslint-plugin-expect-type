@@ -115,7 +115,7 @@
 		"release-it": "^21.1.0",
 		"should-semantic-release": "^0.3.5",
 		"tsup": "^8.5.1",
-		"typescript": "^5.9.3",
+		"typescript": "^7.0.0",
 		"typescript-eslint": "^8.70.0",
 		"typescript54": "npm:typescript@5.4.5",
 		"vitest": "^5.0.1"
