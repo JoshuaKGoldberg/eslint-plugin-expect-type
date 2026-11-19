@@ -171,6 +171,7 @@ function reportNotFoundErrors(
 	const diagnostics = tsModule.getPreEmitDiagnostics(program, sourceFile);
 	const seenDiagnosticsOnLine = new Set(
 		diagnostics
+			.filter((diagnostic) => diagnostic.file === sourceFile)
 			.filter(isDiagnosticWithStart)
 			.map((diagnostic) => lineOfPosition(diagnostic.start, sourceFile)),
 	);
