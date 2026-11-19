@@ -19,17 +19,32 @@ export default createConfig({
 	refinements: {
 		addons: [
 			blockESLint({
-				ignores: ["README.md/*.ts", "src/rules/sandbox/*"],
-				rules: [
+				extensions: [
 					{
-						entries: {
+						files: ["**/*.ts"],
+						rules: {
 							"@typescript-eslint/no-unnecessary-condition": [
 								"error",
 								{ allowConstantLoopConditions: "only-allowed-literals" },
 							],
 						},
 					},
+					{
+						extends: ["tseslint.configs.disableTypeChecked"],
+						files: ["**/*.md/*.ts"],
+						rules: [
+							{
+								comment:
+									"Ignore unused code, as they're often commented with the plugin",
+								entries: {
+									"@typescript-eslint/no-unused-expressions": "off",
+									"@typescript-eslint/no-unused-vars": "off",
+								},
+							},
+						],
+					},
 				],
+				ignores: ["src/rules/sandbox/**"],
 			}),
 			blockPackageJson({
 				properties: {
