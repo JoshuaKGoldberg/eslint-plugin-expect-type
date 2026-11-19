@@ -1,6 +1,6 @@
 import type ts from "typescript";
 
-import { Assertion } from "../assertions/types.js";
+import { Assertion } from "../assertions/types.ts";
 
 export interface ExpectTypeFailures {
 	/**

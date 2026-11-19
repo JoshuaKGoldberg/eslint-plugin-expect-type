@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
-import { getLanguageService } from "./typescript.js";
+import { getLanguageService } from "./typescript.ts";
 
 const fileName = "/Example/File.ts";
 const text = "declare const value: string;";

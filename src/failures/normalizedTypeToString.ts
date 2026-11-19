@@ -3,7 +3,7 @@
 
 import type ts from "typescript";
 
-import { TSModule } from "../utils/programs.js";
+import { TSModule } from "../utils/programs.ts";
 
 export function normalizedTypeToString(type: string, tsModule: TSModule) {
 	const sourceFile = tsModule.createSourceFile(

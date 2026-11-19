@@ -2,23 +2,23 @@ import type ts from "typescript";
 
 import { TSESLint } from "@typescript-eslint/utils";
 
-import { parseAssertions } from "../assertions/parseAssertions.js";
+import { parseAssertions } from "../assertions/parseAssertions.ts";
 import {
 	ManualAssertion,
 	SyntaxError,
 	TwoSlashAssertion,
-} from "../assertions/types.js";
-import { getExpectTypeFailures } from "../failures/getExpectTypeFailures.js";
-import { UnmetExpectation } from "../failures/types.js";
-import { ExpectRuleContext, MessageIds, messages, Options } from "../meta.js";
-import { createRule } from "../utils/createRule.js";
-import { isDiagnosticWithStart } from "../utils/diagnostics.js";
-import { lineOfPosition, locForTSNode } from "../utils/locations.js";
-import { updateTypeSnapshot } from "../utils/snapshot.js";
+} from "../assertions/types.ts";
+import { getExpectTypeFailures } from "../failures/getExpectTypeFailures.ts";
+import { UnmetExpectation } from "../failures/types.ts";
+import { ExpectRuleContext, MessageIds, messages, Options } from "../meta.ts";
+import { createRule } from "../utils/createRule.ts";
+import { isDiagnosticWithStart } from "../utils/diagnostics.ts";
+import { lineOfPosition, locForTSNode } from "../utils/locations.ts";
+import { updateTypeSnapshot } from "../utils/snapshot.ts";
 import {
 	ResolvedVersionToTest,
 	resolveVersionsToTest,
-} from "../utils/versions.js";
+} from "../utils/versions.ts";
 
 const defaultOptions: Options = {
 	disableExpectTypeSnapshotFix: false,

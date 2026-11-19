@@ -1,15 +1,15 @@
 import type ts from "typescript";
 
-import { Assertions } from "../assertions/types.js";
-import { getNodeAtPosition, lineOfPosition } from "../utils/locations.js";
+import { Assertions } from "../assertions/types.ts";
+import { getNodeAtPosition, lineOfPosition } from "../utils/locations.ts";
 import {
 	getLanguageService,
 	getNodeForExpectType,
 	matchModuloWhitespace,
-} from "../utils/typescript.js";
-import { ResolvedVersionToTest } from "../utils/versions.js";
-import { normalizedTypeToString } from "./normalizedTypeToString.js";
-import { ExpectTypeFailures, UnmetExpectation } from "./types.js";
+} from "../utils/typescript.ts";
+import { ResolvedVersionToTest } from "../utils/versions.ts";
+import { normalizedTypeToString } from "./normalizedTypeToString.ts";
+import { ExpectTypeFailures, UnmetExpectation } from "./types.ts";
 
 export function getExpectTypeFailures(
 	assertions: Pick<Assertions, "twoSlashAssertions" | "typeAssertions">,

@@ -1,9 +1,9 @@
 import type ts from "typescript";
 
-import { getTypeSnapshot } from "../utils/snapshot.js";
-import { parseTwoslashAssertion } from "./parseTwoslashAssertion.js";
-import { Assertion, TwoSlashAssertion } from "./types.js";
-import { Assertions, SyntaxError } from "./types.js";
+import { getTypeSnapshot } from "../utils/snapshot.ts";
+import { parseTwoslashAssertion } from "./parseTwoslashAssertion.ts";
+import { Assertion, TwoSlashAssertion } from "./types.ts";
+import { Assertions, SyntaxError } from "./types.ts";
 
 export function parseAssertions(sourceFile: ts.SourceFile): Assertions {
 	const errorLines = new Set<number>();

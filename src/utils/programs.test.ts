@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { describe, expect, it, vi } from "vitest";
 
-import { getProgramForVersion } from "./programs.js";
+import { getProgramForVersion } from "./programs.ts";
 
 const mockGetHeapStatistics = vi.fn<() => Record<string, number>>();
 

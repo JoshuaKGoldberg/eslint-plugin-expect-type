@@ -1,9 +1,9 @@
 import dedent from "dedent";
 import assert from "node:assert";
 
-import { getTypeSnapshot, updateTypeSnapshot } from "../utils/snapshot.js";
-import { expect } from "./expect.js";
-import { filename, ruleTester } from "./ruleTester.js";
+import { getTypeSnapshot, updateTypeSnapshot } from "../utils/snapshot.ts";
+import { expect } from "./expect.ts";
+import { filename, ruleTester } from "./ruleTester.ts";
 
 function createResetHooks(
 	snapshotName: string,

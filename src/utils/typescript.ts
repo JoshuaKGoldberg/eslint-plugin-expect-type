@@ -2,7 +2,7 @@ import type ts from "typescript";
 
 import { WeakCachedFactory } from "cached-factory";
 
-import { TSModule } from "./programs.js";
+import { TSModule } from "./programs.ts";
 
 function getLanguageServiceHost(
 	program: ts.Program,

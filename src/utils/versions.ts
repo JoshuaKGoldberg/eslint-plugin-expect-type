@@ -5,8 +5,8 @@ import { ReportDescriptor } from "@typescript-eslint/utils/ts-eslint";
 import { getTsconfig } from "get-tsconfig";
 import * as tsModuleOriginal from "typescript";
 
-import { ExpectRuleContext, MessageIds, VersionToTestOption } from "../meta.js";
-import { getProgramForVersion, TSModule } from "./programs.js";
+import { ExpectRuleContext, MessageIds, VersionToTestOption } from "../meta.ts";
+import { getProgramForVersion, TSModule } from "./programs.ts";
 
 export interface ResolvedVersionToTest {
 	program: ts.Program;
