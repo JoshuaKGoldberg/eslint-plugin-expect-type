@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.2](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.7.1...v0.7.2) (2026-11-19)
+
+### Bug Fixes
+
+- bump to create-typescript-app@2.75 with transitions action ([#825](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/825)) ([508f205](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/508f205a827ff6d36e76838f71307de8bedc9942)), closes [#821](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/821)
+
 ## [0.7.1](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.7.0...v0.7.1) (2026-11-19)
 
 ### Bug Fixes
