@@ -123,5 +123,9 @@ export default defineConfig(
 	{
 		extends: [packageJson.configs.recommended, packageJson.configs.stylistic],
 		files: ["package.json"],
+		rules: {
+			// @typescript-eslint/parser is provided transitively by typescript-eslint, and CTA removes it from devDependencies
+			"package-json/specify-peers-locally": "off",
+		},
 	},
 );
