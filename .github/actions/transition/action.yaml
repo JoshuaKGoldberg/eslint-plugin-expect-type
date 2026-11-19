@@ -13,14 +13,14 @@ runs:
     - run: npx create-typescript-app
       shell: bash
     - id: auto-commit-action
-      uses: stefanzweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@v7
       with:
         commit_author: The Friendly Bingo Bot <bot@create.bingo>
         commit_message: Check in changes from re-running npx create-typescript-app
         commit_user_email: bot@create.bingo
         commit_user_name: The Friendly Bingo Bot
     - if: steps.auto-commit-action.outputs.changes_detected == 'true'
-      uses: mshick/add-pr-comment@v2
+      uses: mshick/add-pr-comment@v3
       with:
         issue: ${{ github.event.pull_request.number }}
         message: |-
@@ -37,7 +37,7 @@ runs:
       with:
         properties: engines
     - if: steps.package-change.outputs.changed == 'true'
-      uses: JoshuaKGoldberg/draft-pull-request-once-action@0.0.1
+      uses: JoshuaKGoldberg/draft-pull-request-once-action@0.1.0
       with:
         github-token: ${{ inputs.token }}
         message: |-

@@ -8,7 +8,7 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: main
@@ -17,7 +17,7 @@ jobs:
       - run: pnpm build
       - env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        uses: JoshuaKGoldberg/release-it-action@v0.5.7
+        uses: JoshuaKGoldberg/release-it-action@v0.6.4
 
 name: Release
 

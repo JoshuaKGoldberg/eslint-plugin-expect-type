@@ -7,7 +7,7 @@ jobs:
     steps:
       - id: checkout
         if: (github.actor == 'JoshuaKGoldberg' || github.actor == 'renovate[bot]') && startsWith(github.head_ref, 'renovate/') && contains(github.event.pull_request.title, 'create-typescript-app')
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{github.event.pull_request.head.ref}}
