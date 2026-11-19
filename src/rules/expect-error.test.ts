@@ -1,7 +1,7 @@
 import dedent from "dedent";
 
-import { expect } from "./expect.js";
-import { filename, ruleTester } from "./ruleTester.js";
+import { expect } from "./expect.ts";
+import { filename, ruleTester } from "./ruleTester.ts";
 
 ruleTester.run("expect", expect, {
 	invalid: [

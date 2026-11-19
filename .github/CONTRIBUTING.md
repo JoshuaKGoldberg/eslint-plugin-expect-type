@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in contributing to `eslint-plugin-expect-type`! 💖
+Thanks for your interest in contributing to `eslint-plugin-expect-type`! 🧩
 
 > After this page, see [DEVELOPMENT.md](./DEVELOPMENT.md) for local development instructions.
 
@@ -25,7 +25,7 @@ There are two steps involved:
 
 With the exception of very small typos, all changes to this repository generally need to correspond to an [unassigned open issue marked as `status: accepting prs` on the issue tracker](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=is%3Aissue+is%3Aopen+label%3A%22status%3A+accepting+prs%22+no%3Aassignee+).
 If this is your first time contributing, consider searching for [unassigned issues that also have the `good first issue` label](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+label%3A%22status%3A+accepting+prs%22+no%3Aassignee+).
-If the issue you'd like to fix isn't found on the issue, see [Reporting Issues](#reporting-issues) for filing your own (please do!).
+If the issue you'd like to fix isn't found on the issue tracker, see [Reporting Issues](#reporting-issues) for filing your own (please do!).
 
 #### Issue Claiming
 
@@ -94,5 +94,5 @@ Please do ping the maintainer who merged your PR if that doesn't happen within 2
 ## Emojis & Appreciation
 
 If you made it all the way to the end, bravo dear user, we love you.
-Please include your favorite emoji in the bottom of your issues and PRs to signal to us that you did in fact read this file and are trying to conform to it as best as possible.
-💖 is a good starter if you're not sure which to use.
+Please include an emoji in the bottom of your issues and PRs to signal to us that you did in fact read this file and are trying to conform to it as best as possible.
+🧩 is a good starter if you're not sure which to use.

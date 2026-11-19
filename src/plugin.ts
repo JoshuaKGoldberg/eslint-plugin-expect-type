@@ -1,6 +1,6 @@
 import { createRequire } from "node:module";
 
-import { rules } from "./rules/index.js";
+import { rules } from "./rules/index.ts";
 
 const require = createRequire(import.meta.url || __filename);
 

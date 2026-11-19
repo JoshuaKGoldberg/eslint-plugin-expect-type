@@ -1,6 +1,6 @@
 import type ts from "typescript";
 
-import { TSModule } from "./programs.js";
+import { TSModule } from "./programs.ts";
 
 export const locForTSNode = (sourceFile: ts.SourceFile, node: ts.Node) => {
 	const start = sourceFile.getLineAndCharacterOfPosition(node.getStart());

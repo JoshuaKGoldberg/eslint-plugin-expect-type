@@ -1,6 +1,6 @@
-import { recommendedRuleSettings } from "./plugin.js";
+import { recommendedRuleSettings } from "./plugin.ts";
 
-export { rules } from "./rules/index.js";
+export { rules } from "./rules/index.ts";
 
 export const configs = {
 	recommended: {

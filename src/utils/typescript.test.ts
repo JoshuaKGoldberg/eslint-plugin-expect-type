@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
-import { getLanguageService } from "./typescript.js";
+import { getLanguageService } from "./typescript.ts";
 
 const fileName = "/Example/File.ts";
 const text = "declare const value: string;";
@@ -17,7 +17,7 @@ function createProgram(useCaseSensitiveFileNames = true) {
 				useCaseSensitiveFileNames ? file : file.toLowerCase(),
 			getSourceFile: (file, ...args) =>
 				file === fileName
-					? ts.createSourceFile(file, text, ts.ScriptTarget.ES5)
+					? ts.createSourceFile(file, text, ts.ScriptTarget.ES2015)
 					: host.getSourceFile(file, ...args),
 			useCaseSensitiveFileNames: () => useCaseSensitiveFileNames,
 		},
@@ -26,7 +26,7 @@ function createProgram(useCaseSensitiveFileNames = true) {
 	});
 }
 
-describe("getLanguageService", () => {
+describe(getLanguageService, () => {
 	it.each([true, false])(
 		"reuses the program's source files when useCaseSensitiveFileNames is %s",
 		(useCaseSensitiveFileNames) => {

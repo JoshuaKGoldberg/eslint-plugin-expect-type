@@ -2,7 +2,7 @@ import type ts from "typescript";
 
 import { WeakCachedFactory } from "cached-factory";
 
-import { TSModule } from "./programs.js";
+import { TSModule } from "./programs.ts";
 
 function getLanguageServiceHost(
 	program: ts.Program,
@@ -105,6 +105,8 @@ function getDocumentRegistry(
 		...tsModule.createDocumentRegistry(),
 		acquireDocumentWithKey: getDocument,
 		// Nothing was acquired from the base registry, so there's nothing to release.
+		// This no-op satisfies both the deprecated and current overloads.
+		// eslint-disable-next-line @typescript-eslint/no-deprecated
 		releaseDocumentWithKey: () => undefined,
 		updateDocumentWithKey: getDocument,
 	};

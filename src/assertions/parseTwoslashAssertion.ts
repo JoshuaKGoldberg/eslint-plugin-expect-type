@@ -1,4 +1,4 @@
-import { SyntaxError, TwoSlashAssertion } from "./types.js";
+import { SyntaxError, TwoSlashAssertion } from "./types.ts";
 
 export function parseTwoslashAssertion(
 	comment: string,

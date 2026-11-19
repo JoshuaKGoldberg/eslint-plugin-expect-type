@@ -1,4 +1,4 @@
-<!-- 👋 Hi, thanks for sending a PR to eslint-plugin-expect-type! 💖.
+<!-- 👋 Hi, thanks for sending a PR to eslint-plugin-expect-type! 🧩
 Please fill out all fields below and make sure each item is true and [x] checked.
 Otherwise we may not be able to review your PR. -->
 

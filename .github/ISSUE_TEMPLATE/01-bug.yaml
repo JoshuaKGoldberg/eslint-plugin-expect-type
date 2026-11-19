@@ -3,14 +3,22 @@ body:
       description: If any of these required steps are not taken, we may not be able to review your issue. Help us to help you!
       label: Bug Report Checklist
       options:
-        - label: I have pulled the latest `main` branch of the repository.
+        - label: I have pulled in the newest version of the project.
+          required: true
+        - label: I have tried restarting my IDE and the issue persists.
           required: true
         - label: I have [searched for related issues](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=is%3Aissue) and found none that matched my issue.
           required: true
     type: checkboxes
   - attributes:
-      description: What would you like to report?
-      label: Overview
+      description: What did you expect to happen?
+      label: Expected
+    type: textarea
+    validations:
+      required: true
+  - attributes:
+      description: What happened instead?
+      label: Actual
     type: textarea
     validations:
       required: true
@@ -18,8 +26,12 @@ body:
       description: Any additional info you'd like to provide.
       label: Additional Info
     type: textarea
-description: Report a typo or missing area of documentation
+
+description: Report a bug trying to run the code
+
 labels:
-  - "area: documentation"
-name: 📝 Documentation
-title: "📝 Documentation: <short description of the request>"
+  - "type: bug"
+
+name: 🐛 Bug
+
+title: "🐛 Bug: <short description of the bug>"

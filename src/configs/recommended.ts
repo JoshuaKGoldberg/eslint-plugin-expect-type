@@ -1,4 +1,4 @@
-import { plugin, recommendedRuleSettings } from "../plugin.js";
+import { plugin, recommendedRuleSettings } from "../plugin.ts";
 
 const recommended = {
 	plugins: {

@@ -4,11 +4,11 @@ export default defineConfig({
 	test: {
 		clearMocks: true,
 		coverage: {
-			exclude: ["lib"],
-			include: ["src/**/*.ts"],
+			exclude: ["src/rules/ruleTester.ts", "src/rules/sandbox"],
+			include: ["src"],
 			reporter: ["html", "lcov"],
 		},
-		exclude: ["lib", "node_modules"],
+		exclude: ["dist", "node_modules"],
 		setupFiles: ["console-fail-test/setup"],
 	},
 });

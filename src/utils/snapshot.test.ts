@@ -3,9 +3,9 @@ import * as os from "os";
 import * as path from "path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { getTypeSnapshot, updateTypeSnapshot } from "./snapshot.js";
+import { getTypeSnapshot, updateTypeSnapshot } from "./snapshot.ts";
 
-describe("updateTypeSnapshot", () => {
+describe(updateTypeSnapshot, () => {
 	let directory: string;
 	let filename: string;
 	let snapshotPath: string;

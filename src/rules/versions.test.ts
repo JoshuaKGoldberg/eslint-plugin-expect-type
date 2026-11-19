@@ -1,7 +1,7 @@
 import path from "node:path";
 
-import { expect } from "./expect.js";
-import { ruleTester, tsconfigRootDir } from "./ruleTester.js";
+import { expect } from "./expect.ts";
+import { ruleTester, tsconfigRootDir } from "./ruleTester.ts";
 
 ruleTester.run("expect", expect, {
 	invalid: [

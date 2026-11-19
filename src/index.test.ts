@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import * as index from "./index.js";
+import * as index from "./index.ts";
 
 describe("index", () => {
 	it("matches the expected shape", () => {
