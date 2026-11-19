@@ -32,7 +32,7 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"sideEffects": false,
-	"type": "commonjs",
+	"type": "module",
 	"exports": {
 		".": {
 			"types": {

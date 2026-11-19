@@ -11,7 +11,6 @@ import {
 	blockPackageJson,
 	blockTSDown,
 	blockTypeScript,
-	blockVitest,
 	createConfig,
 } from "create-typescript-app";
 
@@ -21,6 +20,7 @@ export default createConfig({
 			blockESLint({
 				extensions: [
 					{
+						extends: ["eslintPlugin.configs.recommended"],
 						files: ["**/*.ts"],
 						rules: {
 							"@typescript-eslint/no-unnecessary-condition": [
@@ -45,13 +45,48 @@ export default createConfig({
 					},
 				],
 				ignores: ["src/rules/sandbox/**"],
+				imports: [
+					{
+						source: "eslint-plugin-eslint-plugin",
+						specifier: "eslintPlugin",
+					},
+				],
 			}),
 			blockPackageJson({
 				properties: {
+					exports: {
+						".": {
+							import: {
+								types: "./dist/index.d.mts",
+								default: "./dist/index.mjs",
+							},
+							require: {
+								types: "./dist/index.d.cts",
+								default: "./dist/index.cjs",
+							},
+						},
+						"./configs/recommended": {
+							import: {
+								types: "./dist/configs/recommended.d.mts",
+								default: "./dist/configs/recommended.mjs",
+							},
+							require: {
+								types: "./dist/configs/recommended.d.cts",
+								default: "./dist/configs/recommended.cjs",
+							},
+						},
+					},
 					files: ["LICENSE.md"],
+					main: "./dist/index.cjs",
+					type: "module",
 				},
 			}),
 			blockTSDown({
+				entry: [
+					"!src/**/*.test.*",
+					"!src/rules/ruleTester.ts",
+					"!src/rules/sandbox/**",
+				],
 				properties: {
 					format: ["cjs", "esm"],
 				},
@@ -61,9 +96,6 @@ export default createConfig({
 					module: "ESNext",
 					moduleResolution: "Bundler",
 				},
-			}),
-			blockVitest({
-				exclude: ["src/index.ts", "src/rules/index.ts"],
 			}),
 		],
 		blocks: {
