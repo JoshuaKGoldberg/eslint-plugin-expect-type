@@ -7,10 +7,9 @@
 //   https://github.com/JoshuaKGoldberg/bingo/issues/128
 import {
 	blockESLint,
-	blockMarkdownlint,
 	blockMITLicense,
 	blockPackageJson,
-	blockTSup,
+	blockTSDown,
 	blockTypeScript,
 	blockVitest,
 	createConfig,
@@ -32,15 +31,12 @@ export default createConfig({
 					},
 				],
 			}),
-			blockMarkdownlint({
-				ignores: ["LICENSE.md"],
-			}),
 			blockPackageJson({
 				properties: {
 					files: ["LICENSE.md"],
 				},
 			}),
-			blockTSup({
+			blockTSDown({
 				properties: {
 					format: ["cjs", "esm"],
 				},
