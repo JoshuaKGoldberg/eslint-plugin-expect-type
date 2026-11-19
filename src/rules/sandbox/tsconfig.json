@@ -2,9 +2,6 @@
 	"compilerOptions": {
 		"lib": ["es2017"],
 		"module": "commonjs",
-
-		// Deprecated as of TypeScript 6, which reports an options diagnostic in this file
-		// Testing that it doesn't get treated as an error in linted files
 		"moduleResolution": "node",
 
 		// Testing that these don't get passed through as issues
@@ -13,6 +10,7 @@
 		"noUnusedParameters": true,
 
 		"skipLibCheck": true,
+		"suppressImplicitAnyIndexErrors": true,
 		"strict": true,
 		"target": "es2017"
 	},

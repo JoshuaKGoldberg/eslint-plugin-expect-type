@@ -173,7 +173,6 @@ function reportNotFoundErrors(
 	const diagnostics = tsModule.getPreEmitDiagnostics(program, sourceFile);
 	const seenDiagnosticsOnLine = new Set(
 		diagnostics
-			// Options diagnostics, such as TypeScript 6's deprecations, point into the tsconfig file
 			.filter((diagnostic) => diagnostic.file === sourceFile)
 			.filter(isDiagnosticWithStart)
 			.map((diagnostic) => lineOfPosition(diagnostic.start, sourceFile)),
