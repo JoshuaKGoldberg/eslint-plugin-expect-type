@@ -19,15 +19,10 @@ Enforces that types indicated in special comments match the types of code values
 
 The following kinds of comments are supported:
 
-<!-- Markdownlint doesn't seem to understand the heading IDs... -->
-<!-- markdownlint-disable link-fragments -->
-
-- [`^?` (Twoslash Syntax)](#twoslash-syntax)
+- [`^?` (Twoslash Syntax)](#twoslash-syntax-)
 - [`$ExpectError`](#expecterror)
 - [`$ExpectType`](#expecttype)
 - [`$ExpectTypeSnapshot`](#expecttypesnapshot)
-
-<!-- markdownlint-enable link-fragments -->
 
 ### Twoslash Syntax (`^?`)
 

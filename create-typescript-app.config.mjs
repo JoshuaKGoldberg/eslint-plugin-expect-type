@@ -46,6 +46,18 @@ export default createConfig({
 							},
 						],
 					},
+					{
+						files: ["package.json"],
+						rules: [
+							{
+								comment:
+									"@typescript-eslint/parser is provided transitively by typescript-eslint, and CTA removes it from devDependencies",
+								entries: {
+									"package-json/specify-peers-locally": "off",
+								},
+							},
+						],
+					},
 				],
 				ignores: ["CHANGELOG.md", "src/rules/sandbox/**"],
 				imports: [
@@ -68,9 +80,6 @@ export default createConfig({
 			}),
 			blockPackageJson({
 				properties: {
-					devDependencies: {
-						"@typescript-eslint/parser": "8.73.0",
-					},
 					exports: {
 						".": {
 							import: {

@@ -18,6 +18,7 @@ export default defineConfig(
 	globalIgnores(
 		[
 			"**/*.snap",
+			"CHANGELOG.md",
 			"coverage",
 			"dist",
 			"node_modules",

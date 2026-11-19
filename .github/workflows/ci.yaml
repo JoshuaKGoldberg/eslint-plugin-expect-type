@@ -6,6 +6,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare
       - run: pnpm build
+      - run: node ./dist/index.cjs
+      - run: node ./dist/index.mjs
 
   dedupe_check:
     name: Dedupe Check
@@ -42,6 +44,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare
       - run: pnpm lint
+
+  lint_docs:
+    name: Lint Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare
+      - run: pnpm build
+      - run: pnpm lint:docs
 
   lint_knip:
     name: Lint Knip
