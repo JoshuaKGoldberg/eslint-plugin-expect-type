@@ -1,20 +1,19 @@
 <h1 align="center">eslint-plugin-expect-type</h1>
 
-<p align="center">
-	ESLint plugin with <code>^?</code> Twoslash, <code>$ExpectError</code>, and <code>$ExpectType</code> type assertions.
-	🧩
-</p>
+<p align="center">ESLint plugin with <code>^?</code> Twoslash, <code>$ExpectError</code>, and <code>$ExpectType</code> type assertions. 🧩</p>
 
 <p align="center">
-	<!-- prettier-ignore-start -->
-	<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-	<a href="#contributors" target="_blank"><img alt="👪 All Contributors: 15" src="https://img.shields.io/badge/%F0%9F%91%AA_all_contributors-15-21bb42.svg" /></a>
+<!-- prettier-ignore-start -->
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+<a href="#contributors" target="_blank"><img alt="All Contributors: 17 👪" src="https://img.shields.io/badge/all_contributors-17_👪-21bb42.svg" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-	<!-- prettier-ignore-end -->
-	<a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/blob/main/.github/CODE_OF_CONDUCT.md" target="_blank"><img alt="🤝 Code of Conduct: Kept" src="https://img.shields.io/badge/%F0%9F%A4%9D_code_of_conduct-kept-21bb42" /></a>
-	<a href="https://codecov.io/gh/JoshuaKGoldberg/eslint-plugin-expect-type" target="_blank"><img alt="🧪 Coverage" src="https://img.shields.io/codecov/c/github/JoshuaKGoldberg/eslint-plugin-expect-type?label=%F0%9F%A7%AA%20coverage" /></a>
-	<a href="http://npmjs.com/package/eslint-plugin-expect-type" target="_blank"><img alt="📦 npm version" src="https://img.shields.io/npm/v/eslint-plugin-expect-type?color=21bb42&label=%F0%9F%93%A6%20npm" /></a>
-	<img alt="💪 TypeScript: Strict" src="https://img.shields.io/badge/%F0%9F%92%AA_typescript-strict-21bb42.svg" />
+<!-- prettier-ignore-end -->
+<a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/blob/main/.github/CODE_OF_CONDUCT.md" target="_blank"><img alt="Contributor Covenant" src="https://img.shields.io/badge/code_of_conduct-enforced-21bb42" /></a>
+<a href="https://codecov.io/gh/JoshuaKGoldberg/eslint-plugin-expect-type" target="_blank"><img alt="Codecov Test Coverage" src="https://codecov.io/gh/JoshuaKGoldberg/eslint-plugin-expect-type/branch/main/graph/badge.svg"/></a>
+<a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/blob/main/LICENSE.md" target="_blank"><img alt="License: Apache-2.0" src="https://img.shields.io/github/license/JoshuaKGoldberg/eslint-plugin-expect-type?color=21bb42"></a>
+<img alt="npm package version" src="https://img.shields.io/npm/v/eslint-plugin-expect-type?color=21bb42" />
+<img alt="TypeScript: Strict" src="https://img.shields.io/badge/typescript-strict-21bb42.svg" />
+
 </p>
 
 ```ts
@@ -36,7 +35,7 @@ Make sure you have TypeScript and @typescript-eslint/parser installed, then inst
 npm i -D eslint-plugin-expect-type
 ```
 
-> See [typescript-eslint's Getting Started docs](https://typescript-eslint.io/docs) for how to run ESLint on TypeScript files.
+> See [typescript-eslint's Getting Started docs](https://typescript-eslint.io/getting-started/) for how to run ESLint on TypeScript files.
 
 ## Usage
 
@@ -102,11 +101,6 @@ Roughly, that's major versions of TypeScript less than 2 years old.
 
 Many thanks to [@ibezkrovnyi](https://github.com/ibezkrovnyi) for creating the initial version and core infrastructure of this package! 💖
 
-## Development
-
-See [`.github/CONTRIBUTING.md`](./.github/CONTRIBUTING.md), then [`.github/DEVELOPMENT.md`](./.github/DEVELOPMENT.md).
-Thanks! 🧩
-
 ## Contributors
 
 <!-- spellchecker: disable -->
@@ -117,23 +111,25 @@ Thanks! 🧩
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://blog.andrewbran.ch"><img src="https://avatars.githubusercontent.com/u/3277153?v=4?s=100" width="100px;" alt="Andrew Branch"/><br /><sub><b>Andrew Branch</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=andrewbranch" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://barrymichaeldoyle.com"><img src="https://avatars.githubusercontent.com/u/4674486?v=4?s=100" width="100px;" alt="Barry Michael Doyle"/><br /><sub><b>Barry Michael Doyle</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=barrymichaeldoyle" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/BatuhanW"><img src="https://avatars.githubusercontent.com/u/16444991?v=4?s=100" width="100px;" alt="Batuhan Wilhelm"/><br /><sub><b>Batuhan Wilhelm</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3ABatuhanW" title="Bug reports">🐛</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=BatuhanW" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://colinking.co/"><img src="https://avatars.githubusercontent.com/u/2907397?v=4?s=100" width="100px;" alt="Colin"/><br /><sub><b>Colin</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3Acolinking" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://books.ninja-squad.com"><img src="https://avatars.githubusercontent.com/u/411874?v=4?s=100" width="100px;" alt="Cédric Exbrayat"/><br /><sub><b>Cédric Exbrayat</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3Acexbrayat" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://effectivetypescript.com/"><img src="https://avatars.githubusercontent.com/u/98301?v=4?s=100" width="100px;" alt="Dan Vanderkam"/><br /><sub><b>Dan Vanderkam</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=danvk" title="Code">💻</a> <a href="#maintenance-danvk" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://danielnagy.me"><img src="https://avatars.githubusercontent.com/u/1622446?v=4?s=100" width="100px;" alt="Daniel Nagy"/><br /><sub><b>Daniel Nagy</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3Adaniel-nagy" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/TkDodo"><img src="https://avatars.githubusercontent.com/u/1021430?v=4?s=100" width="100px;" alt="Dominik Dorfmeister"/><br /><sub><b>Dominik Dorfmeister</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=TkDodo" title="Documentation">📖</a></td>
     </tr>
     <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/TkDodo"><img src="https://avatars.githubusercontent.com/u/1021430?v=4?s=100" width="100px;" alt="Dominik Dorfmeister"/><br /><sub><b>Dominik Dorfmeister</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=TkDodo" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/fasttime"><img src="https://avatars.githubusercontent.com/u/6367844?v=4?s=100" width="100px;" alt="Francesco Trotta"/><br /><sub><b>Francesco Trotta</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=fasttime" title="Code">💻</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3Afasttime" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ibezkrovnyi"><img src="https://avatars.githubusercontent.com/u/1188919?v=4?s=100" width="100px;" alt="Igor Bezkrovnyi"/><br /><sub><b>Igor Bezkrovnyi</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3Aibezkrovnyi" title="Bug reports">🐛</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=ibezkrovnyi" title="Code">💻</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=ibezkrovnyi" title="Documentation">📖</a> <a href="#maintenance-ibezkrovnyi" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://jakebailey.dev"><img src="https://avatars.githubusercontent.com/u/5341706?v=4?s=100" width="100px;" alt="Jake Bailey"/><br /><sub><b>Jake Bailey</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=jakebailey" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://www.joshuakgoldberg.com/"><img src="https://avatars.githubusercontent.com/u/3335181?v=4?s=100" width="100px;" alt="Josh Goldberg ✨"/><br /><sub><b>Josh Goldberg ✨</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3AJoshuaKGoldberg" title="Bug reports">🐛</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=JoshuaKGoldberg" title="Code">💻</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=JoshuaKGoldberg" title="Documentation">📖</a> <a href="#maintenance-JoshuaKGoldberg" title="Maintenance">🚧</a> <a href="#infra-JoshuaKGoldberg" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#ideas-JoshuaKGoldberg" title="Ideas, Planning, & Feedback">🤔</a> <a href="#tool-JoshuaKGoldberg" title="Tools">🔧</a> <a href="#content-JoshuaKGoldberg" title="Content">🖋</a> <a href="#projectManagement-JoshuaKGoldberg" title="Project Management">📆</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.joshuakgoldberg.com/"><img src="https://avatars.githubusercontent.com/u/3335181?v=4?s=100" width="100px;" alt="Josh Goldberg ✨"/><br /><sub><b>Josh Goldberg ✨</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3AJoshuaKGoldberg" title="Bug reports">🐛</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=JoshuaKGoldberg" title="Code">💻</a> <a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=JoshuaKGoldberg" title="Documentation">📖</a> <a href="#maintenance-JoshuaKGoldberg" title="Maintenance">🚧</a> <a href="#infra-JoshuaKGoldberg" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#ideas-JoshuaKGoldberg" title="Ideas, Planning, & Feedback">🤔</a> <a href="#tool-JoshuaKGoldberg" title="Tools">🔧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://twitter.com/_RussellDavis"><img src="https://avatars.githubusercontent.com/u/551404?v=4?s=100" width="100px;" alt="Russell Davis"/><br /><sub><b>Russell Davis</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=russelldavis" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mrazauskas"><img src="https://avatars.githubusercontent.com/u/72159681?v=4?s=100" width="100px;" alt="Tom Mrazauskas"/><br /><sub><b>Tom Mrazauskas</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=mrazauskas" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/DetachHead"><img src="https://avatars.githubusercontent.com/u/57028336?v=4?s=100" width="100px;" alt="detachhead"/><br /><sub><b>detachhead</b></sub></a><br /><a href="#ideas-detachhead" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
     <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/yzhang-stytch"><img src="https://avatars.githubusercontent.com/u/230020276?v=4?s=100" width="100px;" alt="Yi Jiang"/><br /><sub><b>Yi Jiang</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=author%3Ayzhang-stytch" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/DetachHead"><img src="https://avatars.githubusercontent.com/u/57028336?v=4?s=100" width="100px;" alt="detachhead"/><br /><sub><b>detachhead</b></sub></a><br /><a href="#ideas-detachhead" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://nirtamir.com/"><img src="https://avatars.githubusercontent.com/u/16452789?v=4?s=100" width="100px;" alt="nirtamir2"/><br /><sub><b>nirtamir2</b></sub></a><br /><a href="https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commits?author=nirtamir2" title="Documentation">📖</a></td>
     </tr>
   </tbody>
@@ -145,4 +141,4 @@ Thanks! 🧩
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 <!-- spellchecker: enable -->
 
-> 💝 This package was templated with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) using the [Bingo engine](https://create.bingo).
+> 💙 This package was templated with [create-typescript-app](https://github.com/JoshuaKGoldberg/create-typescript-app).

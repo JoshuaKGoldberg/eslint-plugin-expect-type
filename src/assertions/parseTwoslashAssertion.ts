@@ -8,8 +8,7 @@ export function parseTwoslashAssertion(
 	lineStarts: readonly number[],
 ): null | SyntaxError | TwoSlashAssertion {
 	const matchTwoslash = /^( *)\^\?(.*)$/.exec(comment) as
-		| [never, string, string]
-		| null;
+		[never, string, string] | null;
 	if (!matchTwoslash) {
 		return null;
 	}

@@ -25,6 +25,11 @@ export interface Assertions {
 export interface ManualAssertion {
 	readonly assertionType: "manual";
 	readonly expected: string;
+
+	/**
+	 * Range of positions corresponding to the "expected" string (for fixer)
+	 */
+	readonly expectedRange: [number, number];
 }
 
 export interface SnapshotAssertion {
@@ -36,9 +41,7 @@ export interface SnapshotAssertion {
 export interface SyntaxError {
 	readonly line: number;
 	readonly type:
-		| "InvalidTwoslash"
-		| "MissingExpectType"
-		| "MissingSnapshotName";
+		"InvalidTwoslash" | "MissingExpectType" | "MissingSnapshotName";
 }
 
 export interface TwoSlashAssertion {

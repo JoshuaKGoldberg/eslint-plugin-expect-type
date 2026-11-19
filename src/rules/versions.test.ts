@@ -93,6 +93,8 @@ ruleTester.run("expect", expect, {
 					],
 				},
 			],
+			// Fixes are never offered when testing across versions.
+			output: null,
 		},
 		{
 			code: `// ^? ExpectedErrorNotFoundForVersion`,

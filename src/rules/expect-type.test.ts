@@ -36,6 +36,10 @@ ruleTester.run("expect", expect, {
 				},
 			],
 			filename,
+			output: dedent`
+      // $ExpectType "a"
+      'a';
+      `,
 		},
 		{
 			code: dedent`
@@ -51,6 +55,10 @@ ruleTester.run("expect", expect, {
 				},
 			],
 			filename,
+			output: dedent`
+      //   $ExpectType   "a"${"  "}
+      'a';
+      `,
 		},
 		{
 			code: dedent`
@@ -65,6 +73,10 @@ ruleTester.run("expect", expect, {
 				},
 			],
 			filename,
+			output: dedent`
+      // $ExpectType "a"
+      const t = 'a';
+      `,
 		},
 		{
 			code: dedent`
@@ -79,6 +91,10 @@ ruleTester.run("expect", expect, {
 				},
 			],
 			filename,
+			output: dedent`
+      //$ExpectType "a"
+      const t = 'a';
+      `,
 		},
 		// Complex type - historically (https://github.com/microsoft/TypeScript/issues/9879), dtslint and eslint type comparison fails here
 		{
@@ -94,6 +110,10 @@ ruleTester.run("expect", expect, {
 				},
 			],
 			filename,
+			output: dedent`
+      // $ExpectType { b: "on"; a: number; }
+      const t = { b: 'on' as const, a: 17 };
+      `,
 		},
 		{
 			code: dedent`
@@ -108,6 +128,53 @@ ruleTester.run("expect", expect, {
 				},
 			],
 			filename,
+			name: "Alternatives are not auto-fixed",
+			output: null,
+		},
+		{
+			code: dedent`
+      const t = 'a'; // $ExpectType number
+      `,
+			errors: [
+				{
+					column: 1,
+					line: 1,
+					messageId: "TypesDoNotMatch",
+				},
+			],
+			filename,
+			name: "Trailing comment on the same line",
+			output: dedent`
+      const t = 'a'; // $ExpectType "a"
+      `,
+		},
+		{
+			code: dedent`
+      // $ExpectType number
+      'a';
+      // $ExpectType number
+      'b';
+      `,
+			errors: [
+				{
+					column: 1,
+					line: 2,
+					messageId: "TypesDoNotMatch",
+				},
+				{
+					column: 1,
+					line: 4,
+					messageId: "TypesDoNotMatch",
+				},
+			],
+			filename,
+			name: "Multiple assertions in one file",
+			output: dedent`
+      // $ExpectType "a"
+      'a';
+      // $ExpectType "b"
+      'b';
+      `,
 		},
 	],
 	valid: [

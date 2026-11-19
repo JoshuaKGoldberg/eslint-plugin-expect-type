@@ -3,7 +3,7 @@ import type ts from "typescript";
 import { Assertions } from "../assertions/types.js";
 import { getNodeAtPosition, lineOfPosition } from "../utils/locations.js";
 import {
-	getLanguageServiceHost,
+	getLanguageService,
 	getNodeForExpectType,
 	matchModuloWhitespace,
 } from "../utils/typescript.js";
@@ -16,9 +16,7 @@ export function getExpectTypeFailures(
 	{ program, sourceFile, tsModule, version }: ResolvedVersionToTest,
 ): ExpectTypeFailures {
 	const checker = program.getTypeChecker();
-	const languageService = tsModule.createLanguageService(
-		getLanguageServiceHost(program, tsModule),
-	);
+	const languageService = getLanguageService(program, tsModule);
 	const { twoSlashAssertions, typeAssertions } = assertions;
 	const unmetExpectations: UnmetExpectation[] = [];
 
@@ -29,14 +27,12 @@ export function getExpectTypeFailures(
 		if (assertion !== undefined) {
 			const { expected } = assertion;
 
-			let nodeToCheck = node;
-
 			// https://github.com/Microsoft/TypeScript/issues/14077
 			if (node.kind === tsModule.SyntaxKind.ExpressionStatement) {
 				node = (node as ts.ExpressionStatement).expression;
 			}
 
-			nodeToCheck = getNodeForExpectType(node, tsModule);
+			const nodeToCheck = getNodeForExpectType(node, tsModule);
 			const type = checker.getTypeAtLocation(nodeToCheck);
 			const actual = checker.typeToString(
 				type,

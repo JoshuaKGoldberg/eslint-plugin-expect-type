@@ -1,5 +1,7 @@
 # expect
 
+📝 Expects type error, type snapshot, or type.
+
 💼 This rule is enabled in the ✅ `recommended` config.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
@@ -52,6 +54,8 @@ Mismatching the type will cause a lint report:
 ```plaintext
 Expected type to be: number, got: string
 ```
+
+Running ESLint with `--fix` will replace the expected type with the actual one.
 
 Multiline type annotations are also supported:
 
@@ -142,6 +146,25 @@ These snapshots will automatically update whenever `eslint --fix` is run.
 > Editor extensions are likely to not apply updates automatically.
 > Try running ESLint with `--fix` on the command-line, or failing that, manually updating.
 
+## Differences Between Twoslash and `$ExpectType`
+
+`^?` and `$ExpectType` intentionally produce different strings for the same type:
+
+- `$ExpectType` uses TypeScript's type checker to _stringify_ the type, matching `dtslint`.
+- `^?` uses TypeScript's language service to _display_ the type, matching editor hovers and the TypeScript Playground.
+
+For example, a function declaration is stringified as a function type but displayed as a signature:
+
+```ts
+declare function getTextLength(text: string): number;
+
+// $ExpectType (text: string) => number
+getTextLength;
+
+getTextLength;
+// ^? function getTextLength(text: string): number
+```
+
 ## Options
 
 ### `disableExpectTypeSnapshotFix`
@@ -175,3 +198,6 @@ For example:
 ```
 
 `versionsToTest` can be useful if you want to have a single lint job that checks multiple TypeScript versions (instead of a matrix of jobs).
+
+Type assertions are not auto-fixed when `versionsToTest` is set, as different versions may report different types.
+Use `||` alternatives to accept multiple types instead.
