@@ -7,6 +7,7 @@
 //   https://github.com/JoshuaKGoldberg/bingo/issues/128
 import {
 	blockESLint,
+	blockExports,
 	blockMITLicense,
 	blockPackageJson,
 	blockTSDown,
@@ -102,7 +103,7 @@ export default createConfig({
 			}),
 		],
 		blocks: {
-			exclude: [blockMITLicense],
+			exclude: [blockExports, blockMITLicense],
 		},
 	},
 });
