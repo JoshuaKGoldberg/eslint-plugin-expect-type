@@ -201,16 +201,16 @@ importers:
         specifier: 8.0.3
         version: 8.0.3(supports-color@7.2.0)
       '@release-it/conventional-changelog':
-        specifier: ^12.0.2
+        specifier: 12.0.2
         version: 12.0.2(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.4)(release-it@21.1.2(@types/node@26.6.6)(magicast@0.5.5)(supports-color@7.2.0))
       '@types/fs-extra':
-        specifier: ^11.0.4
+        specifier: 11.0.4
         version: 11.0.4
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
       '@typescript-eslint/rule-tester':
-        specifier: ^8.73.0
+        specifier: 8.73.0
         version: 8.73.0(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       '@vitest/coverage-v8':
         specifier: 5.1.0
@@ -228,13 +228,13 @@ importers:
         specifier: 10.5.1
         version: 10.5.1
       dedent:
-        specifier: ^1.7.2
+        specifier: 1.7.2
         version: 1.7.2
       eslint:
         specifier: 10.15.0
         version: 10.15.0(jiti@2.7.0)(supports-color@7.2.0)
       eslint-doc-generator:
-        specifier: ^3.7.1
+        specifier: 3.7.1
         version: 3.7.1(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       eslint-plugin-eslint-plugin:
         specifier: 7.6.2
@@ -243,7 +243,7 @@ importers:
         specifier: 65.4.11
         version: 65.4.11(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       eslint-plugin-jsonc:
-        specifier: ^3.4.2
+        specifier: 3.4.2
         version: 3.4.2(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))
       eslint-plugin-markdown-links:
         specifier: 0.9.1
@@ -273,7 +273,7 @@ importers:
         specifier: 17.6.1
         version: 17.6.1
       prettier:
-        specifier: ^3.10.1
+        specifier: 3.10.1
         version: 3.10.1
       prettier-plugin-curly:
         specifier: 0.4.2
