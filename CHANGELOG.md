@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.1](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.7.0...v0.7.1) (2026-11-19)
+
+### Bug Fixes
+
+- ignore diagnostics from other files when checking $ExpectError ([#853](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/853)) ([0a67958](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/commit/0a679588c675cc6dd3f1e1c9201b18e95a8e372e)), closes [#851](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues/851)
+
 # [0.7.0](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/compare/v0.6.2...v0.7.0) (2026-09-19)
 
 ### Features
