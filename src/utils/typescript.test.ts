@@ -17,7 +17,7 @@ function createProgram(useCaseSensitiveFileNames = true) {
 				useCaseSensitiveFileNames ? file : file.toLowerCase(),
 			getSourceFile: (file, ...args) =>
 				file === fileName
-					? ts.createSourceFile(file, text, ts.ScriptTarget.ES5)
+					? ts.createSourceFile(file, text, ts.ScriptTarget.ES2015)
 					: host.getSourceFile(file, ...args),
 			useCaseSensitiveFileNames: () => useCaseSensitiveFileNames,
 		},

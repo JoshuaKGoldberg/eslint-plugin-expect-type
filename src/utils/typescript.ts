@@ -105,6 +105,8 @@ function getDocumentRegistry(
 		...tsModule.createDocumentRegistry(),
 		acquireDocumentWithKey: getDocument,
 		// Nothing was acquired from the base registry, so there's nothing to release.
+		// This no-op satisfies both the deprecated and current overloads.
+		// eslint-disable-next-line @typescript-eslint/no-deprecated
 		releaseDocumentWithKey: () => undefined,
 		updateDocumentWithKey: getDocument,
 	};
