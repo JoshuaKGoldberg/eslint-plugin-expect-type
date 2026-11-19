@@ -47,7 +47,10 @@ export default createConfig({
 				ignores: ["src/rules/sandbox/**"],
 				imports: [
 					{
-						source: "eslint-plugin-eslint-plugin",
+						source: {
+							packageName: "eslint-plugin-eslint-plugin",
+							version: "7.6.2",
+						},
 						specifier: "eslintPlugin",
 					},
 				],
