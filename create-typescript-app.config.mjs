@@ -8,8 +8,10 @@
 import {
 	blockESLint,
 	blockExports,
+	blockGitHubActionsCI,
 	blockMITLicense,
 	blockPackageJson,
+	blockPrettier,
 	blockTSDown,
 	blockTypeScript,
 	createConfig,
@@ -45,7 +47,7 @@ export default createConfig({
 						],
 					},
 				],
-				ignores: ["src/rules/sandbox/**"],
+				ignores: ["CHANGELOG.md", "src/rules/sandbox/**"],
 				imports: [
 					{
 						source: {
@@ -56,8 +58,19 @@ export default createConfig({
 					},
 				],
 			}),
+			blockGitHubActionsCI({
+				jobs: [
+					{
+						name: "Lint Docs",
+						steps: [{ run: "pnpm build" }, { run: "pnpm lint:docs" }],
+					},
+				],
+			}),
 			blockPackageJson({
 				properties: {
+					devDependencies: {
+						"@typescript-eslint/parser": "8.73.0",
+					},
 					exports: {
 						".": {
 							import: {
@@ -80,10 +93,12 @@ export default createConfig({
 							},
 						},
 					},
-					files: ["LICENSE.md"],
 					main: "./dist/index.cjs",
 					type: "module",
 				},
+			}),
+			blockPrettier({
+				ignores: ["/LICENSE.md"],
 			}),
 			blockTSDown({
 				entry: [
@@ -94,6 +109,7 @@ export default createConfig({
 				properties: {
 					format: ["cjs", "esm"],
 				},
+				runInCI: ["node ./dist/index.cjs", "node ./dist/index.mjs"],
 			}),
 			blockTypeScript({
 				compilerOptions: {
