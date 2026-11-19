@@ -82,6 +82,8 @@ export const expect = createRule<[Options], MessageIds>({
 			reportUnusedAssertions(context, unusedAssertions);
 		}
 	},
+	// Kept for @typescript-eslint/utils v6/v7 and ESLint <9.15, which only read the top-level property
+	// eslint-disable-next-line @typescript-eslint/no-deprecated
 	defaultOptions: [defaultOptions],
 	meta: {
 		defaultOptions: [defaultOptions],
@@ -171,6 +173,8 @@ function reportNotFoundErrors(
 	const diagnostics = tsModule.getPreEmitDiagnostics(program, sourceFile);
 	const seenDiagnosticsOnLine = new Set(
 		diagnostics
+			// Options diagnostics, such as TypeScript 6's deprecations, point into the tsconfig file
+			.filter((diagnostic) => diagnostic.file === sourceFile)
 			.filter(isDiagnosticWithStart)
 			.map((diagnostic) => lineOfPosition(diagnostic.start, sourceFile)),
 	);
