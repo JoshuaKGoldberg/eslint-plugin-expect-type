@@ -116,6 +116,8 @@ export default createConfig({
 					"!src/rules/sandbox/**",
 				],
 				properties: {
+					// Keeps require("eslint-plugin-expect-type/configs/recommended").default working
+					cjsDefault: false,
 					format: ["cjs", "esm"],
 				},
 				runInCI: ["node ./dist/index.cjs", "node ./dist/index.mjs"],

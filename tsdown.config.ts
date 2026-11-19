@@ -1,6 +1,7 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
+	cjsDefault: false,
 	entry: [
 		"src/**/*.ts",
 		"!src/**/*.test.*",
