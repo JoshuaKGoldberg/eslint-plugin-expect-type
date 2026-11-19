@@ -10,11 +10,7 @@
 		"noUnusedParameters": true,
 
 		"skipLibCheck": true,
-
-		// Removed in TypeScript 5.5, which reports an options diagnostic in this file
-		// Testing that it doesn't get treated as an error in linted files
 		"suppressImplicitAnyIndexErrors": true,
-
 		"strict": true,
 		"target": "es2017"
 	},
