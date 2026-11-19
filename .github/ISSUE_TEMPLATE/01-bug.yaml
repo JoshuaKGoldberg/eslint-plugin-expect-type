@@ -1,18 +1,24 @@
 body:
   - attributes:
       description: If any of these required steps are not taken, we may not be able to review your issue. Help us to help you!
-      label: Tooling Report Checklist
+      label: Bug Report Checklist
       options:
-        - label: I have tried restarting my IDE and the issue persists.
+        - label: I have pulled in the newest version of the project.
           required: true
-        - label: I have pulled the latest `main` branch of the repository.
+        - label: I have tried restarting my IDE and the issue persists.
           required: true
         - label: I have [searched for related issues](https://github.com/JoshuaKGoldberg/eslint-plugin-expect-type/issues?q=is%3Aissue) and found none that matched my issue.
           required: true
     type: checkboxes
   - attributes:
-      description: What did you expect to be able to do?
-      label: Overview
+      description: What did you expect to happen?
+      label: Expected
+    type: textarea
+    validations:
+      required: true
+  - attributes:
+      description: What happened instead?
+      label: Actual
     type: textarea
     validations:
       required: true
@@ -21,11 +27,11 @@ body:
       label: Additional Info
     type: textarea
 
-description: Report a bug or request an enhancement in repository tooling
+description: Report a bug trying to run the code
 
 labels:
-  - "area: tooling"
+  - "type: bug"
 
-name: 🛠 Tooling
+name: 🐛 Bug
 
-title: "🛠 Tooling: <short description of the change>"
+title: "🐛 Bug: <short description of the bug>"

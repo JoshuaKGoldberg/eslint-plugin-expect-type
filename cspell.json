@@ -1,15 +1,19 @@
 {
-	"dictionaries": ["typescript"],
+	"dictionaries": ["npm", "node", "typescript"],
 	"ignorePaths": [
-		".github",
+		".all-contributorsrc",
 		"CHANGELOG.md",
 		"coverage",
+		"dist",
 		"lib",
 		"node_modules",
 		"pnpm-lock.yaml"
 	],
 	"words": [
 		"Codecov",
+		"JoshuaKGoldberg",
+		"TSESLint",
+		"apexskier",
 		"contributorsrc",
 		"conventionalcommits",
 		"dtslint",
@@ -17,10 +21,12 @@
 		"ibezkrovnyi",
 		"knip",
 		"lcov",
+		"mshick",
+		"octoguide",
 		"outro",
 		"packagejson",
 		"quickstart",
-		"TSESLint",
+		"stefanzweifel",
 		"tsup",
 		"twoslash",
 		"wontfix"

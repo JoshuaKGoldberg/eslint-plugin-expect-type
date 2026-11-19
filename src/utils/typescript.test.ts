@@ -26,7 +26,7 @@ function createProgram(useCaseSensitiveFileNames = true) {
 	});
 }
 
-describe("getLanguageService", () => {
+describe(getLanguageService, () => {
 	it.each([true, false])(
 		"reuses the program's source files when useCaseSensitiveFileNames is %s",
 		(useCaseSensitiveFileNames) => {

@@ -24,7 +24,7 @@ function actGetProgramForVersion() {
 	);
 }
 
-describe("getProgramForVersion", () => {
+describe(getProgramForVersion, () => {
 	it("reuses old programs when <90% of the heap is used", () => {
 		mockGetHeapStatistics.mockReturnValue({
 			heap_size_limit: 100,

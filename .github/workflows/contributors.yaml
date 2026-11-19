@@ -1,0 +1,19 @@
+jobs:
+  contributors:
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: JoshuaKGoldberg/all-contributors-auto-action@v0.7.0
+
+name: Contributors
+
+on:
+  push:
+    branches:
+      - main

@@ -6,7 +6,35 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare
       - run: pnpm build
-      - run: node lib/index.js
+
+  dedupe_check:
+    name: Dedupe Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare
+      - run: pnpm dedupe --check
+
+  engines_check:
+    name: Engines Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare
+      - uses: actions/setup-node@v4
+        with:
+          cache: pnpm
+          node-version: 20.19.0
+      - run: pnpm install --prod --engine-strict --ignore-scripts
+
+  format_check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare
+      - run: pnpm format --list-different
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -14,14 +42,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare
       - run: pnpm lint
-  lint_docs:
-    name: Lint Docs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/prepare
-      - run: pnpm build || exit 0
-      - run: pnpm lint:docs
+
   lint_knip:
     name: Lint Knip
     runs-on: ubuntu-latest
@@ -29,20 +50,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare
       - run: pnpm lint:knip
-  lint_markdown:
-    name: Lint Markdown
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/prepare
-      - run: pnpm lint:md
-  lint_packages:
-    name: Lint Packages
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/prepare
-      - run: pnpm lint:packages
+
   lint_spelling:
     name: Lint Spelling
     runs-on: ubuntu-latest
@@ -50,13 +58,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare
       - run: pnpm lint:spelling
-  prettier:
-    name: Prettier
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/prepare
-      - run: pnpm format --list-different
+
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -68,6 +70,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         if: always()
         uses: codecov/codecov-action@v5
+
   type_check:
     name: Type Check
     runs-on: ubuntu-latest

@@ -60,6 +60,7 @@ export function normalizedTypeToString(type: string, tsModule: TSModule) {
 		while (tsModule.isParenthesizedTypeNode(node)) {
 			node = node.type;
 		}
+
 		return node;
 	}
 }

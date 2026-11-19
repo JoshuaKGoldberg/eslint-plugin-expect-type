@@ -1,10 +1,10 @@
 description: Prepares the repo for a typical CI job
 
-name: Prepare
+name: Setup
 
 runs:
   steps:
-    - uses: pnpm/action-setup@v2
+    - uses: pnpm/action-setup@v4
     - uses: actions/setup-node@v4
       with:
         cache: pnpm
