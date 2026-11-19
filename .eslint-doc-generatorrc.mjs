@@ -7,7 +7,7 @@ const config = {
 			...(await prettier.resolveConfig(path)),
 			parser: "markdown",
 		}),
-	ruleDocTitleFormat: "name",
+	ruleDocTitleFormat: "prefix-name",
 };
 
 export default config;

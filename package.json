@@ -78,7 +78,7 @@
 	"dependencies": {
 		"@typescript-eslint/utils": "^6.10.0 || ^7.0.1 || ^8",
 		"cached-factory": "^0.3.0",
-		"fs-extra": "^11.4.1",
+		"fs-extra": "^11.4.0",
 		"get-tsconfig": "^4.14.3"
 	},
 	"devDependencies": {

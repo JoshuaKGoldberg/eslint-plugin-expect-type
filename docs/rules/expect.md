@@ -1,4 +1,4 @@
-# expect
+# expect-type/expect
 
 📝 Expects type error, type snapshot, or type.
 

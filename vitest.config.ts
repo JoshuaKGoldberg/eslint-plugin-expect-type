@@ -4,6 +4,7 @@ export default defineConfig({
 	test: {
 		clearMocks: true,
 		coverage: {
+			exclude: ["src/rules/ruleTester.ts", "src/rules/sandbox"],
 			include: ["src"],
 			reporter: ["html", "lcov"],
 		},

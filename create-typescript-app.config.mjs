@@ -6,6 +6,7 @@
 // Eventually these values should be inferable, making this config file unnecessary:
 //   https://github.com/JoshuaKGoldberg/bingo/issues/128
 import {
+	blockDevelopmentDocs,
 	blockESLint,
 	blockExports,
 	blockGitHubActionsCI,
@@ -20,6 +21,32 @@ import {
 export default createConfig({
 	refinements: {
 		addons: [
+			blockDevelopmentDocs({
+				sections: {
+					Building: {
+						innerSections: [
+							{
+								contents: `
+Run [\`eslint-doc-generator\`](https://github.com/bmish/eslint-doc-generator) to generate Markdown files documenting rules.
+
+\`\`\`shell
+pnpm build:docs
+\`\`\`
+`,
+								heading: "Building Docs",
+							},
+						],
+					},
+					Linting: {
+						contents: {
+							items: [
+								"- `pnpm lint:docs` ([eslint-doc-generator](https://github.com/bmish/eslint-doc-generator)): Generates and validates documentation for ESLint rules",
+								"- `pnpm lint:packages` ([pnpm dedupe --check](https://pnpm.io/cli/dedupe)): Checks for unnecessarily duplicated packages in the `pnpm-lock.yaml` file",
+							],
+						},
+					},
+				},
+			}),
 			blockESLint({
 				extensions: [
 					{

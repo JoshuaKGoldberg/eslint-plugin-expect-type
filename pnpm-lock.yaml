@@ -176,7 +176,7 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       fs-extra:
-        specifier: ^11.4.1
+        specifier: ^11.4.0
         version: 11.4.1
       get-tsconfig:
         specifier: ^4.14.3
