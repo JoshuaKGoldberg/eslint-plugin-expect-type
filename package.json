@@ -119,7 +119,7 @@
 		"tsdown": "0.23.7",
 		"typescript": "6.0.3",
 		"typescript-eslint": "8.73.0",
-		"typescript54": "npm:typescript@5.4.5",
+		"typescript54": "npm:typescript@7.0.2",
 		"vitest": "5.1.0"
 	},
 	"peerDependencies": {
