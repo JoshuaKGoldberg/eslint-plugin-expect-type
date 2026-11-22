@@ -2,6 +2,7 @@
 	"dictionaries": ["npm", "node", "typescript"],
 	"ignorePaths": [
 		".all-contributorsrc",
+		"/_tmp_*",
 		"CHANGELOG.md",
 		"coverage",
 		"dist",
