@@ -73,16 +73,6 @@ export default defineConfig(
 		},
 	},
 	{
-		extends: [tseslint.configs.disableTypeChecked],
-		files: ["**/*.md/*.ts"],
-		rules: {
-			// Ignore unused code, as they're often commented with the plugin
-			"@typescript-eslint/no-unused-expressions": "off",
-			"@typescript-eslint/no-unused-vars": "off",
-			"n/no-missing-import": "off",
-		},
-	},
-	{
 		extends: [vitest.configs.recommended],
 		files: ["**/*.test.*"],
 		rules: {
@@ -103,6 +93,16 @@ export default defineConfig(
 				"error",
 				{ allowConstantLoopConditions: "only-allowed-literals" },
 			],
+		},
+	},
+	{
+		extends: [tseslint.configs.disableTypeChecked],
+		files: ["**/*.md/*.ts"],
+		rules: {
+			// Ignore unused code, as they're often commented with the plugin
+			"@typescript-eslint/no-unused-expressions": "off",
+			"@typescript-eslint/no-unused-vars": "off",
+			"n/no-missing-import": "off",
 		},
 	},
 	{
