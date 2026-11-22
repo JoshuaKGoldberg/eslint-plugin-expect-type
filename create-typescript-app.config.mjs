@@ -20,7 +20,7 @@ import {
 
 export default createConfig({
 	refinements: {
-		addons: [
+		extensions: [
 			blockDevelopmentDocs({
 				sections: {
 					Building: {
@@ -138,6 +138,7 @@ pnpm build:docs
 			}),
 			blockTSDown({
 				entry: [
+					"src/configs/recommended.ts",
 					"!src/**/*.test.*",
 					"!src/rules/ruleTester.ts",
 					"!src/rules/sandbox/**",

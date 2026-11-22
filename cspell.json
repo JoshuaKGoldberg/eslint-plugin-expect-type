@@ -11,7 +11,9 @@
 	"words": [
 		"Codecov",
 		"JoshuaKGoldberg",
+		"MatteoGabriele",
 		"TSESLint",
+		"agentscan",
 		"apexskier",
 		"contributorsrc",
 		"conventionalcommits",
@@ -23,9 +25,12 @@
 		"octoguide",
 		"outro",
 		"packagejson",
+		"peakoss",
 		"quickstart",
 		"stefanzweifel",
 		"twoslash",
-		"wontfix"
+		"wontfix",
+		"zizmor",
+		"zizmorcore"
 	]
 }

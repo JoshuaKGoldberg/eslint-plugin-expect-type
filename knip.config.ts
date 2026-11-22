@@ -4,6 +4,6 @@ export default {
 	entry: ["src/**/*.test.*", "src/rules/*.test.ts"],
 	ignore: ["src/rules/sandbox/**"],
 	ignoreExportsUsedInFile: { interface: true, type: true },
-	project: ["src/**/*.ts", "src/**/*.ts!"],
+	project: ["src/**/*.ts!", "!src/rules/ruleTester.ts!"],
 	treatConfigHintsAsErrors: true,
 } satisfies KnipConfig;
