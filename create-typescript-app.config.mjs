@@ -41,7 +41,6 @@ pnpm build:docs
 						contents: {
 							items: [
 								"- `pnpm lint:docs` ([eslint-doc-generator](https://github.com/bmish/eslint-doc-generator)): Generates and validates documentation for ESLint rules",
-								"- `pnpm lint:packages` ([pnpm dedupe --check](https://pnpm.io/cli/dedupe)): Checks for unnecessarily duplicated packages in the `pnpm-lock.yaml` file",
 							],
 						},
 					},
@@ -58,20 +57,6 @@ pnpm build:docs
 								{ allowConstantLoopConditions: "only-allowed-literals" },
 							],
 						},
-					},
-					{
-						extends: ["tseslint.configs.disableTypeChecked"],
-						files: ["**/*.md/*.ts"],
-						rules: [
-							{
-								comment:
-									"Ignore unused code, as they're often commented with the plugin",
-								entries: {
-									"@typescript-eslint/no-unused-expressions": "off",
-									"@typescript-eslint/no-unused-vars": "off",
-								},
-							},
-						],
 					},
 					{
 						files: ["package.json"],
