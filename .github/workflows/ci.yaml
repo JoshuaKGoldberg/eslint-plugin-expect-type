@@ -30,7 +30,7 @@ jobs:
           - name: Lint Docs
             run: pnpm lint:docs
           - name: Lint GitHub Actions
-            uses: zizmorcore/zizmor-action@v0.6.4
+            uses: zizmorcore/zizmor-action@v0.8.1
             with:
               advanced-security: "false"
               annotations: "true"
