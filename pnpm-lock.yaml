@@ -222,8 +222,8 @@ importers:
         specifier: 0.10.0
         version: 0.10.0
       create-typescript-app:
-        specifier: 2.75.0
-        version: 2.75.0(bingo-systems@0.7.0)(supports-color@7.2.0)(typescript@6.0.3)
+        specifier: 2.86.0
+        version: 2.86.0(bingo-systems@0.7.0)(supports-color@7.2.0)(typescript@6.0.3)
       cspell:
         specifier: 10.5.1
         version: 10.5.1
@@ -2195,8 +2195,8 @@ packages:
       typescript:
         optional: true
 
-  create-typescript-app@2.75.0:
-    resolution: {integrity: sha512-GKDsJj7GhEF2pwvPjwJ9fWE5UxGsaEZn+flY+AHuyyR9CPGm5UO6//YoveXYiqOyV5IjJIYVWSK4SiLI625K+Q==}
+  create-typescript-app@2.86.0:
+    resolution: {integrity: sha512-SJv/Rk5VYpNrJfaCVsgkwgOMpaZWvsREjEnpzJoBTBI29BOk2n1y6oyn4sg8CgJSHket068STkM4Q56dki/4xw==}
     engines: {node: ^22.13.0 || ^24.11.0 || >=26.0.0}
     hasBin: true
 
@@ -3235,9 +3235,6 @@ packages:
 
   lodash.uniqby@4.7.0:
     resolution: {integrity: sha512-e/zcLx6CSbmaEgFHCA7BnoQKyCtKMxnuWrJygbwPs/AIn+IMKl66L8/s+wBUn5LRw2pZx3bUHibiV1b6aTWIww==}
-
-  lodash@4.18.1:
-    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   log-symbols@7.0.1:
     resolution: {integrity: sha512-ja1E3yCr9i/0hmBVaM0bfwDjnGy8I/s6PP4DFp+yP+a+mrHO4Rm7DtmnqROTUkHIkqffC84YY7AeqX6oFk0WFg==}
@@ -6286,7 +6283,7 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  create-typescript-app@2.75.0(bingo-systems@0.7.0)(supports-color@7.2.0)(typescript@6.0.3):
+  create-typescript-app@2.86.0(bingo-systems@0.7.0)(supports-color@7.2.0)(typescript@6.0.3):
     dependencies:
       '@prettier/sync': 0.6.1(prettier@3.10.1)
       '@typescript-eslint/typescript-estree': 8.73.0(supports-color@7.2.0)(typescript@6.0.3)
@@ -6307,7 +6304,6 @@ snapshots:
       js-yaml: 5.5.0
       json5: 2.2.3
       lazy-value: 3.0.0
-      lodash: 4.18.1
       marked: 18.2.1
       npm-user: 6.1.1
       object-strings-deep: 0.1.2
@@ -7455,8 +7451,6 @@ snapshots:
   lodash.merge@4.6.2: {}
 
   lodash.uniqby@4.7.0: {}
-
-  lodash@4.18.1: {}
 
   log-symbols@7.0.1:
     dependencies:
