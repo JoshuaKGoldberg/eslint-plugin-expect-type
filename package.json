@@ -61,7 +61,7 @@
 	],
 	"scripts": {
 		"build": "tsdown",
-		"build:docs": "eslint-doc-generator",
+		"build:docs": "pnpm build --no-dts && eslint-doc-generator",
 		"format": "prettier .",
 		"lint": "eslint . --max-warnings 0",
 		"lint:docs": "eslint-doc-generator --check",
