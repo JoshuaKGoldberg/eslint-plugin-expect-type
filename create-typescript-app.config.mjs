@@ -137,12 +137,7 @@ pnpm build:docs
 				ignores: ["/LICENSE.md"],
 			}),
 			blockTSDown({
-				entry: [
-					"src/configs/recommended.ts",
-					"!src/**/*.test.*",
-					"!src/rules/ruleTester.ts",
-					"!src/rules/sandbox/**",
-				],
+				entry: ["src/configs/recommended.ts"],
 				properties: {
 					// Keeps require("eslint-plugin-expect-type/configs/recommended").default working
 					cjsDefault: false,
