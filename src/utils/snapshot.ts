@@ -1,4 +1,4 @@
-import * as fse from "fs-extra";
+import fse from "fs-extra";
 import { basename, dirname, resolve } from "path";
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63859#issuecomment-1541956062

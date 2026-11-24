@@ -177,6 +177,5 @@
   ],
   "projectName": "eslint-plugin-expect-type",
   "projectOwner": "JoshuaKGoldberg",
-  "repoType": "github",
-  "commitConvention": "angular"
+  "repoType": "github"
 }

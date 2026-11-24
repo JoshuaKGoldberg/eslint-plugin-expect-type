@@ -4,91 +4,72 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/prepare
       - run: pnpm build
       - run: node ./dist/index.cjs
       - run: node ./dist/index.mjs
 
-  dedupe_check:
-    name: Dedupe Check
+  ci:
+    name: CI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/prepare
-      - run: pnpm dedupe --check
+      - run: pnpm build
+      - parallel:
+          - name: Dedupe Check
+            run: pnpm dedupe --check
+          - name: Format Check
+            run: pnpm format --list-different
+          - name: Lint
+            run: pnpm lint
+          - name: Lint Docs
+            run: pnpm lint:docs
+          - name: Lint GitHub Actions
+            uses: zizmorcore/zizmor-action@v0.8.1
+            with:
+              advanced-security: "false"
+              annotations: "true"
+          - name: Lint Knip
+            run: pnpm lint:knip
+          - name: Lint Knip Production
+            run: pnpm lint:knip:production
+          - name: Lint Spelling
+            run: pnpm lint:spelling
+          - name: Type Check
+            run: pnpm tsc
 
   engines_check:
     name: Engines Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/prepare
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           cache: pnpm
-          node-version: 26.13.1
+          node-version: 20.19.0
       - run: pnpm install --prod --engine-strict --ignore-scripts
-
-  format_check:
-    name: Format Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/prepare
-      - run: pnpm format --list-different
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/prepare
-      - run: pnpm lint
-
-  lint_docs:
-    name: Lint Docs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/prepare
-      - run: pnpm build
-      - run: pnpm lint:docs
-
-  lint_knip:
-    name: Lint Knip
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/prepare
-      - run: pnpm lint:knip
-
-  lint_spelling:
-    name: Lint Spelling
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/prepare
-      - run: pnpm lint:spelling
 
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/prepare
       - run: pnpm run test --coverage
       - env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         if: always()
         uses: codecov/codecov-action@v7
-
-  type_check:
-    name: Type Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/prepare
-      - run: pnpm tsc
 
 name: CI
 
@@ -97,3 +78,6 @@ on:
   push:
     branches:
       - main
+
+permissions:
+  contents: read

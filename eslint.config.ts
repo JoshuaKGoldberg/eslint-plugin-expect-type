@@ -73,16 +73,6 @@ export default defineConfig(
 		},
 	},
 	{
-		extends: [tseslint.configs.disableTypeChecked],
-		files: ["**/*.md/*.ts"],
-		rules: {
-			// Ignore unused code, as they're often commented with the plugin
-			"@typescript-eslint/no-unused-expressions": "off",
-			"@typescript-eslint/no-unused-vars": "off",
-			"n/no-missing-import": "off",
-		},
-	},
-	{
 		extends: [vitest.configs.recommended],
 		files: ["**/*.test.*"],
 		rules: {
@@ -110,10 +100,7 @@ export default defineConfig(
 		files: ["**/*.{yml,yaml}"],
 		rules: {
 			"yml/file-extension": "error",
-			"yml/sort-keys": [
-				"error",
-				{ order: { type: "asc" }, pathPattern: "^.*$" },
-			],
+			"yml/sort-keys": "error",
 			"yml/sort-sequence-values": [
 				"error",
 				{ order: { type: "asc" }, pathPattern: "^.*$" },
