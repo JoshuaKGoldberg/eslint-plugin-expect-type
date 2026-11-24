@@ -7,7 +7,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: MatteoGabriele/agentscan-action@v2.8.0
+      - uses: MatteoGabriele/agentscan-action@7ad606f1e21df2119da8be99b763f282a670a1c5 # v2.8.0
         with:
           auto-close: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
