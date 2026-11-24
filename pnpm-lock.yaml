@@ -222,8 +222,8 @@ importers:
         specifier: 0.10.0
         version: 0.10.0
       create-typescript-app:
-        specifier: 2.87.17
-        version: 2.87.17(bingo-systems@0.9.1)(supports-color@7.2.0)(typescript@6.0.3)
+        specifier: 2.87.18
+        version: 2.87.18(bingo-systems@0.9.1)(supports-color@7.2.0)(typescript@6.0.3)
       cspell:
         specifier: 10.5.2
         version: 10.5.2
@@ -2204,8 +2204,8 @@ packages:
       typescript:
         optional: true
 
-  create-typescript-app@2.87.17:
-    resolution: {integrity: sha512-6ABv+05zxH6Xin6npq2Rsbax9EaKZJbooQVBg6AfvrIZICniTi3FG1k9h9lFvgETQgX5TjCPTdu6HAphmZryaA==}
+  create-typescript-app@2.87.18:
+    resolution: {integrity: sha512-oU5urNPnKgIJzik5wtiZ29mrWRwfkaGghDQEADQo8+aOemY3IHWi6vRm3Sv+d+c8umllndRcwzfwIu3HsFv/sA==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     hasBin: true
 
@@ -6310,7 +6310,7 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  create-typescript-app@2.87.17(bingo-systems@0.9.1)(supports-color@7.2.0)(typescript@6.0.3):
+  create-typescript-app@2.87.18(bingo-systems@0.9.1)(supports-color@7.2.0)(typescript@6.0.3):
     dependencies:
       '@prettier/sync': 0.6.1(prettier@3.10.1)
       '@typescript-eslint/typescript-estree': 8.73.0(supports-color@7.2.0)(typescript@6.0.3)
